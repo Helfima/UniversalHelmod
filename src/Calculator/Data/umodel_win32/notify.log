@@ -1,0 +1,21 @@
+
+******** Loading object Texture2D'PortableMiner_256.PortableMiner_256' ********
+
+ERROR: assertion failed: Ar.Tell() == SkipOffset
+
+UTexture2D::Serialize4 <- UTexture2D::Serialize <- LoadObject: Texture2D'PortableMiner_256.PortableMiner_256', pos=10423, ver=517/0 (unversioned), game=ue4.22 <- UObject::EndLoad <- LoadWholePackage: /Game/FactoryGame/PortableMiner_256.uasset <- ExportPackages <- Main: umodel_build=1585
+
+
+******** Loading object Texture2D'Nut_256_New.Nut_256_New' ********
+
+ERROR: assertion failed: Ar.Tell() == SkipOffset
+
+UTexture2D::Serialize4 <- UTexture2D::Serialize <- LoadObject: Texture2D'Nut_256_New.Nut_256_New', pos=1AD2, ver=517/0 (unversioned), game=ue4.22 <- UObject::EndLoad <- LoadWholePackage: /Game/FactoryGame/Resource/Environment/Nut/UI/Nut_256_New.uasset <- ExportPackages <- Main: umodel_build=1585
+
+
+******** Loading object Texture2D'PortableMiner_256.PortableMiner_256' ********
+
+ERROR: assertion failed: Ar.Tell() == SkipOffset
+
+UTexture2D::Serialize4 <- UTexture2D::Serialize <- LoadObject: Texture2D'PortableMiner_256.PortableMiner_256', pos=10423, ver=517/0 (unversioned), game=ue4.22 <- UObject::EndLoad <- LoadWholePackage: /Game/FactoryGame/PortableMiner_256.uasset <- ExportPackages <- Main: umodel_build=1585
+

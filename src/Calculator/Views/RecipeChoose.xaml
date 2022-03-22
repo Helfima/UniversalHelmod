@@ -1,0 +1,27 @@
+﻿<Window x:Class="Calculator.Views.RecipeChoose"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="RecipeChoose" Height="450" Width="800">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="GlobalView.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <DockPanel LastChildFill="true">
+            <DataGrid Name="ViewRecipes" ItemsSource="{Binding Recipes}" HorizontalAlignment="Stretch" AutoGenerateColumns="False" IsReadOnly="True" >
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Recipe" CellTemplate="{StaticResource RecipeCell}" />
+                    <DataGridTemplateColumn Header="Time" CellTemplate="{StaticResource EnergyCell}" />
+                    <DataGridTemplateColumn Header="Product" CellTemplate="{StaticResource ProductsCell}" Width="*" />
+                    <DataGridTemplateColumn Header="Ingredient" CellTemplate="{StaticResource IngredientsCell}" Width="2*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </Grid>
+</Window>
