@@ -177,8 +177,10 @@ namespace Calculator.Protos.FGProtos
                             case "Class'/Script/FactoryGame.FGBuildableDroneStation'":
                                 break;
                             case "Class'/Script/FactoryGame.FGBuildableFrackingExtractor'":
+                                FGDatabase.instance.AddManufacturer(classe);
                                 break;
                             case "Class'/Script/FactoryGame.FGBuildableFrackingActivator'":
+                                FGDatabase.instance.AddManufacturer(classe);
                                 break;
                             case "Class'/Script/FactoryGame.FGBuildableManufacturerVariablePower'":
                                 FGDatabase.instance.AddManufacturer(classe);
@@ -266,7 +268,46 @@ namespace Calculator.Protos.FGProtos
 
         private void FinalizeData()
         {
-
+            AddWaterRecipe();
+            AddNitrogenGasRecipe();
+        }
+        private void AddWaterRecipe()
+        {
+            string classwater = "{";
+            classwater += "\"ClassName\": \"Recipe_Water_C\",";
+            classwater += "\"FullName\": \"BlueprintGeneratedClass /Game/FactoryGame/Recipes/RawResources/Recipe_CrudeOil.Recipe_Water_C\",";
+            classwater += "\"mDisplayName\": \"Water\",";
+            classwater += "\"mIngredients\": \"((ItemClass=BlueprintGeneratedClass'\\\"/Game/FactoryGame/Resource/RawResources/Water/Desc_Water.Desc_Water_C\\\"',Amount=1))\",";
+            classwater += "\"mProduct\": \"((ItemClass=BlueprintGeneratedClass'\\\"/Game/FactoryGame/Resource/RawResources/Water/Desc_Water.Desc_Water_C\\\"',Amount=1))\",";
+            classwater += "\"mManufacturingMenuPriority\": \"0.000000\",";
+            classwater += "\"mManufactoringDuration\": \"2.000000\",";
+            classwater += "\"mManualManufacturingMultiplier\": \"1.000000\",";
+            classwater += "\"mProducedIn\": \"(/Game/FactoryGame/Buildable/Factory/Converter/Build_Converter.Build_Converter_C)\",";
+            classwater += "\"mRelevantEvents\": \"\",";
+            classwater += "\"mVariablePowerConsumptionConstant\": \"0.000000\",";
+            classwater += "\"mVariablePowerConsumptionFactor\": \"1.000000\"";
+            classwater += "}";
+            JsonDocument document = JsonDocument.Parse(classwater);
+            AddRecipe(document.RootElement);
+        }
+        private void AddNitrogenGasRecipe()
+        {
+            string classwater = "{";
+            classwater += "\"ClassName\": \"Recipe_NitrogenGas_C\",";
+            classwater += "\"FullName\": \"BlueprintGeneratedClass /Game/FactoryGame/Recipes/RawResources/Recipe_CrudeOil.Recipe_NitrogenGas_C\",";
+            classwater += "\"mDisplayName\": \"Nitrogen Gas\",";
+            classwater += "\"mIngredients\": \"((ItemClass=BlueprintGeneratedClass'\\\"/Game/FactoryGame/Resource/RawResources/NitrogenGas/Desc_NitrogenGas.Desc_NitrogenGas_C\\\"',Amount=1))\",";
+            classwater += "\"mProduct\": \"((ItemClass=BlueprintGeneratedClass'\\\"/Game/FactoryGame/Resource/RawResources/NitrogenGas/Desc_NitrogenGas.Desc_NitrogenGas_C\\\"',Amount=1))\",";
+            classwater += "\"mManufacturingMenuPriority\": \"0.000000\",";
+            classwater += "\"mManufactoringDuration\": \"2.000000\",";
+            classwater += "\"mManualManufacturingMultiplier\": \"1.000000\",";
+            classwater += "\"mProducedIn\": \"(/Game/FactoryGame/Buildable/Factory/Converter/Build_Converter.Build_Converter_C)\",";
+            classwater += "\"mRelevantEvents\": \"\",";
+            classwater += "\"mVariablePowerConsumptionConstant\": \"0.000000\",";
+            classwater += "\"mVariablePowerConsumptionFactor\": \"1.000000\"";
+            classwater += "}";
+            JsonDocument document = JsonDocument.Parse(classwater);
+            AddRecipe(document.RootElement);
         }
 
         private void AddItem(JsonElement classe, ItemType itemType)
@@ -292,8 +333,11 @@ namespace Calculator.Protos.FGProtos
                 element.PowerConsumptionExponent = classe.GetDoubleValue("mPowerConsumptionExponent");
                 element.PowerProduction = classe.GetDoubleValue("mPowerProduction");
                 element.PowerProductionExponent = classe.GetDoubleValue("mPowerProductionExponent");
+                // specifique extractor
                 element.AllowedResourceForms = classe.GetArrayValue("mAllowedResourceForms");
                 element.AllowedResources = classe.GetArrayValue("mAllowedResources");
+                element.ExtractCycleTime = classe.GetDoubleValue("mExtractCycleTime");
+                element.ItemsPerCycle = classe.GetDoubleValue("mItemsPerCycle");
                 instance.Factories.Add(element);
             }
 

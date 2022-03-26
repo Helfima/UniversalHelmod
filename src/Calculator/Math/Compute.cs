@@ -107,7 +107,16 @@ namespace Calculator.Math
                     Node node = (Node)child;
                     if (node.Builder != null)
                     {
-                        node.Builder.Count = node.Recipe.Energy * node.Count / (node.Builder.Speed * node.Effects.Speed * Time);
+                        double speed = node.Builder.Speed;
+                        var factory = node.Builder.Factory;
+                        if (factory.IsMiner)
+                        {
+                            // TODO cycle 0.5s? d'ou le facteur 2
+                            speed = 2 * factory.ItemsPerCycle / factory.ExtractCycleTime;
+                            // reel fluid extraction
+                            if (factory.ItemsPerCycle > 1000) speed = speed / 1000;
+                        }
+                        node.Builder.Count = node.Recipe.Energy * node.Count / (speed * node.Effects.Speed * Time);
                         node.Power = node.Builder.Count * node.Builder.Power * node.Effects.Consumption;
                     }
                 }
@@ -169,10 +178,12 @@ namespace Calculator.Math
             foreach (Element child in nodes.Children)
             {
                 double productivity = 1;
+                bool isMiner = false;
                 if (child is Node)
                 {
                     var node = child as Node;
                     productivity = node.Effects.Productivity;
+                    isMiner = node.Builder.Factory.IsMiner;
                 }
 
                 rowHeaders.Add(new MatrixHeader(child.Type, child.Name, child.Production));
@@ -184,8 +195,11 @@ namespace Calculator.Math
                 }
                 foreach (Amount item in child.Ingredients)
                 {
-                    ingredients.Add(item.Name);
-                    rowData.AddValue(new MatrixValue(item.Type, item.Name, -item.Count));
+                    if (!isMiner)
+                    {
+                        ingredients.Add(item.Name);
+                        rowData.AddValue(new MatrixValue(item.Type, item.Name, -item.Count));
+                    }
                 }
                 rowDatas.Add(rowData);
             }

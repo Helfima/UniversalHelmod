@@ -103,10 +103,10 @@ namespace Calculator.Models
         public void Remove(Element node)
         {
             Children.Remove(node);
-            foreach (Amount product in node.Products)
-            {
-                RemoveInput(product);
-            }
+            //foreach (Amount product in node.Products)
+            //{
+            //    RemoveInput(product);
+            //}
             UpdateItems();
         }
 
@@ -152,7 +152,14 @@ namespace Calculator.Models
             var input = inputs.Where(x => x.Type == amount.Type && x.Name == amount.Name).FirstOrDefault();
             if(input != null)
             {
-                input.Count = amount.Count;
+                if(amount.Count == 0)
+                {
+                    RemoveInput(amount);
+                }
+                else
+                {
+                    input.Count = amount.Count;
+                }
             }
             else
             {

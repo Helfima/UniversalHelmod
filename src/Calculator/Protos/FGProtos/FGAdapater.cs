@@ -131,6 +131,8 @@ namespace Calculator.Protos.FGProtos
                 PowerProductionExponent = proto.PowerProductionExponent,
                 AllowedResourceForms = allowedResourceForms,
                 AllowedResources = allowedResources,
+                ExtractCycleTime = proto.ExtractCycleTime,
+                ItemsPerCycle = proto.ItemsPerCycle,
                 IsMiner = isMiner
             };
             return item;

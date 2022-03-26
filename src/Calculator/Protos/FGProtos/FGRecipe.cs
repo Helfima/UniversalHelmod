@@ -19,6 +19,7 @@ namespace Calculator.Protos.FGProtos
         public string RelevantEvents;
         public double VariablePowerConsumptionConstant;
         public double VariablePowerConsumptionFactor;
+        public FGRecipe() : base() { }
         public FGRecipe(JsonElement element) : base(element)
         {
             FullName = element.GetStringValue("FullName");

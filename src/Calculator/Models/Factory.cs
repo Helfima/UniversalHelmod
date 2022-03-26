@@ -19,5 +19,7 @@ namespace Calculator.Models
         public bool IsMiner { get; set; }
         public ItemForm AllowedResourceForms { get; set; }
         public List<string> AllowedResources { get; set; }
+        public double ExtractCycleTime { get; set; }
+        public double ItemsPerCycle { get; set; }
     }
 }
