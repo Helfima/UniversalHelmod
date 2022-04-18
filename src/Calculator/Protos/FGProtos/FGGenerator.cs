@@ -4,10 +4,9 @@ using System.Text;
 
 namespace Calculator.Protos.FGProtos
 {
-    public class FGGenerator : FGItem
+    public class FGGenerator : FGFactory
     {
-        public double Speed { get; set; }
-        public double Power { get; set; }
-        public double PowerExponent { get; set; }
+        public double PowerProduction { get; set; }
+        public double PowerProductionExponent { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace Calculator.Models
         public double EnergyValue { get; set; }
         public double RadioactiveDecay { get; set; }
         public int ResourceSinkPoints { get; set; }
-        public ItemForm Form { get; set; }
+        public string Form { get; set; }
         public ItemCost ItemCost { get; set; }
         public List<Item> WhereUsed { get; set; } = new List<Item>();
 

@@ -2,6 +2,7 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ShowAllFiles>true</ShowAllFiles>
+    <_LastSelectedProfileId>E:\Perso\repos\SatisHelmod\src\Calculator\Properties\PublishProfiles\ClickOnceProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
     <ApplicationDefinition Update="App.xaml">
@@ -12,22 +13,28 @@
     <Compile Update="Views\DatabaseView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\EditionInput.xaml.cs">
+    <Compile Update="Sheets\Views\EditionInput.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\SettingsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\RecipeChoose.xaml.cs">
+    <Compile Update="Sheets\Views\RecipeChoose.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\RecipeEdition.xaml.cs">
+    <Compile Update="Sheets\Views\RecipeEdition.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\RecipeSelector.xaml.cs">
+    <Compile Update="Sheets\Views\RecipeSelector.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\SheetView.xaml.cs">
+    <Compile Update="Sheets\Views\SheetView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Workspaces\Views\WorkspacesView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Workspaces\WorkspacesWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -38,28 +45,34 @@
     <Page Update="Views\DatabaseView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\EditionInput.xaml">
+    <Page Update="Sheets\Views\EditionInput.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\SettingsView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\RecipeEdition.xaml">
+    <Page Update="Sheets\Views\RecipeEdition.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\TreeViewNodesStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Workspaces\Views\WorkspacesView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Workspaces\WorkspacesWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Resource Update="Views\GlobalView.xaml">
       <SubType>Designer</SubType>
     </Resource>
-    <Page Update="Views\RecipeChoose.xaml">
+    <Page Update="Sheets\Views\RecipeChoose.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\RecipeSelector.xaml">
+    <Page Update="Sheets\Views\RecipeSelector.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\SheetView.xaml">
+    <Page Update="Sheets\Views\SheetView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

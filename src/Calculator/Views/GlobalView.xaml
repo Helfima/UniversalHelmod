@@ -13,6 +13,7 @@
     </Style>
     <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="Margin" Value="3 0 3 0"/>
+        <Setter Property="Foreground" Value="Black"/>
     </Style>
     <Style x:Key="TextBlockBoldStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockStyle}">
         <Setter Property="FontWeight" Value="Bold"/>
@@ -163,7 +164,7 @@
     <ToolTip x:Key="ItemToolTip">
         <StackPanel Orientation="Vertical" Margin="1">
             <Image Source="{Binding Icon}" VerticalAlignment="Top" Height="80" Width="80" />
-            <Label Content="{Binding DisplayName}" Style="{StaticResource LabelBoldStyle}" Width="200"/>
+            <Label Content="{Binding DisplayName}" Style="{StaticResource LabelBoldStyle}"/>
             <StackPanel Orientation="Horizontal" Margin="1">
                 <Label Content="Sink Points:" Style="{StaticResource LabelBoldStyle}"/>
                 <Label Content="{Binding ResourceSinkPoints}" Style="{StaticResource LabelBoldStyle}"/>
@@ -195,7 +196,21 @@
             </GroupBox>
         </StackPanel>
     </ToolTip>
-
+    
+    <ToolTip x:Key="FactoryToolTip">
+        <StackPanel Orientation="Vertical" Margin="1">
+            <TextBlock Text="{Binding DisplayName}" Style="{StaticResource TextBlockBoldStyle}"/>
+            <Image Source="{Binding Icon}" VerticalAlignment="Top" Height="80" Width="80" />
+            <TextBlock Text="{Binding Speed, StringFormat={}Speed: {0}}" Style="{StaticResource TextBlockBoldStyle}"/>
+            <TextBlock Text="{Binding PowerConsumption, StringFormat={}PowerConsumption: {0}}" Style="{StaticResource TextBlockBoldStyle}"/>
+            <TextBlock Text="{Binding PowerConsumptionExponent, StringFormat={}PowerConsumptionExponent: {0}}" Style="{StaticResource TextBlockBoldStyle}"/>
+            <TextBlock Text="{Binding PowerProduction, StringFormat={}PowerProduction: {0}}" Style="{StaticResource TextBlockBoldStyle}"/>
+            <TextBlock Text="{Binding PowerProductionExponent, StringFormat={}PowerProductionExponent: {0}}" Style="{StaticResource TextBlockBoldStyle}"/>
+            <TextBlock Text="{Binding AllowedResourceForms, StringFormat={}AllowedResourceForms: {0}}" Style="{StaticResource TextBlockBoldStyle}"/>
+            <TextBlock Text="{Binding AllowedResources, StringFormat={}AllowedResources: {0}}" Style="{StaticResource TextBlockBoldStyle}"/>
+            <TextBlock Text="{Binding Description}" Style="{StaticResource TextBlockBoldStyle}" Width="200" TextWrapping="Wrap"/>
+        </StackPanel>
+    </ToolTip>
     <!-- ***** Cells ***** -->
     <DataTemplate x:Key="RecipeCell">
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="1">

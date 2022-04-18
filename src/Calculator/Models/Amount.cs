@@ -1,4 +1,5 @@
-﻿using Calculator.Enums;
+﻿using Calculator.Classes;
+using Calculator.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,7 +28,7 @@ namespace Calculator.Models
         {
             get { return item; }
         }
-        public ItemType ItemType
+        public string ItemType
         {
             get { return item.ItemType; }
         }

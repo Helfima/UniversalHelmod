@@ -9,11 +9,5 @@ namespace Calculator.Protos.FGProtos
         public double Speed { get; set; }
         public double PowerConsumption { get; set; }
         public double PowerConsumptionExponent { get; set; }
-        public double PowerProduction { get; set; }
-        public double PowerProductionExponent { get; set; }
-        public object AllowedResourceForms { get; set; }
-        public object AllowedResources { get; set; }
-        public double ExtractCycleTime { get; set; }
-        public double ItemsPerCycle { get; set; }
     }
 }

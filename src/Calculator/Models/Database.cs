@@ -9,35 +9,31 @@ using System.Linq;
 using System.Windows.Media.Imaging;
 using Calculator.Protos;
 using System.Collections.ObjectModel;
-using Calculator.Protos.Kirk;
 using Calculator.Protos.FGProtos;
 using Calculator.Enums;
+using Calculator.Converter;
 
 namespace Calculator.Models
 {
     public class Database
     {
-        public List<Item> Items { get; set; }
-
-        public List<Recipe> Recipes { get; set; }
+        private static Database instance;
 
         private Dictionary<string, List<Recipe>> recipesByProduct = new Dictionary<string, List<Recipe>>();
         private Dictionary<string, List<Recipe>> recipesByIngredient = new Dictionary<string, List<Recipe>>();
-        public List<Factory> Factories { get; set; }
-
-        public List<Logistic> Logistics { get; set; }
-
         private Dictionary<Item, ItemCost> itemCosts = new Dictionary<Item, ItemCost>();
 
+        public List<Item> Items { get; set; } = new List<Item>();
+        public List<string> ItemTypes { get; set; }
+        public List<Recipe> Recipes { get; set; } = new List<Recipe>();
+        public List<Factory> Factories { get; set; } = new List<Factory>();
+        public List<string> FactoryTypes { get; set; }
+        public List<Logistic> Logistics { get; set; } = new List<Logistic>();
         public static Database Intance => GetInstance();
-
-        private static Database instance;
 
         public Item SelectItem(string name, string type)
         {
-            ItemType itemType = ItemType.Item;
-            Enum.TryParse<ItemType>(type, out itemType);
-            return Items.FirstOrDefault(x => x.ItemType == itemType && x.Name == name);
+            return Items.FirstOrDefault(x => x.ItemType == type && x.Name == name);
         }
         public Recipe SelectRecipe(string name)
         {
@@ -70,16 +66,48 @@ namespace Calculator.Models
             }
             return instance;
         }
+        public static Database Load(string path)
+        {
+            var instance = DatabaseConverter.ReadJson(path);
+            instance.Prepare();
+            return instance;
+        }
         public void Load()
         {
             FGAdapater.PopulateDatabase(instance);
+            Prepare();
+        }
+        public void Prepare()
+        {
             foreach (Recipe recipe in Recipes)
             {
                 AddRecipeByProduct(recipe);
                 WhereUse(recipe);
             }
-            ComputeCost();
+            //ComputeCost();
+            ComputeItemTypes();
+            ComputeFactoryTypes();
+            Items.Sort((x, y) => x.Name.CompareTo(y.Name));
+            ItemTypes.Sort();
+            Factories.Sort((x, y) => x.Name.CompareTo(y.Name));
+            FactoryTypes.Sort();
             Recipes.Sort((x, y) => x.MainProduct.Name.CompareTo(y.MainProduct.Name));
+        }
+        private void ComputeItemTypes()
+        {
+            ItemTypes = new List<string>();
+            foreach (Item item in Items)
+            {
+                if (!ItemTypes.Contains(item.ItemType)) ItemTypes.Add(item.ItemType);
+            }
+        }
+        private void ComputeFactoryTypes()
+        {
+            FactoryTypes = new List<string>();
+            foreach (Factory factory in Factories)
+            {
+                if (!FactoryTypes.Contains(factory.ItemType)) FactoryTypes.Add(factory.ItemType);
+            }
         }
         private void ComputeCost()
         {
@@ -92,12 +120,11 @@ namespace Calculator.Models
                 ComputeCost(recipe);
             }
         }
-        
         private ItemCost ComputeCost(Item item)
         {
             var itemCost = new ItemCost(item);
             if (itemCosts.ContainsKey(item)) return itemCosts[item];
-            if (item.ItemType == Enums.ItemType.Resource || item.Form == Enums.ItemForm.Liquid)
+            if (item.ItemType == "Resource" || item.Form == "Liquid")
             {
                 itemCost.Add(item, 1);
             }
@@ -143,10 +170,8 @@ namespace Calculator.Models
                 foreach (Amount product in recipe.Products)
                 {
                     var whereUsed = ingredient.Item.WhereUsed;
-                    if ((product.Item.ItemType == Enums.ItemType.Item
-                        || product.Item.ItemType == Enums.ItemType.FICSMAS
-                        || product.Item.ItemType == Enums.ItemType.Consumable
-                        || product.Item.ItemType == Enums.ItemType.Ammo)
+                    if ((product.Item.ItemType != "Building"
+                        && product.Item.ItemType != "FICSMAS")
                         && !whereUsed.Contains(product.Item))
                     {
                         whereUsed.Add(product.Item);

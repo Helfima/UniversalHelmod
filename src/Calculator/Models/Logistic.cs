@@ -9,6 +9,6 @@ namespace Calculator.Models
     {
         public int Rate { get; set; }
 
-        public ItemForm Transport { get; set; }
+        public string Transport { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Calculator.Enums;
+﻿using Calculator.Classes;
+using Calculator.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +12,8 @@ namespace Calculator.Models
         protected string name;
         protected string displayName;
         protected string description;
-        protected ItemType itemType = ItemType.Item;
+        protected string itemType = "Item";
+        protected string iconPath;
         protected BitmapImage icon;
 
         public string Name
@@ -29,14 +31,22 @@ namespace Calculator.Models
             get { return description; }
             set { description = value; }
         }
-        public ItemType ItemType
+        public string ItemType
         {
             get { return itemType; }
             set { itemType = value; }
         }
+        public string IconPath
+        {
+            get { return iconPath; }
+            set { iconPath = value; }
+        }
         public BitmapImage Icon
         {
-            get { return icon; }
+            get {
+                if (icon == null) icon = Utils.GetImage(IconPath);
+                return icon;
+            }
             set { icon = value; }
         }
 

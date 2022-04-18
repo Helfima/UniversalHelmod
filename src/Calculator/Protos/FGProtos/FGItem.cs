@@ -73,7 +73,7 @@ namespace Calculator.Protos.FGProtos
 
         public double Count { get; set; }
         public BitmapImage Icon { get; set; }
-        public ItemType ItemType = ItemType.Item;
+        public string ItemType = "Item";
         public T Clone<T>() where T : FGItem, new()
         {
             return new T()

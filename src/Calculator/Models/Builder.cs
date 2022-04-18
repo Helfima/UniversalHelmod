@@ -35,7 +35,7 @@ namespace Calculator.Models
         {
             get { return factory; }
         }
-        public ItemType ItemType
+        public string ItemType
         {
             get { return factory.ItemType; }
         }

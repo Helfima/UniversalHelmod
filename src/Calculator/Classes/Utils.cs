@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Windows.Media.Imaging;
 
 namespace Calculator.Classes
 {
     public class Utils
     {
+        public static string GetApplicationFolder()
+        {
+            string local = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string path = Path.Combine(local, "UniversalHelmod");
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+            return path;
+        }
         public static string ImagesFolder()
         {
             string dirApp = Directory.GetCurrentDirectory();
@@ -53,5 +61,34 @@ namespace Calculator.Classes
 
             }
         }
+
+        public static BitmapImage GetImage(string path)
+        {
+            try
+            {
+                string dirApp = Directory.GetCurrentDirectory();
+                string fileName = Path.Combine(dirApp, path);
+                if (File.Exists(fileName))
+                {
+                    Uri uri = new Uri(fileName);
+                    var img = new BitmapImage(uri);
+                    return img;
+                }
+                else
+                {
+                    return GetUnknownImage();
+                }
+            }
+            catch
+            {
+                return GetUnknownImage();
+            }
+        }
+        internal static BitmapImage GetUnknownImage()
+        {
+            Uri uri = new Uri($"pack://application:,,,/Images/Unknown.png");
+            return new BitmapImage(uri);
+        }
+
     }
 }

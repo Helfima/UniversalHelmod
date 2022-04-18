@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <DelaySign>false</DelaySign>
     <AssemblyOriginatorKeyFile>helfima_signature.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
@@ -17,6 +17,7 @@
     <None Remove="Images\GlyphRight_16x.png" />
     <None Remove="Images\GlyphUp_16x.png" />
     <None Remove="Images\PowerShard_256.png" />
+    <None Remove="Images\Refresh_16x.png" />
     <None Remove="Images\Trash_16x.png" />
     <None Remove="Images\Unknown.png" />
   </ItemGroup>
@@ -32,6 +33,7 @@
     <Resource Include="Images\GlyphRight_16x.png" />
     <Resource Include="Images\GlyphUp_16x.png" />
     <Resource Include="Images\PowerShard_256.png" />
+    <Resource Include="Images\Refresh_16x.png" />
     <Resource Include="Images\Trash_16x.png" />
     <Resource Include="Images\Unknown.png" />
     <Resource Include="Views\GlobalView.xaml" />

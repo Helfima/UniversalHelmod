@@ -52,7 +52,6 @@ namespace Calculator.Views
                 string path = dialog.SelectedPath;
                 Model.Path = path;
                 Properties.Settings.Default.GameFolder = path;
-                
             }
         }
 
@@ -62,7 +61,7 @@ namespace Calculator.Views
             Utils.ExtractImages();
             IsValidated = true;
             this.Close();
-            main.LoadData();
+            //main.LoadData();
         }
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)

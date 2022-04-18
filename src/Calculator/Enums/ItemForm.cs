@@ -6,7 +6,8 @@ namespace Calculator.Enums
 {
     public enum ItemForm
     {
+        Solid,
         Liquid,
-        Solid
+        Gas
     }
 }

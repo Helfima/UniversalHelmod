@@ -49,7 +49,7 @@ namespace Calculator.Protos.FGProtos
             foreach (FGRecipe proto in Source.Recipes)
             {
                 var recipe = AdaptaterRecipe(proto);
-                recipe.ComputeFlow();
+                recipe.ComputeFlow(energy:recipe.Energy);
                 Instance.Recipes.Add(recipe);
             }
         }
@@ -69,13 +69,23 @@ namespace Calculator.Protos.FGProtos
                 StackSize = proto.StackSize,
                 EnergyValue = proto.EnergyValue,
                 RadioactiveDecay = proto.RadioactiveDecay,
-                Form = proto.Form == "RF_SOLID" ? ItemForm.Solid : ItemForm.Liquid,
+                Form = ConvertForm(proto.Form),
                 ResourceSinkPoints = proto.ResourceSinkPoints,
-                Icon = icon,
+                IconPath = icon,
                 ItemType = proto.DisplayName.Contains("FICSMAS") || proto.DisplayName.Contains("Candy") || proto.DisplayName.Contains("Snow")
-                ? ItemType.FICSMAS : proto.ItemType
+                ? "FICSMAS" : proto.ItemType
             };
             return item;
+        }
+        private string ConvertForm(object form)
+        {
+            switch (form.ToString())
+            {
+                case "RF_LIQUID":
+                    return "Liquid";
+                default:
+                    return "Solid";
+            }
         }
         private Factory AdaptaterFactory(FGFactory proto)
         {
@@ -84,71 +94,102 @@ namespace Calculator.Protos.FGProtos
             {
                 icon = GetIcon(proto.SmallIcon);
             }
-            var allowedResourceForms = ItemForm.Solid;
-            var isMiner = false;
-            if (!String.IsNullOrEmpty(proto.AllowedResourceForms.ToString()))
+            if(proto is FGExtractor)
             {
-                var resourceForms = proto.AllowedResourceForms as List<object>;
-                if(resourceForms != null)
+                var extractor = proto as FGExtractor;
+                var allowedResourceForms = new List<string>();
+                if (!String.IsNullOrEmpty(extractor.AllowedResourceForms.ToString()))
                 {
-                    if(resourceForms[0].ToString() == "RF_LIQUID")
+                    var resourceForms = extractor.AllowedResourceForms as List<object>;
+                    if (resourceForms != null)
                     {
-                        allowedResourceForms = ItemForm.Liquid;
-                    }
-                }
-                isMiner = true;
-            }
-            var allowedResources = new List<string>();
-            if (proto.AllowedResources != null)
-            {
-                var resources = proto.AllowedResources as List<object>;
-                if(resources != null)
-                {
-                    foreach (object resource in resources)
-                    {
-                        var name = resource as string;
-                        int index = name.LastIndexOf('.');
-                        if (index > 0 && (index + 1) < name.Length)
+                        foreach(object resourceForm in resourceForms)
                         {
-                            name = name.Substring(index + 1);
+                            allowedResourceForms.Add(ConvertForm(resourceForm));
                         }
-                        name = name.Replace("\"'", "");
-                        allowedResources.Add(name);
                     }
                 }
+                var allowedResources = new List<string>();
+                if (extractor.AllowedResources != null)
+                {
+                    var resources = extractor.AllowedResources as List<object>;
+                    if (resources != null)
+                    {
+                        foreach (object resource in resources)
+                        {
+                            var name = resource as string;
+                            int index = name.LastIndexOf('.');
+                            if (index > 0 && (index + 1) < name.Length)
+                            {
+                                name = name.Substring(index + 1);
+                            }
+                            name = name.Replace("\"'", "");
+                            allowedResources.Add(name);
+                        }
+                    }
+                }
+                // TODO cycle 0.5s? d'ou le facteur 2
+                var speed = 2 * extractor.ItemsPerCycle / extractor.ExtractCycleTime;
+                if (Double.IsNaN(speed)) speed = 1;
+                if (speed > 1000) speed /= 1000;
+                Extractor item = new Extractor()
+                {
+                    Name = proto.ClassName,
+                    DisplayName = proto.DisplayName,
+                    Description = proto.Description,
+                    IconPath = icon,
+                    ItemType = proto.ItemType,
+                    Speed = speed,
+                    PowerConsumption = proto.PowerConsumption,
+                    PowerConsumptionExponent = proto.PowerConsumptionExponent,
+                    AllowedResourceForms = allowedResourceForms,
+                    AllowedResources = allowedResources
+                };
+                return item;
             }
-            Factory item = new Factory()
+            else if (proto is FGGenerator)
             {
-                Name = proto.ClassName,
-                DisplayName = proto.DisplayName,
-                Description = proto.Description,
-                Icon = icon,
-                ItemType = proto.ItemType,
-                Speed = proto.Speed,
-                PowerConsumption = proto.PowerConsumption,
-                PowerConsumptionExponent = proto.PowerConsumptionExponent,
-                PowerProduction = proto.PowerProduction,
-                PowerProductionExponent = proto.PowerProductionExponent,
-                AllowedResourceForms = allowedResourceForms,
-                AllowedResources = allowedResources,
-                ExtractCycleTime = proto.ExtractCycleTime,
-                ItemsPerCycle = proto.ItemsPerCycle,
-                IsMiner = isMiner
-            };
-            return item;
+                var generator = proto as FGGenerator;
+                Generator item = new Generator()
+                {
+                    Name = proto.ClassName,
+                    DisplayName = proto.DisplayName,
+                    Description = proto.Description,
+                    IconPath = icon,
+                    ItemType = proto.ItemType,
+                    Speed = proto.Speed,
+                    PowerConsumption = proto.PowerConsumption,
+                    PowerConsumptionExponent = proto.PowerConsumptionExponent,
+                    PowerProduction = generator.PowerProduction,
+                    PowerProductionExponent = generator.PowerProductionExponent
+                };
+                return item;
+            }
+            else
+            {
+                Factory item = new Factory()
+                {
+                    Name = proto.ClassName,
+                    DisplayName = proto.DisplayName,
+                    Description = proto.Description,
+                    IconPath = icon,
+                    ItemType = proto.ItemType,
+                    Speed = proto.Speed,
+                    PowerConsumption = proto.PowerConsumption,
+                    PowerConsumptionExponent = proto.PowerConsumptionExponent
+                };
+                return item;
+            }
+            
         }
         private Recipe AdaptaterRecipe(FGRecipe proto)
         {
             var ingredients = AdaptaterItems(proto.Ingredients);
             var products = AdaptaterItems(proto.Product);
-            var itemType = ItemType.None;
             var masterProduct = products.FirstOrDefault();
             bool alternate = proto.DisplayName.StartsWith("Alternate");
-            if (masterProduct != null)
-            {
-                itemType = masterProduct.ItemType;
-            }
-            var icon = products.First().Icon;
+            var iconPath = products.First().Item.IconPath;
+            var icon = products.First().Item.Icon;
             var producedIns = proto.ProducedIn as List<object>;
             var madeIn = new List<string>();
             if (producedIns != null)
@@ -164,9 +205,9 @@ namespace Calculator.Protos.FGProtos
                     if (name == "Build_Converter_C")
                     {
                         var item = masterProduct.Item;
-                        var miners = Instance.Factories.Where(x => x.IsMiner);
-                        var factories = miners.Where(delegate(Factory miner) {
-                            return miner.AllowedResourceForms == item.Form && (miner.AllowedResources.Count == 0 || miner.AllowedResources.Contains(item.Name));
+                        var miners = Instance.Factories.OfType<Extractor>();
+                        var factories = miners.Where(delegate(Extractor miner) {
+                            return miner.AllowedResourceForms.Contains(item.Form) && (miner.AllowedResources.Count == 0 || miner.AllowedResources.Contains(item.Name));
                             }).ToList();
                         foreach(var factory in factories)
                         {
@@ -188,8 +229,8 @@ namespace Calculator.Protos.FGProtos
                 Type = typeof(Recipe).Name,
                 Ingredients = ingredients,
                 Products = products,
+                IconPath = iconPath,
                 Icon = icon,
-                ItemType = itemType,
                 Alternate = alternate
             };
             return recipe;
@@ -211,7 +252,7 @@ namespace Calculator.Protos.FGProtos
 
                 Item item = Instance.Items.FirstOrDefault(x => x.Name == itemName);
                 double itemCount;
-                if (item.Form == ItemForm.Liquid)
+                if (item.Form == ConvertForm("RF_LIQUID"))
                 {
                     itemCount = count / 1000;
                 }
@@ -249,45 +290,29 @@ namespace Calculator.Protos.FGProtos
                 return 0;
             }
         }
-        private BitmapImage GetIcon(string icon)
+        private string GetIcon(string icon)
         {
             string pattern = "/([^ ]*)\\.[^.]*$";
             Match match = Regex.Match(icon, pattern);
-            BitmapImage image = null;
+            string image = null;
             if (match.Success)
             {
                 string name = match.Groups[1].Value;
                 name = name.Replace("512", "256");
-                image = GetImage($"{name}.png");
+                image = GetIconPath($"{name}.png");
             }
-            if (image != null) return image;
-            return GetUnknownImage();
-        }
-        internal BitmapImage GetUnknownImage()
-        {
-            Uri uri = new Uri($"pack://application:,,,/Images/Unknown.png");
-            return new BitmapImage(uri);
-        }
-        private BitmapImage GetImage(string name)
-        {
-            try
-            {
-                name = name.Replace('/', '\\');
-                string dirApp = Directory.GetCurrentDirectory();
-                string fileName = Path.Combine(dirApp, "Images", name);
-                FileStream fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-
-                var img = new BitmapImage();
-                img.BeginInit();
-                img.StreamSource = fileStream;
-                img.EndInit();
-                return img;
-            }
-            catch (Exception e)
-            {
-                System.Console.WriteLine(e.Message);
-            }
+            if (image == null) return null;
+            string dirApp = Directory.GetCurrentDirectory();
+            string fileName = Path.Combine(dirApp, image);
+            if (File.Exists(fileName))
+                return image;
             return null;
+        }
+        private string GetIconPath(string name)
+        {
+            name = name.Replace('/', '\\');
+            string fileName = Path.Combine("Images", name);
+            return fileName;
         }
     }
 }

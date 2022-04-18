@@ -1,4 +1,6 @@
-﻿using Calculator.Math;
+﻿using Calculator.Classes;
+using Calculator.Sheets.Math;
+using Calculator.Sheets.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +15,9 @@ namespace Calculator.Models
     {
         protected ObservableCollection<Amount> products = new ObservableCollection<Amount>();
         protected ObservableCollection<Amount> ingredients = new ObservableCollection<Amount>();
+        protected string iconPath;
         protected BitmapImage icon;
+        protected bool invert = false;
         protected int index;
         protected string name;
         protected string type;
@@ -22,6 +26,11 @@ namespace Calculator.Models
         protected double production = 1;
         public Nodes Parent { get; set; }
         public int Id { get; set; }
+        public bool Invert
+        {
+            get { return invert; }
+            set { invert = value; NotifyPropertyChanged(); }
+        }
         public int Index
         {
             get { return index; }
@@ -52,18 +61,27 @@ namespace Calculator.Models
             get { return production; }
             set { production = value; NotifyPropertyChanged(); }
         }
+        public string IconPath
+        {
+            get { return iconPath; }
+            set { iconPath = value; NotifyPropertyChanged(); }
+        }
         public BitmapImage Icon
         {
-            get { return icon; }
+            get
+            {
+                if (icon == null) icon = Utils.GetImage(IconPath);
+                return icon;
+            }
             set { icon = value; NotifyPropertyChanged(); }
         }
         public ObservableCollection<Amount> Products { 
-            get { return products; } 
+            get { return invert ? ingredients : products; } 
             set { products = value; NotifyPropertyChanged();}
         }
         public ObservableCollection<Amount> Ingredients
         {
-            get { return ingredients; }
+            get { return invert ? products : ingredients; }
             set { ingredients = value; NotifyPropertyChanged(); }
         }
 
@@ -114,5 +132,6 @@ namespace Calculator.Models
                 amount.Flow = amount.Count * factor;
             }
         }
+
     }
 }
