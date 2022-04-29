@@ -9,6 +9,7 @@ namespace Calculator.Extensions
     {
         public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> col)
         {
+            if(col == null) return new ObservableCollection<T>();
             return new ObservableCollection<T>(col);
         }
     }

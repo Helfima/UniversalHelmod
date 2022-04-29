@@ -1,4 +1,4 @@
-using Calculator.Protos.FGProtos;
+using Calculator.Extractors.Satisfactory;
 using NUnit.Framework;
 using System.Collections.Generic;
 

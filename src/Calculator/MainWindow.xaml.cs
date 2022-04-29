@@ -1,9 +1,5 @@
 ﻿using Calculator.Classes;
-using Calculator.Converter;
-using Calculator.Models;
-using Calculator.Protos.FGProtos;
 using Calculator.Views;
-using Calculator.Workspaces;
 using Calculator.Workspaces.Models;
 using System;
 using System.Collections.Generic;
@@ -42,48 +38,27 @@ namespace Calculator
         }
         private void MenuWorkspace_Click(object sender, RoutedEventArgs e)
         {
-            var view = new WorkspacesWindow();
+            var view = new Workspaces.WorkspacesWindow();
             //view.Owner = this;
             view.Show();
         }
-        private void MenuDatabaseLoad_Click(object sender, RoutedEventArgs e)
-        {
-            this.LoadData();
-        }
         public void MenuItemSave_Click(object sender, RoutedEventArgs e)
         {
-            this.SheetView.MenuItemSave_Click(sender, e);
-        }
-        public void LoadData()
-        {
-            if (!File.Exists(FGDatabase.Filename) || !Directory.Exists(Utils.ImagesFolder()))
-            {
-                LaunchSettingsView();
-            }
-            else
-            {
-                this.SheetView.LoadData();
-            }
-        }
-
-        private void MenuItemDatabase_Click(object sender, RoutedEventArgs e)
-        {
-            var view = new DatabaseView();
-            view.Show();
+            WorkspacesModel.Intance.Current.SaveDataModel();
         }
         private void MenuItemDatabaseSave_Click(object sender, RoutedEventArgs e)
         {
-            DatabaseConverter.WriteJson(Database.Intance);
+            WorkspacesModel.Intance.Current.SaveDatabase();
+        }
+        private void MenuItemDatabase_Click(object sender, RoutedEventArgs e)
+        {
+            var view = new Databases.DatabaseWindow();
+            view.Show();
         }
         private void MenuItemExtract_Click(object sender, RoutedEventArgs e)
         {
-            LaunchSettingsView();
-        }
-        private void LaunchSettingsView()
-        {
-
-            var settingsView = new SettingsView(this);
-            settingsView.ShowDialog();
+            var view = new Extractors.Satisfactory.SatisfactoryExtractorWindow();
+            view.Show();
         }
         class MainModel : NotifyProperty
         {

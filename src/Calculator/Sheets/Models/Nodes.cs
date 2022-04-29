@@ -1,5 +1,5 @@
 ﻿using Calculator.Extensions;
-using Calculator.Models;
+using Calculator.Databases.Models;
 using Calculator.Sheets.Math;
 using System;
 using System.Collections.Generic;
@@ -15,16 +15,14 @@ namespace Calculator.Sheets.Models
         ObservableCollection<Amount> inputs = new ObservableCollection<Amount>();
         private int time;
         private double offset;
+        private Database database;
 
-        public Nodes()
+        public Nodes(Database database, int time = 1)
         {
+            this.database = database;
             this.time = 1;
         }
-
-        public Nodes(int time)
-        {
-            this.time = time;
-        }
+        public Database Database => database;
         public double Offset
         {
             get { return offset; }
@@ -124,7 +122,7 @@ namespace Calculator.Sheets.Models
         {
             int index = Children.IndexOf(node);
             Children.RemoveAt(index);
-            Nodes newNodes = new Nodes();
+            Nodes newNodes = new Nodes(database);
             newNodes.Add(node);
             newNodes.Parent = this;
             if (Children.Count == 0)

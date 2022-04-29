@@ -72,4 +72,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Databases\Views\" />
+  </ItemGroup>
+
 </Project>

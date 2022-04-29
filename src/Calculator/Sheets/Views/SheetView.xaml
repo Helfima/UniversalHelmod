@@ -202,7 +202,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <ListView Name="SheetNavigate" ItemsSource="{Binding Sheets}" SelectionChanged="SheetNavigate_SelectionChanged">
+            <ListView Name="SheetNavigate" ItemsSource="{Binding Current.DataModel.Sheets}" SelectionChanged="SheetNavigate_SelectionChanged">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" />
@@ -241,7 +241,7 @@
             </Grid.ColumnDefinitions>
             
             <GroupBox Grid.Column="0" Header="Nodes">
-                <ListView Name="NodeNavigate" ItemsSource="{Binding FlatNodes}" SelectionChanged="NodeNavigate_SelectionChanged">
+                <ListView Name="NodeNavigate" ItemsSource="{Binding Current.DataModel.FlatNodes}" SelectionChanged="NodeNavigate_SelectionChanged">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical" Margin="{Binding Offset, Converter={StaticResource marginConverter}}">
@@ -260,7 +260,7 @@
                 </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0" Header="Objectives" >
                     <ScrollViewer>
-                        <ItemsControl ItemsSource="{Binding CurrentNode.Inputs}">
+                        <ItemsControl ItemsSource="{Binding Current.DataModel.CurrentNode.Inputs}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel Orientation="Horizontal" />
@@ -280,7 +280,7 @@
                     </ScrollViewer>
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="Recipes" >
-                    <DataGrid Name="GridSheet" ItemsSource="{Binding CurrentNode.Children}" HorizontalAlignment="Stretch" AutoGenerateColumns="False" IsReadOnly="True" >
+                    <DataGrid Name="GridSheet" ItemsSource="{Binding Current.DataModel.CurrentNode.Children}" HorizontalAlignment="Stretch" AutoGenerateColumns="False" IsReadOnly="True" >
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Actions" CellTemplate="{StaticResource ActionsCell}" />
                             <DataGridTextColumn Header="%" Binding="{Binding Production, StringFormat=P}" />
@@ -302,13 +302,13 @@
                 </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0" Header="Information">
                     <Grid>
-                        <ContentPresenter Content="{Binding CurrentNode}" ContentTemplate="{StaticResource PowerCell}">
+                        <ContentPresenter Content="{Binding Current.DataModel.CurrentNode}" ContentTemplate="{StaticResource PowerCell}">
                         </ContentPresenter>
                     </Grid>
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="Output" HorizontalAlignment="Stretch">
                     <ScrollViewer>
-                        <ItemsControl ItemsSource="{Binding CurrentNode.Products}" ItemTemplateSelector="{StaticResource myProductTemplateSelector}">
+                        <ItemsControl ItemsSource="{Binding Current.DataModel.CurrentNode.Products}" ItemTemplateSelector="{StaticResource myProductTemplateSelector}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel Orientation="Horizontal" />
@@ -319,7 +319,7 @@
                 </GroupBox>
                 <GroupBox Grid.Row="2" Header="Input">
                     <ScrollViewer>
-                        <ItemsControl ItemsSource="{Binding CurrentNode.Ingredients}" ItemTemplateSelector="{StaticResource myIngredientTemplateSelector}">
+                        <ItemsControl ItemsSource="{Binding Current.DataModel.CurrentNode.Ingredients}" ItemTemplateSelector="{StaticResource myIngredientTemplateSelector}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel Orientation="Horizontal" />

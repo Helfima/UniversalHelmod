@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator"
-        xmlns:src="clr-namespace:Calculator.Models"
+        xmlns:src="clr-namespace:Calculator.Databases.Models"
         xmlns:Sheets="clr-namespace:Calculator.Sheets.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1600" Loaded="Window_Loaded">
@@ -24,7 +24,6 @@
                 <MenuItem Header="Exit" Click="MenuItemExit_Click" />
             </MenuItem>
             <MenuItem Header="Database">
-                <MenuItem Header="Load" Click="MenuDatabaseLoad_Click" />
                 <MenuItem Header="Database" Click="MenuItemDatabase_Click" />
                 <MenuItem Header="Save" Click="MenuItemDatabaseSave_Click" />
             </MenuItem>

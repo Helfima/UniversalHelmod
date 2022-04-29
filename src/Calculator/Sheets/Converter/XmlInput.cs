@@ -1,4 +1,4 @@
-﻿using Calculator.Models;
+﻿using Calculator.Databases.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,20 +20,5 @@ namespace Calculator.Sheets.Converter
 
         [XmlAttribute("Value")]
         public double Value;
-
-        public static XmlInput Parse(Amount amount)
-        {
-            XmlInput xmlNode = new XmlInput();
-            xmlNode.Type = amount.Type;
-            xmlNode.Name = amount.Name;
-            xmlNode.Value = amount.Count;
-            return xmlNode;
-        }
-
-        public Amount GetObject()
-        {
-            var item = Database.Intance.SelectItem(Name, Type);
-            return new Amount(item, Value);
-        }
     }
 }

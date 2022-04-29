@@ -1,4 +1,4 @@
-﻿using Calculator.Protos.FGProtos;
+﻿using Calculator.Extractors.Satisfactory;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -61,7 +61,7 @@ namespace Calculator.Extensions
             try
             {
                 string property = element.GetProperty(name).GetString();
-                object result = FGArrayParser.Parse(property);
+                object result = Extractors.Satisfactory.Models.FGArrayParser.Parse(property);
                 return result;
             }
             catch

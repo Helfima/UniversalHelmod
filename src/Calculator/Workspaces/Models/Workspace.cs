@@ -1,6 +1,8 @@
 ﻿using Calculator.Classes;
-using Calculator.Converter;
-using Calculator.Models;
+using Calculator.Databases.Converter;
+using Calculator.Databases.Models;
+using Calculator.Sheets.Converter;
+using Calculator.Sheets.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +17,12 @@ namespace Calculator.Workspaces.Models
         {
             get { return database; }
             set { database = value; NotifyPropertyChanged(); }
+        }
+        private DataModel dataModel;
+        public DataModel DataModel
+        {
+            get { return dataModel; }
+            set { dataModel = value; NotifyPropertyChanged(); }
         }
         private string name;
         public string Name
@@ -47,10 +55,36 @@ namespace Calculator.Workspaces.Models
                 Directory.CreateDirectory(pathFolder);
             }
         }
+        public void SaveDataModel()
+        {
+            string pathDataModel = Path.Combine(pathFolder, "data_model.xml");
+            DataModelConverter.WriteXml(DataModel, pathDataModel);
+        }
+        public void SaveDatabase()
+        {
+            string pathDatabase = Path.Combine(pathFolder, "database.json");
+            DatabaseConverter.WriteJson(WorkspacesModel.Intance.Current.Database, pathDatabase);
+        }
         public void Load()
         {
-            string path = Path.Combine(pathFolder, "database.json");
-            Database = DatabaseConverter.ReadJson(path);
+            string pathDatabase = Path.Combine(pathFolder, "database.json");
+            if (File.Exists(pathDatabase))
+            {
+                Database = DatabaseConverter.ReadJson(pathDatabase);
+            }
+            else
+            {
+                Database = new Database();
+            }
+            string pathDataModel = Path.Combine(pathFolder, "data_model.xml");
+            if (File.Exists(pathDataModel))
+            {
+                DataModel = DataModelConverter.ReadXml(Database, pathDataModel);
+            }
+            else
+            {
+                DataModel = new DataModel(Database);
+            }
         }
     }
 }

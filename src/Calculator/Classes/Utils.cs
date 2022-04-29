@@ -22,21 +22,20 @@ namespace Calculator.Classes
             string folder = Path.Combine(dirApp, "Images");
             return folder;
         }
-        public static void ExtractImages()
+        public static void ExtractImages(string workspaceFolder, string gameFolder)
         {
-            string gameFolder = Properties.Settings.Default.GameFolder;
             if (!Directory.Exists(gameFolder)) return;
-            ExecuteUModel(gameFolder, "*_256.uasset");
-            ExecuteUModel(gameFolder, "*_256_New.uasset");
+            ExecuteUModel(workspaceFolder, gameFolder, "*_256.uasset");
+            ExecuteUModel(workspaceFolder, gameFolder, "*_256_New.uasset");
         }
 
-        private static void ExecuteUModel(string gameFolder, string filter)
+        private static void ExecuteUModel(string workspaceFolder, string gameFolder, string filter)
         {
 
             string dirApp = Directory.GetCurrentDirectory();
             string pathPak = Path.Combine(gameFolder, "FactoryGame\\Content\\Paks");
             string cmd = Path.Combine(dirApp, "Data\\umodel_win32\\umodel_64.exe");
-            string pathOut = ImagesFolder();
+            string pathOut = Path.Combine(workspaceFolder, "Images");
 
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();

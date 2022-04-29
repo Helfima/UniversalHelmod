@@ -10,13 +10,16 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Databases\DatabaseWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Extractors\Satisfactory\SatisfactoryExtractorWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\DatabaseView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Sheets\Views\EditionInput.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\SettingsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Sheets\Views\RecipeChoose.xaml.cs">
@@ -39,6 +42,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Databases\DatabaseWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Extractors\Satisfactory\SatisfactoryExtractorWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -46,9 +55,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Sheets\Views\EditionInput.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\SettingsView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Sheets\Views\RecipeEdition.xaml">

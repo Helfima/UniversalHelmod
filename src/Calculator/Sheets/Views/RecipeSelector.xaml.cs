@@ -1,4 +1,4 @@
-﻿using Calculator.Models;
+﻿using Calculator.Databases.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Calculator.Workspaces.Models;
 
 namespace Calculator.Sheets.Views
 {
@@ -28,7 +29,7 @@ namespace Calculator.Sheets.Views
 
         private void RecipeSelector_Loaded(object sender, RoutedEventArgs e)
         {
-            var recipes = Database.Intance.Recipes;
+            var recipes = WorkspacesModel.Intance.Current.Database.Recipes;
             var categories = recipes.Select(x => x.MadeIn).Distinct().ToList();
             var category = categories.First();
             var recipesFiltered = recipes.Where(x => x.ItemType == "Item").ToList();
@@ -49,7 +50,7 @@ namespace Calculator.Sheets.Views
 
         private void ViewCategories_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var recipes = Database.Intance.Recipes;
+            var recipes = WorkspacesModel.Intance.Current.Database.Recipes;
             var category = (string)this.ViewCategories.SelectedItem;
             this.viewModel.Recipes = recipes;
             this.DataContext = this.viewModel;

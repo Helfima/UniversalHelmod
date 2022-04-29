@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using Calculator.Models;
+using Calculator.Databases.Models;
 
 namespace Calculator.Sheets.Models
 {
@@ -21,7 +21,7 @@ namespace Calculator.Sheets.Models
             this.name = recipe.Name;
             this.type = recipe.Type;
             this.icon = recipe.Icon;
-            var factory = Database.Intance.Factories.FirstOrDefault(x => recipe.MadeIn.Contains(x.Name));
+            var factory = recipe.Database.Factories.FirstOrDefault(x => recipe.MadeIn.Contains(x.Name));
             this.Builder = new Builder(factory);
         }
         public void UpdateEffect()

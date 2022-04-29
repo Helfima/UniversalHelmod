@@ -1,4 +1,5 @@
-﻿using Calculator.Models;
+﻿using Calculator.Databases.Models;
+using Calculator.Workspaces.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,7 +28,7 @@ namespace Calculator.Sheets.Views
 
         public void SetRecipeByProduct(Item item)
         {
-            List<Recipe> recipes = Database.Intance.SelectRecipeByProduct(item);
+            List<Recipe> recipes = WorkspacesModel.Intance.Current.Database.SelectRecipeByProduct(item);
             viewModel = new RecipeChooseModel()
             {
                 Recipes = recipes,

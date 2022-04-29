@@ -1,4 +1,5 @@
-﻿using Calculator.Sheets.Math;
+﻿using Calculator.Databases.Models;
+using Calculator.Sheets.Math;
 using Calculator.Sheets.Models;
 using System;
 using System.IO;
@@ -12,14 +13,9 @@ namespace Calculator.Sheets.Converter
 {
     public class DataModelConverter
     {
-        public static string GetFilename()
+        public static void WriteXml(DataModel dataModel, string path)
         {
-            string root = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            return Path.Combine(root, "Data/data_model.xml");
-        }
-        public static void WriteXml(DataModel dataModel, string path = null)
-        {
-            if (path == null) path = GetFilename();
+            if (path == null) throw new Exception("Path file error");
             string directory = Path.GetDirectoryName(path);
             if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
             if (Directory.Exists(directory))
@@ -31,10 +27,10 @@ namespace Calculator.Sheets.Converter
                 System.Console.WriteLine($"Unable to write file: {path}");
             }
         }
-        public static DataModel ReadXml(string path = null)
+        public static DataModel ReadXml(Database database, string path)
         {
-            if (path == null) path = GetFilename();
-            DataModel model = DeserializeItem(path);
+            if (path == null) throw new Exception("Path file error");
+            DataModel model = DeserializeItem(path, database);
             if (model != null)
             {
                 foreach (Nodes sheet in model.Sheets)
@@ -47,7 +43,7 @@ namespace Calculator.Sheets.Converter
                 model.CurrentNode = current;
                 return model;
             }
-            return new DataModel();
+            return new DataModel(database);
         }
 
         internal static void SerializeItem(string fileName, DataModel dataModel)
@@ -57,13 +53,13 @@ namespace Calculator.Sheets.Converter
             serializer.UnknownNode += new XmlNodeEventHandler(Serializer_UnknownNode);
             serializer.UnknownAttribute += new XmlAttributeEventHandler(Serializer_UnknownAttribute);
 
-            XmlModel xmlModel = XmlModel.Parse(dataModel);
+            XmlModel xmlModel = XmlConverter.Format(dataModel);
             FileStream writer = new FileStream(fileName, FileMode.Create);
             serializer.Serialize(writer, xmlModel);
             writer.Close();
         }
 
-        internal static DataModel DeserializeItem(string fileName)
+        internal static DataModel DeserializeItem(string fileName, Database database)
         {
             if (File.Exists(fileName))
             {
@@ -71,7 +67,8 @@ namespace Calculator.Sheets.Converter
                 XmlSerializer deserializer = new XmlSerializer(typeof(XmlModel));
                 XmlModel xmlModel = (XmlModel)deserializer.Deserialize(reader);
                 reader.Close();
-                return xmlModel.GetObject();
+                var dataModel = XmlConverter.Parse(xmlModel, database);
+                return dataModel;
             }
             return null;
         }
@@ -86,5 +83,6 @@ namespace Calculator.Sheets.Converter
             System.Xml.XmlAttribute attr = e.Attr;
             throw new Exception($"CustomProperties: Unknown attribute:{attr.Name}='{attr.Value}'");
         }
+
     }
 }

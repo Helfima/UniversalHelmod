@@ -1,6 +1,6 @@
 ﻿using Calculator.Enums;
 using Calculator.Extensions;
-using Calculator.Models;
+using Calculator.Databases.Models;
 using Calculator.Sheets.Models;
 using System;
 using System.Collections.Generic;
@@ -233,7 +233,7 @@ namespace Calculator.Sheets.Math
             if (nodes == null || nodes.Children == null || nodes.Children.Count == 0) return;
             nodes.Objectives = null;
             nodes.CopyInputsToObjectives();
-            Matrix matrix = GetMatrix();
+            Matrix matrix = GetMatrix(nodes.Database);
             MatrixValue[] result = solver.Solve(matrix, nodes.Objectives);
             foreach (Element child in nodes.Children)
             {
@@ -252,16 +252,16 @@ namespace Calculator.Sheets.Math
             ComputePower(nodes);
             ComputeInputOutput(nodes);
         }
-        private Matrix GetMatrix()
+        private Matrix GetMatrix(Database database)
         {
             List<MatrixHeader> rowHeaders = new List<MatrixHeader>();
             List<MatrixRow> rowDatas = new List<MatrixRow>();
 
             List<string> products = new List<string>();
             List<string> ingredients = new List<string>();
-            foreach (Recipe recipe in Database.Intance.Recipes)
+            foreach (Recipe recipe in database.Recipes)
             {
-                var factory = Database.Intance.Factories.FirstOrDefault(x => recipe.MadeIn.Contains(x.Name));
+                var factory = database.Factories.FirstOrDefault(x => recipe.MadeIn.Contains(x.Name));
                 if (factory == null) continue;
                 double productivity = 1;
                 bool isExtractor = factory is Extractor;
@@ -284,7 +284,7 @@ namespace Calculator.Sheets.Math
                 rowDatas.Add(rowData);
             }
             // update status
-            foreach (Recipe recipe in Database.Intance.Recipes)
+            foreach (Recipe recipe in database.Recipes)
             {
                 foreach (Amount item in recipe.Products)
                 {

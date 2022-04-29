@@ -1,4 +1,4 @@
-﻿using Calculator.Models;
+﻿using Calculator.Databases.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,10 +6,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Calculator.Protos.FGProtos;
+using Calculator.Extractors.Satisfactory;
 using Calculator.Sheets.Converter;
 using Calculator.Sheets.Models;
 using Calculator.Sheets.Math;
+using Calculator.Workspaces.Models;
 
 namespace Calculator.Sheets.Views
 {
@@ -22,23 +23,7 @@ namespace Calculator.Sheets.Views
         public SheetView()
         {
             InitializeComponent();
-        }
-
-        public void LoadData()
-        {
-            var database = FGDatabase.Intance;
-
-            DataModel model = DataModelConverter.ReadXml();
-            if (model != null)
-            {
-                this.DataContext = model;
-            }
-            else
-            {
-                this.DataContext = new DataModel();
-            }
-            Compute();
-            Refresh();
+            this.DataContext = WorkspacesModel.Intance;
         }
 
         private RecipeSelector recipeSelector;
@@ -46,7 +31,8 @@ namespace Calculator.Sheets.Views
         private RecipeChoose recipeChoose;
 
         private EditionInput editionInput;
-        private DataModel Model => (DataModel)this.DataContext;
+        private WorkspacesModel WorkspacesModel => this.DataContext as WorkspacesModel;
+        private DataModel Model => WorkspacesModel.Current.DataModel;
         private bool AddNearRow = false;
         
         private void Input_Click(object sender, RoutedEventArgs e)
@@ -205,7 +191,7 @@ namespace Calculator.Sheets.Views
         {
             if (item != null)
             {
-                List<Recipe> recipes = Database.Intance.SelectRecipeByProduct(item);
+                List<Recipe> recipes = WorkspacesModel.Intance.Current.Database.SelectRecipeByProduct(item);
                 if (recipes != null && recipes.Count > 0)
                 {
                     if (recipes.Count == 1)
@@ -227,7 +213,7 @@ namespace Calculator.Sheets.Views
         }
         private void AddSheet()
         {
-            var newSheet = new Nodes(60);
+            var newSheet = new Nodes(WorkspacesModel.Intance.Current.Database, 60);
             Model.Sheets.Add(newSheet);
             Model.CurrentSheet = newSheet;
             Model.CurrentNode = newSheet;
@@ -334,11 +320,6 @@ namespace Calculator.Sheets.Views
                 var selection = e.NewValue as Nodes;
                 Model.CurrentNode = selection;
             }
-        }
-
-        public void MenuItemSave_Click(object sender, RoutedEventArgs e)
-        {
-            DataModelConverter.WriteXml(Model);
         }
     }
 }

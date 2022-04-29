@@ -1,4 +1,5 @@
 ﻿using Calculator.Classes;
+using Calculator.Databases.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,25 +12,16 @@ namespace Calculator.Sheets.Models
 {
     public class DataModel : NotifyProperty
     {
-        private static DataModel instance;
-        public static DataModel Intance => GetInstance();
-        private static DataModel GetInstance()
-        {
-            if (instance == null)
-            {
-                instance = new DataModel();
-            }
-            return instance;
-        }
-
+        private Database database;
         private int version = 1;
         private ObservableCollection<Nodes> sheets;
         private ObservableCollection<Nodes> flatNodes;
         private Nodes currentSheet;
         private Nodes currentNode;
 
-        public DataModel(int version = 1)
+        public DataModel(Database database, int version = 1)
         {
+            this.database = database;
             this.version = version;
             Load();
         }
