@@ -15,6 +15,7 @@ namespace Calculator.Databases.Models
 
         public List<Item> Items { get; set; } = new List<Item>();
         public List<string> ItemTypes { get; set; }
+        public List<string> ItemForms { get; set; }
         public List<Recipe> Recipes { get; set; } = new List<Recipe>();
         public List<Factory> Factories { get; set; } = new List<Factory>();
         public List<string> FactoryTypes { get; set; }
@@ -55,6 +56,7 @@ namespace Calculator.Databases.Models
             }
             //ComputeCost();
             ComputeItemTypes();
+            ComputeItemForms();
             ComputeFactoryTypes();
             Items.Sort((x, y) => x.Name.CompareTo(y.Name));
             ItemTypes.Sort();
@@ -68,6 +70,14 @@ namespace Calculator.Databases.Models
             foreach (Item item in Items)
             {
                 if (!ItemTypes.Contains(item.ItemType)) ItemTypes.Add(item.ItemType);
+            }
+        }
+        private void ComputeItemForms()
+        {
+            ItemForms = new List<string>();
+            foreach (Item item in Items)
+            {
+                if (!ItemForms.Contains(item.Form)) ItemForms.Add(item.Form);
             }
         }
         private void ComputeFactoryTypes()

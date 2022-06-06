@@ -18,6 +18,20 @@ namespace Calculator.Databases.Models
         public ItemCost ItemCost { get; set; }
         public List<Item> WhereUsed { get; set; } = new List<Item>();
 
-
+        public Item Clone()
+        {
+            var item = new Item()
+            {
+                Name = this.Name,
+                DisplayName = this.DisplayName,
+                Description = this.Description,
+                ItemType = this.ItemType,
+                IconPath = this.IconPath,
+                StackSize = this.StackSize,
+                EnergyValue = this.EnergyValue,
+                Form = this.Form,
+            };
+            return item;
+        }
     }
 }

@@ -13,10 +13,10 @@
     <Compile Update="Databases\DatabaseWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Extractors\Satisfactory\SatisfactoryExtractorWindow.xaml.cs">
+    <Compile Update="Databases\Views\TabItemView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\DatabaseView.xaml.cs">
+    <Compile Update="Extractors\Satisfactory\SatisfactoryExtractorWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Sheets\Views\EditionInput.xaml.cs">
@@ -45,13 +45,13 @@
     <Page Update="Databases\DatabaseWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Databases\Views\TabItemView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Extractors\Satisfactory\SatisfactoryExtractorWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\DatabaseView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Sheets\Views\EditionInput.xaml">

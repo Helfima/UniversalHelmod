@@ -18,6 +18,9 @@
     <Style x:Key="TextBlockBoldStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockStyle}">
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
+    <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Margin" Value="3,0,3,0" />
+    </Style>
     <sys:Double x:Key="IconSize">60</sys:Double>
     <sys:Double x:Key="IconPowerSize">20</sys:Double>
     <SolidColorBrush x:Key="BrushProductDefault">LightBlue</SolidColorBrush>
