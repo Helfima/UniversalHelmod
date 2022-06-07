@@ -87,5 +87,49 @@ namespace Calculator.Databases
             this.FactoryTypes = database.FactoryTypes.ToObservableCollection();
             this.Recipes = database.Recipes.ToObservableCollection();
         }
+        public void Save()
+        {
+            this.Database.Items = this.Items.Select(x => x.Clone()).ToList();
+            this.Database.Save();
+            this.Database.RefreshInternalList();
+        }
+        public void SaveItem(Item item)
+        {
+            var databaseItem = this.Items.Where(x => x.Name == item.Name).FirstOrDefault();
+            if (databaseItem == null)
+            {
+                this.Items.Add(item);
+            }
+            else
+            {
+                if (this.Items.Remove(databaseItem))
+                {
+                    this.Items.Add(item);
+                }
+            }
+        }
+        public void AddItem(Item item)
+        {
+            var databaseItem = this.Items.Where(x => x.Name == item.Name).FirstOrDefault();
+            if (databaseItem == null)
+            {
+                this.Items.Add(item);
+            }
+            else
+            {
+                throw new Exception("Already exist!");
+            }
+        }
+        public void DeleteItem(Item item)
+        {
+            var databaseItem = this.Items.Where(x => x.Name == item.Name).FirstOrDefault();
+            if (databaseItem != null)
+            {
+                if (this.Items.Remove(databaseItem))
+                {
+                    this.SelectedItem = new Item();
+                }
+            }
+        }
     }
 }

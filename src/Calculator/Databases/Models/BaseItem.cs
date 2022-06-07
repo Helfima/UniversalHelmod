@@ -7,48 +7,48 @@ using System.Windows.Media.Imaging;
 
 namespace Calculator.Databases.Models
 {
-    public abstract class BaseItem
+    public abstract class BaseItem : NotifyProperty
     {
         public Database Database { get; set; }
-        protected string name;
-        protected string displayName;
-        protected string description;
-        protected string itemType = "Item";
-        protected string iconPath;
-        protected BitmapImage icon;
 
+        protected string name;
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get { return this.name; }
+            set { this.name = value; NotifyPropertyChanged(); }
         }
+        protected string displayName;
         public string DisplayName
         {
-            get { return displayName; }
-            set { displayName = value; }
+            get { return this.displayName; }
+            set { this.displayName = value; NotifyPropertyChanged(); }
         }
+        protected string description;
         public string Description
         {
-            get { return description; }
-            set { description = value; }
+            get { return this.description; }
+            set { this.description = value; NotifyPropertyChanged(); }
         }
+        protected string itemType = "Item";
         public string ItemType
         {
-            get { return itemType; }
-            set { itemType = value; }
+            get { return this.itemType; }
+            set { this.itemType = value; NotifyPropertyChanged(); }
         }
+        protected string iconPath;
         public string IconPath
         {
-            get { return iconPath; }
-            set { iconPath = value; }
+            get { return this.iconPath; }
+            set { this.iconPath = value; NotifyPropertyChanged(); }
         }
+        protected BitmapImage icon;
         public BitmapImage Icon
         {
             get {
-                if (icon == null) icon = Utils.GetImage(IconPath);
-                return icon;
+                if (icon == null) this.icon = Utils.GetImage(IconPath);
+                return this.icon;
             }
-            set { icon = value; }
+            set { this.icon = value; NotifyPropertyChanged(); }
         }
 
         public bool Match(Item other)

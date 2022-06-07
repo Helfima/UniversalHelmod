@@ -64,6 +64,12 @@ namespace Calculator.Databases.Models
             FactoryTypes.Sort();
             Recipes.Sort((x, y) => x.MainProduct.Name.CompareTo(y.MainProduct.Name));
         }
+        public void RefreshInternalList()
+        {
+            ComputeItemTypes();
+            ComputeItemForms();
+            ComputeFactoryTypes();
+        }
         private void ComputeItemTypes()
         {
             ItemTypes = new List<string>();

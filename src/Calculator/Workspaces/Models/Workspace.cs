@@ -1,6 +1,7 @@
 ﻿using Calculator.Classes;
 using Calculator.Databases.Converter;
 using Calculator.Databases.Models;
+using Calculator.Exceptions;
 using Calculator.Sheets.Converter;
 using Calculator.Sheets.Models;
 using System;
@@ -84,6 +85,35 @@ namespace Calculator.Workspaces.Models
             else
             {
                 DataModel = new DataModel(Database);
+            }
+        }
+        public string SaveImageIntoWorkspace(string path, bool overwrite)
+        {
+            string directory = Path.Combine(pathFolder, "Images");
+            if (path.StartsWith(directory))
+            {
+                return path;
+            }
+            else
+            {
+                var imageName = Path.GetFileName(path);
+                var imageFile = Path.Combine(directory, imageName);
+                if (File.Exists(imageFile))
+                {
+                    if (overwrite)
+                    {
+                        File.Copy(path, imageFile, overwrite);
+                    }
+                    else
+                    {
+                        throw new ImageException("Image already exist");
+                    }
+                }
+                else
+                {
+                    File.Copy(path, imageFile);
+                }
+                return imageFile;
             }
         }
     }

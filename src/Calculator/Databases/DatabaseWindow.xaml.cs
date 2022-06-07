@@ -32,9 +32,12 @@ namespace Calculator.Databases
             model.Prepare();
             this.DataContext = model;
         }
-
+        private void Window_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Model.Save();
+        }
         private DatabaseModel Model => DataContext as DatabaseModel;
-        
+
         private void FactoryFilter_Checked(object sender, RoutedEventArgs e)
         {
             var button = e.Source as RadioButton;
@@ -86,5 +89,7 @@ namespace Calculator.Databases
                 if (binding != null) { binding.UpdateSource(); }
             }
         }
+
+        
     }
 }

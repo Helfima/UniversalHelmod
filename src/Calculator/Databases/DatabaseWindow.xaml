@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Calculator.Databases"
         xmlns:vs="clr-namespace:Calculator.Databases.Views"
         mc:Ignorable="d"
-        Title="DatabaseWindow" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="DatabaseWindow" Height="450" Width="800" Loaded="Window_Loaded" Unloaded="Window_Unloaded">
     <Window.Resources>
         <ResourceDictionary Source="../Views/GlobalView.xaml" />
     </Window.Resources>
@@ -103,4 +103,5 @@
         </TabControl>
 
     </Grid>
+    
 </Window>

@@ -65,19 +65,19 @@
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Orientation="Horizontal">
-                    <Button x:Name="NewItem" Style="{StaticResource ButtonStyle}">
+                    <Button x:Name="NewItem" Style="{StaticResource ButtonStyle}" Click="NewItem_Click">
                         <Image Source="/Images/Create_16x.png" />
                     </Button>
-                    <Button x:Name="EraserItem" Style="{StaticResource ButtonStyle}">
+                    <Button x:Name="EraserItem" Style="{StaticResource ButtonStyle}" Click="EraserItem_Click">
                         <Image Source="/Images/Eraser_16x.png" />
                     </Button>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <Button Style="{StaticResource ButtonStyle}">
+                    <Button x:Name="SaveItem" Style="{StaticResource ButtonStyle}" Click="SaveItem_Click">
                         <Image Source="/Images/Save_16x.png" />
                     </Button>
-                    <Button Style="{StaticResource ButtonStyle}">
-                        <Image Source="/Images/Trash_16x.png" />
+                    <Button x:Name="DeleteItem" Style="{StaticResource ButtonStyle}" Click="DeleteItem_Click">
+                        <Image Source="/Images/Trash_16x.png"/>
                     </Button>
                 </StackPanel>
             </Grid>
@@ -97,25 +97,25 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Name" Grid.Row="0" Grid.Column="0"/>
+                <TextBlock Text="{x:Static p:Localization.Name}" Grid.Row="0" Grid.Column="0"/>
                 <TextBox x:Name="ItemName" Grid.Row="0" Grid.Column="1" Text="{Binding SelectedItem.Name}"/>
 
-                <TextBlock Text="Display Name" Grid.Row="1" Grid.Column="0"/>
+                <TextBlock Text="{x:Static p:Localization.DisplayName}" Grid.Row="1" Grid.Column="0"/>
                 <TextBox x:Name="ItemDisplayName" Grid.Row="1" Grid.Column="1" Text="{Binding SelectedItem.DisplayName}"/>
 
-                <TextBlock Text="Description" Grid.Row="2" Grid.Column="0"/>
+                <TextBlock Text="{x:Static p:Localization.Description}" Grid.Row="2" Grid.Column="0"/>
                 <TextBox x:Name="ItemDescription" Grid.Row="2" Grid.Column="1" Text="{Binding SelectedItem.Description}"/>
 
-                <TextBlock Text="Type" Grid.Row="3" Grid.Column="0"/>
-                <ComboBox x:Name="ItemType" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ItemTypes}" SelectedItem="{Binding SelectedItem.ItemType}" IsEditable="True" KeyUp="ItemType_OnKeyDownHandler"/>
+                <TextBlock Text="{x:Static p:Localization.Type}" Grid.Row="3" Grid.Column="0"/>
+                <ComboBox x:Name="ItemType" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ItemTypes}" SelectedItem="{Binding SelectedItem.ItemType}" IsEditable="True" KeyUp="ItemType_OnKeyDownHandler" LostFocus="ItemType_LostFocus"/>
 
-                <TextBlock Text="Form" Grid.Row="4" Grid.Column="0"/>
-                <ComboBox x:Name="ItemForm" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding ItemForms}" SelectedItem="{Binding SelectedItem.Form}" IsEditable="True" KeyUp="ItemForm_OnKeyDownHandler"/>
+                <TextBlock Text="{x:Static p:Localization.Form}" Grid.Row="4" Grid.Column="0"/>
+                <ComboBox x:Name="ItemForm" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding ItemForms}" SelectedItem="{Binding SelectedItem.Form}" IsEditable="True" KeyUp="ItemForm_OnKeyDownHandler" LostFocus="ItemForm_LostFocus"/>
 
-                <TextBlock Text="StackSize" Grid.Row="5" Grid.Column="0"/>
+                <TextBlock Text="{x:Static p:Localization.StackSize}" Grid.Row="5" Grid.Column="0"/>
                 <TextBox x:Name="ItemStackSize" Grid.Row="5" Grid.Column="1" Text="{Binding SelectedItem.StackSize}" />
 
-                <TextBlock Text="EnergyValue" Grid.Row="6" Grid.Column="0"/>
+                <TextBlock Text="{x:Static p:Localization.EnergyValue}" Grid.Row="6" Grid.Column="0"/>
                 <TextBox x:Name="ItemEnergyValue" Grid.Row="6" Grid.Column="1" Text="{Binding SelectedItem.EnergyValue}" />
 
                 <TextBlock Text="Icon Path" Grid.Row="7" Grid.Column="0"/>
@@ -125,7 +125,7 @@
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <TextBox Grid.Column="0" x:Name="ItemIconPath" Text="{Binding SelectedItem.IconPath}" />
-                    <Button Grid.Column="1" x:Name="SelectItemIconPath" Content="{x:Static p:Localization.Select}" />
+                    <Button Grid.Column="1" x:Name="SelectItemIconPath" Content="{x:Static p:Localization.Select}" Click="SelectItemIconPath_Click" />
                 </Grid>
             </Grid>
         </Grid>
