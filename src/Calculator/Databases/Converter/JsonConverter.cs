@@ -2,6 +2,7 @@
 using Calculator.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Calculator.Databases.Converter
@@ -19,21 +20,8 @@ namespace Calculator.Databases.Converter
             }
             foreach (Factory factory in database.Factories)
             {
-                if (factory is Extractor extractor)
-                {
-                    var jsonExtractor = FormatExtractor(extractor);
-                    jsonDatabase.Factories.Add(jsonExtractor);
-                }
-                else if (factory is Generator generator)
-                {
-                    var jsonGenerator = FormatGenerator(generator);
-                    jsonDatabase.Factories.Add(jsonGenerator);
-                }
-                else
-                {
-                    var jsonFactory = FormatFactory(factory);
-                    jsonDatabase.Factories.Add(jsonFactory);
-                }
+                var jsonFactory = FormatFactory(factory);
+                jsonDatabase.Factories.Add(jsonFactory);
             }
             foreach (Recipe recipe in database.Recipes)
             {
@@ -48,12 +36,13 @@ namespace Calculator.Databases.Converter
             {
                 Name = item.Name,
                 Description = item.Description,
-                Type = item.ItemType,
+                Type = item.Type,
                 Form = item.Form,
                 StackSize = item.StackSize,
                 DisplayName = item.DisplayName,
                 EnergyValue = item.EnergyValue,
-                Icon = item.IconPath
+                Icon = item.IconPath,
+                Properties = item.Properties.ToList()
             };
             return jsonItem;
         }
@@ -62,7 +51,7 @@ namespace Calculator.Databases.Converter
             JsonAmount jsonAmount = new JsonAmount()
             {
                 Name = amount.Item.Name,
-                Type = amount.Item.ItemType,
+                Type = amount.Item.Type,
                 Count = amount.Count
             };
             return jsonAmount;
@@ -88,59 +77,25 @@ namespace Calculator.Databases.Converter
                 DisplayName = recipe.DisplayName,
                 Icon = recipe.IconPath,
                 Energy = recipe.Energy,
-                Alternate = recipe.Alternate,
+                Tier = recipe.Tier,
                 MadeIn = recipe.MadeIn,
                 Products = jsonProducts,
                 Ingredients = jsonIngredients
             };
             return jsonRecipe;
         }
-        internal static JsonFactory FormatExtractor(Extractor extractor)
-        {
-            JsonFactory jsonExtractor = new JsonFactory()
-            {
-                Name = extractor.Name,
-                Description = extractor.Description,
-                Type = extractor.ItemType,
-                DisplayName = extractor.DisplayName,
-                Icon = extractor.IconPath,
-                Speed = extractor.Speed,
-                PowerConsumption = extractor.PowerConsumption,
-                PowerConsumptionExponent = extractor.PowerConsumptionExponent,
-                AllowedResourceForms = extractor.AllowedResourceForms,
-                AllowedResources = extractor.AllowedResources
-            };
-            return jsonExtractor;
-        }
-        internal static JsonFactory FormatGenerator(Generator generator)
-        {
-            JsonFactory jsonGenerator = new JsonFactory()
-            {
-                Name = generator.Name,
-                Description = generator.Description,
-                Type = generator.ItemType,
-                DisplayName = generator.DisplayName,
-                Icon = generator.IconPath,
-                Speed = generator.Speed,
-                PowerConsumption = generator.PowerConsumption,
-                PowerConsumptionExponent = generator.PowerConsumptionExponent,
-                PowerProduction = generator.PowerProduction,
-                PowerProductionExponent = generator.PowerProductionExponent
-            };
-            return jsonGenerator;
-        }
         internal static JsonFactory FormatFactory(Factory factory)
         {
+            var element = new JsonElement() { Name = factory.Item.Name, Type = factory.Item.Type };
             JsonFactory jsonFactory = new JsonFactory()
             {
-                Name = factory.Name,
-                Description = factory.Description,
-                Type = factory.ItemType,
-                DisplayName = factory.DisplayName,
-                Icon = factory.IconPath,
+                BaseOnItem = element,
                 Speed = factory.Speed,
                 PowerConsumption = factory.PowerConsumption,
-                PowerConsumptionExponent = factory.PowerConsumptionExponent
+                PowerProduction = factory.PowerProduction,
+                AllowedResourceForms = factory.AllowedResourceForms,
+                AllowedResources = factory.AllowedResources,
+                Properties = factory.Properties.ToList()
             };
             return jsonFactory;
         }
@@ -162,21 +117,8 @@ namespace Calculator.Databases.Converter
             {
                 foreach (JsonFactory jsonFactory in jsonDatabase.Factories)
                 {
-                    switch (jsonFactory.Type)
-                    {
-                        case "Extractor":
-                            var extractor = ParseExtractor(jsonFactory, database);
-                            database.Factories.Add(extractor);
-                            break;
-                        case "Generator":
-                            var generator = ParseGenerator(jsonFactory, database);
-                            database.Factories.Add(generator);
-                            break;
-                        default:
-                            var factory = ParseFactory(jsonFactory, database);
-                            database.Factories.Add(factory);
-                            break;
-                    }
+                    var factory = ParseFactory(jsonFactory, database);
+                    database.Factories.Add(factory);
                 }
             }
             if (jsonDatabase.Recipes != null)
@@ -196,66 +138,31 @@ namespace Calculator.Databases.Converter
                 Database = database,
                 Name = jsonItem.Name,
                 Description = jsonItem.Description,
-                ItemType = jsonItem.Type,
+                Type = jsonItem.Type,
                 Form = jsonItem.Form,
                 StackSize = jsonItem.StackSize,
                 DisplayName = jsonItem.DisplayName,
                 EnergyValue = jsonItem.EnergyValue,
-                IconPath = jsonItem.Icon
+                IconPath = jsonItem.Icon,
+                Properties = jsonItem.Properties.ToObservableCollection()
             };
             return item;
         }
         internal static Factory ParseFactory(JsonFactory jsonFactory, Database database)
         {
+            var item = database.SelectItem(jsonFactory.BaseOnItem.Name, jsonFactory.BaseOnItem.Type);
             Factory factory = new Factory()
             {
-                Database = database,
-                Name = jsonFactory.Name,
-                Description = jsonFactory.Description,
-                ItemType = jsonFactory.Type,
-                DisplayName = jsonFactory.DisplayName,
-                IconPath = jsonFactory.Icon,
+                Item = item,
+                Type = jsonFactory.Type,
                 Speed = jsonFactory.Speed,
                 PowerConsumption = jsonFactory.PowerConsumption,
-                PowerConsumptionExponent = jsonFactory.PowerConsumptionExponent
+                PowerProduction = jsonFactory.PowerProduction,
+                AllowedResourceForms = jsonFactory.AllowedResourceForms,
+                AllowedResources = jsonFactory.AllowedResources,
+                Properties = jsonFactory.Properties.ToObservableCollection()
             };
             return factory;
-        }
-        internal static Generator ParseGenerator(JsonFactory jsonFactory, Database database)
-        {
-            Generator generator = new Generator()
-            {
-                Database = database,
-                Name = jsonFactory.Name,
-                Description = jsonFactory.Description,
-                ItemType = jsonFactory.Type,
-                DisplayName = jsonFactory.DisplayName,
-                IconPath = jsonFactory.Icon,
-                Speed = jsonFactory.Speed,
-                PowerConsumption = jsonFactory.PowerConsumption,
-                PowerConsumptionExponent = jsonFactory.PowerConsumptionExponent,
-                PowerProduction = jsonFactory.PowerProduction,
-                PowerProductionExponent = jsonFactory.PowerProductionExponent
-            };
-            return generator;
-        }
-        internal static Extractor ParseExtractor(JsonFactory jsonFactory, Database database)
-        {
-            Extractor extractor = new Extractor()
-            {
-                Database = database,
-                Name = jsonFactory.Name,
-                Description = jsonFactory.Description,
-                ItemType = jsonFactory.Type,
-                DisplayName = jsonFactory.DisplayName,
-                IconPath = jsonFactory.Icon,
-                Speed = jsonFactory.Speed,
-                PowerConsumption = jsonFactory.PowerConsumption,
-                PowerConsumptionExponent = jsonFactory.PowerConsumptionExponent,
-                AllowedResourceForms = jsonFactory.AllowedResourceForms,
-                AllowedResources = jsonFactory.AllowedResources
-            };
-            return extractor;
         }
         internal static Amount ParseAmount(JsonAmount jsonAmount, Database database)
         {
@@ -286,7 +193,7 @@ namespace Calculator.Databases.Converter
                 DisplayName = jsonRecipe.DisplayName,
                 IconPath = jsonRecipe.Icon,
                 Energy = jsonRecipe.Energy,
-                Alternate = jsonRecipe.Alternate,
+                Tier = jsonRecipe.Tier,
                 MadeIn = jsonRecipe.MadeIn,
                 Products = products.ToObservableCollection(),
                 Ingredients = ingredients.ToObservableCollection()

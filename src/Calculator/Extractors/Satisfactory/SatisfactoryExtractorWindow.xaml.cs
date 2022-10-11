@@ -31,15 +31,7 @@ namespace Calculator.Extractors.Satisfactory
             this.DataContext = model;
         }
         private SettingsModel Model => this.DataContext as SettingsModel;
-        class SettingsModel : NotifyProperty
-        {
-            private string path;
-            public string Path
-            {
-                get { return path; }
-                set { path = value; NotifyPropertyChanged(); }
-            }
-        }
+        
         private void ButtonDirectory_Click(object sender, RoutedEventArgs e)
         {
             // To use System.Windows.Forms add <UseWindowsForms>true</UseWindowsForms> in .csproj file
@@ -55,7 +47,13 @@ namespace Calculator.Extractors.Satisfactory
         private void ButtonOK_Click(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.Save();
-            FGAdapater.PopulateDatabase(WorkspacesModel.Intance.Current.Database);
+            PopulateDatabase();
+        }
+
+        private async void PopulateDatabase()
+        {
+            var result = await FGAdapater.PopulateDatabaseAsync();
+            WorkspacesModel.Intance.Current.Database = result;
             Utils.ExtractImages(WorkspacesModel.Intance.Current.PathFolder, Model.Path);
             this.Close();
         }
@@ -64,5 +62,7 @@ namespace Calculator.Extractors.Satisfactory
         {
             this.Close();
         }
+
+        
     }
 }

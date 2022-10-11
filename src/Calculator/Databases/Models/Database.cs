@@ -23,7 +23,7 @@ namespace Calculator.Databases.Models
 
         public Item SelectItem(string name, string type)
         {
-            return Items.FirstOrDefault(x => x.ItemType == type && x.Name == name);
+            return Items.FirstOrDefault(x => x.Type == type && x.Name == name);
         }
         public Recipe SelectRecipe(string name)
         {
@@ -31,7 +31,7 @@ namespace Calculator.Databases.Models
         }
         public Factory SelectFactory(string name)
         {
-            return Factories.FirstOrDefault(x => x.Name == name);
+            return Factories.FirstOrDefault(x => x.Item.Name == name);
         }
         public List<Recipe> SelectRecipeByProduct(Item item)
         {
@@ -60,7 +60,7 @@ namespace Calculator.Databases.Models
             ComputeFactoryTypes();
             Items.Sort((x, y) => x.Name.CompareTo(y.Name));
             ItemTypes.Sort();
-            Factories.Sort((x, y) => x.Name.CompareTo(y.Name));
+            Factories.Sort((x, y) => x.Item.Name.CompareTo(y.Item.Name));
             FactoryTypes.Sort();
             Recipes.Sort((x, y) => x.MainProduct.Name.CompareTo(y.MainProduct.Name));
         }
@@ -75,7 +75,7 @@ namespace Calculator.Databases.Models
             ItemTypes = new List<string>();
             foreach (Item item in Items)
             {
-                if (!ItemTypes.Contains(item.ItemType)) ItemTypes.Add(item.ItemType);
+                if (!ItemTypes.Contains(item.Type)) ItemTypes.Add(item.Type);
             }
         }
         private void ComputeItemForms()
@@ -91,7 +91,7 @@ namespace Calculator.Databases.Models
             FactoryTypes = new List<string>();
             foreach (Factory factory in Factories)
             {
-                if (!FactoryTypes.Contains(factory.ItemType)) FactoryTypes.Add(factory.ItemType);
+                if (!FactoryTypes.Contains(factory.Type)) FactoryTypes.Add(factory.Type);
             }
         }
         private void ComputeCost()
@@ -109,13 +109,13 @@ namespace Calculator.Databases.Models
         {
             var itemCost = new ItemCost(item);
             if (itemCosts.ContainsKey(item)) return itemCosts[item];
-            if (item.ItemType == "Resource" || item.Form == "Liquid")
+            if (item.Type == "Resource" || item.Form == "Liquid")
             {
                 itemCost.Add(item, 1);
             }
             else
             {
-                Recipe recipe = SelectRecipeByProduct(item)?.FirstOrDefault(x => !x.Alternate);
+                Recipe recipe = SelectRecipeByProduct(item)?.FirstOrDefault(x => x.Tier <= 0);
                 if (recipe != null)
                 {
                     var product = recipe.Products.FirstOrDefault();
@@ -155,8 +155,8 @@ namespace Calculator.Databases.Models
                 foreach (Amount product in recipe.Products)
                 {
                     var whereUsed = ingredient.Item.WhereUsed;
-                    if ((product.Item.ItemType != "Building"
-                        && product.Item.ItemType != "FICSMAS")
+                    if ((product.Item.Type != "Building"
+                        && product.Item.Type != "FICSMAS")
                         && !whereUsed.Contains(product.Item))
                     {
                         whereUsed.Add(product.Item);

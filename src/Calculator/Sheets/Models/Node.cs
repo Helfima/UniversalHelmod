@@ -21,13 +21,19 @@ namespace Calculator.Sheets.Models
             this.name = recipe.Name;
             this.type = recipe.Type;
             this.icon = recipe.Icon;
-            var factory = recipe.Database.Factories.FirstOrDefault(x => recipe.MadeIn.Contains(x.Name));
+            var factory = recipe.Database.Factories.FirstOrDefault(x => recipe.MadeIn.Contains(x.Item.Name));
             this.Builder = new Builder(factory);
         }
         public void UpdateEffect()
         {
             double overclock = 1 + Builder.PowerShard * 0.5;
-            double consumption = System.Math.Pow(overclock, Builder.Factory.PowerConsumptionExponent);
+            var powerConsumptionExponent = Builder.Factory.Properties.Where(x => x.Name == "PowerConsumptionExponent").FirstOrDefault();
+            double consumption = 1;
+            if (powerConsumptionExponent != null)
+            {
+                var value = System.Convert.ToDouble(powerConsumptionExponent.Value);
+                consumption = System.Math.Pow(overclock, value);
+            }
             effects.Speed = overclock;
             effects.Consumption = consumption;
         }

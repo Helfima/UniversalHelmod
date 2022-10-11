@@ -152,7 +152,6 @@ namespace Calculator.Extractors.Satisfactory.Models
                             result.Index = index;
                             return result;
                         }
-                        break;
                 }
             }
             result.Index = index;

@@ -35,13 +35,13 @@ namespace Calculator.Databases.Models
         {
             get { return factory; }
         }
-        public string ItemType
+        public string Type
         {
-            get { return factory.ItemType; }
+            get { return factory.Type; }
         }
         public BitmapImage Icon
         {
-            get { return factory.Icon; }
+            get { return factory.Item.Icon; }
         }
         public double Speed
         {
@@ -64,13 +64,8 @@ namespace Calculator.Databases.Models
         }
         public string Name
         {
-            get { return factory.Name; }
+            get { return factory.Item.Name; }
         }
-        public string Type
-        {
-            get { return factory.GetType().Name; }
-        }
-
         public Builder Clone(double factor = 1)
         {
             var item = new Builder()

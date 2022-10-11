@@ -30,7 +30,10 @@ namespace Calculator
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            if(WorkspacesModel.Intance.Current == null)
+            {
+                MenuWorkspace_Click(sender, e);
+            }
         }
         private void MenuItemExit_Click(object sender, RoutedEventArgs e)
         {

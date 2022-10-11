@@ -130,10 +130,10 @@ namespace Calculator.Extractors.Satisfactory.Models
                             case "Class'/Script/FactoryGame.FGGasMask'":
                                 break;
                             case "Class'/Script/FactoryGame.FGBuildableManufacturer'":
-                                FGDatabase.instance.AddManufacturer(classe);
+                                FGDatabase.instance.AddFactory(classe, "Factory");
                                 break;
                             case "Class'/Script/FactoryGame.FGBuildableResourceExtractor'":
-                                FGDatabase.instance.AddExtractor(classe);
+                                FGDatabase.instance.AddFactory(classe, "Extractor");
                                 break;
                             case "Class'/Script/FactoryGame.FGPortableMinerDispenser'":
                                 break;
@@ -142,7 +142,7 @@ namespace Calculator.Extractors.Satisfactory.Models
                             case "Class'/Script/FactoryGame.FGBuildable'":
                                 break;
                             case "Class'/Script/FactoryGame.FGBuildableGeneratorFuel'":
-                                FGDatabase.instance.AddGenerator(classe);
+                                FGDatabase.instance.AddFactory(classe, "Generator");
                                 break;
                             case "Class'/Script/FactoryGame.FGBuildableSpaceElevator'":
                                 break;
@@ -167,7 +167,7 @@ namespace Calculator.Extractors.Satisfactory.Models
                             case "Class'/Script/FactoryGame.FGBuildablePipeReservoir'":
                                 break;
                             case "Class'/Script/FactoryGame.FGBuildableWaterPump'":
-                                FGDatabase.instance.AddExtractor(classe);
+                                FGDatabase.instance.AddFactory(classe, "Extractor");
                                 break;
                             case "Class'/Script/FactoryGame.FGBuildableResourceSink'":
                                 break;
@@ -176,16 +176,16 @@ namespace Calculator.Extractors.Satisfactory.Models
                             case "Class'/Script/FactoryGame.FGBuildableDroneStation'":
                                 break;
                             case "Class'/Script/FactoryGame.FGBuildableFrackingExtractor'":
-                                FGDatabase.instance.AddExtractor(classe);
+                                FGDatabase.instance.AddFactory(classe, "Extractor");
                                 break;
                             case "Class'/Script/FactoryGame.FGBuildableFrackingActivator'":
-                                FGDatabase.instance.AddExtractor(classe);
+                                FGDatabase.instance.AddFactory(classe, "Extractor");
                                 break;
                             case "Class'/Script/FactoryGame.FGBuildableManufacturerVariablePower'":
-                                FGDatabase.instance.AddManufacturer(classe);
+                                FGDatabase.instance.AddFactory(classe, "Factory");
                                 break;
                             case "Class'/Script/FactoryGame.FGBuildableGeneratorNuclear'":
-                                FGDatabase.instance.AddGenerator(classe);
+                                FGDatabase.instance.AddFactory(classe, "Generator");
                                 break;
                             case "Class'/Script/FactoryGame.FGBuildableConveyorLift'":
                                 break;
@@ -230,7 +230,7 @@ namespace Calculator.Extractors.Satisfactory.Models
                             case "Class'/Script/FactoryGame.FGBuildableCircuitSwitch'":
                                 break;
                             case "Class'/Script/FactoryGame.FGBuildableGeneratorGeoThermal'":
-                                FGDatabase.instance.AddGenerator(classe);
+                                FGDatabase.instance.AddFactory(classe, "Generator");
                                 break;
                             case "Class'/Script/FactoryGame.FGParachute'":
                                 break;
@@ -312,72 +312,22 @@ namespace Calculator.Extractors.Satisfactory.Models
         private void AddItem(JsonElement classe, string itemType)
         {
             var element = new FGItem(classe);
-            element.ItemType = itemType;
+            element.Type = itemType;
             instance.Items.Add(element);
         }
-        private void AddManufacturer(JsonElement classe)
+        private void AddFactory(JsonElement classe, string type)
         {
             string classname = classe.GetStringValue("ClassName");
             string itemName = classname.Replace("Build", "Desc");
             var item = Items.FirstOrDefault(x => x.ClassName == itemName);
             if (item != null)
             {
-                item.ItemType = "Factory";
-                item.DisplayName = classe.GetStringValue("mDisplayName");
-                item.Description = classe.GetStringValue("mDescription");
-                var element = item.Clone<FGFactory>();
-                element.ClassName = classname;
-                element.Speed = classe.GetDoubleValue("mManufacturingSpeed");
-                element.PowerConsumption = classe.GetDoubleValue("mPowerConsumption");
-                element.PowerConsumptionExponent = classe.GetDoubleValue("mPowerConsumptionExponent");
+                var element = new FGFactory(item, type, classe);
                 instance.Factories.Add(element);
             }
 
         }
-        private void AddExtractor(JsonElement classe)
-        {
-            string classname = classe.GetStringValue("ClassName");
-            string itemName = classname.Replace("Build", "Desc");
-            var item = Items.FirstOrDefault(x => x.ClassName == itemName);
-            if (item != null)
-            {
-                item.ItemType = "Extractor";
-                item.DisplayName = classe.GetStringValue("mDisplayName");
-                item.Description = classe.GetStringValue("mDescription");
-                var element = item.Clone<FGExtractor>();
-                element.ClassName = classname;
-                element.Speed = classe.GetDoubleValue("mManufacturingSpeed");
-                element.PowerConsumption = classe.GetDoubleValue("mPowerConsumption");
-                element.PowerConsumptionExponent = classe.GetDoubleValue("mPowerConsumptionExponent");
-                // specifique extractor
-                element.AllowedResourceForms = classe.GetArrayValue("mAllowedResourceForms");
-                element.AllowedResources = classe.GetArrayValue("mAllowedResources");
-                element.ExtractCycleTime = classe.GetDoubleValue("mExtractCycleTime");
-                element.ItemsPerCycle = classe.GetDoubleValue("mItemsPerCycle");
-                instance.Factories.Add(element);
-            }
-
-        }
-        private void AddGenerator(JsonElement classe)
-        {
-            string classname = classe.GetStringValue("ClassName");
-            string itemName = classname.Replace("Build", "Desc");
-            var item = Items.FirstOrDefault(x => x.ClassName == itemName);
-            if (item != null)
-            {
-                item.ItemType = "Generator";
-                item.DisplayName = classe.GetStringValue("mDisplayName");
-                item.Description = classe.GetStringValue("mDescription");
-                var element = item.Clone<FGGenerator>();
-                element.ClassName = classname;
-                element.Speed = classe.GetDoubleValue("mManufacturingSpeed");
-                element.PowerConsumption = classe.GetDoubleValue("mPowerConsumption");
-                element.PowerConsumptionExponent = classe.GetDoubleValue("mPowerConsumptionExponent");
-                element.PowerProduction = classe.GetDoubleValue("mPowerProduction");
-                element.PowerProductionExponent = classe.GetDoubleValue("mPowerProductionExponent");
-                instance.Factories.Add(element);
-            }
-        }
+        
         private void AddRecipe(JsonElement classe)
         {
             var element = new FGRecipe(classe);

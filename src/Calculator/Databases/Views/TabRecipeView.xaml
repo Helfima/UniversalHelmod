@@ -1,0 +1,214 @@
+﻿<UserControl x:Class="Calculator.Databases.Views.TabRecipeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Calculator.Databases.Views"
+             xmlns:p="clr-namespace:Calculator.Properties"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Views/GlobalView.xaml" />
+                <ResourceDictionary>
+
+                    <DataTemplate x:Key="CountCellTemplate">
+                        <TextBox Text="{Binding Count}" Width="100" />
+                    </DataTemplate>
+
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ItemsControl Grid.Row="0" Grid.ColumnSpan="2" ItemsSource="{Binding ItemTypes}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <RadioButton GroupName="ElementFilter" Checked="ElementFilter_Checked" Content="{Binding}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <Label Content="{x:Static p:Localization.InformationQuantity}" />
+            <Label Content="{Binding Recipes.Count}" />
+        </StackPanel>
+
+        <ListView x:Name="ListViewItems" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding Recipes}" HorizontalAlignment="Stretch" SelectionChanged="ListViewElements_SelectionChanged">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="{StaticResource ColumnNumber}" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" Width="100" ToolTip="{StaticResource RecipeToolTip}" ToolTipService.ShowDuration="100000">
+                        <Image Source="{Binding Icon}" VerticalAlignment="Top" Height="80" Width="80" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Grid Grid.Row="2" Grid.Column="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <Button x:Name="NewElement" Style="{StaticResource ButtonStyle}" Click="NewElement_Click">
+                        <Image Source="/Images/Create_16x.png" />
+                    </Button>
+                    <Button x:Name="EraserElement" Style="{StaticResource ButtonStyle}" Click="EraserElement_Click">
+                        <Image Source="/Images/Eraser_16x.png" />
+                    </Button>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button x:Name="SaveElement" Style="{StaticResource ButtonStyle}" Click="SaveElement_Click">
+                        <Image Source="/Images/Save_16x.png" />
+                    </Button>
+                    <Button x:Name="DeleteElement" Style="{StaticResource ButtonStyle}" Click="DeleteElement_Click">
+                        <Image Source="/Images/Trash_16x.png"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <GroupBox Grid.Row="0" Margin="3" Header="{x:Static p:Localization.StandardProperties}">
+                    <Grid Margin="3" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{x:Static p:Localization.Name}" Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <TextBox x:Name="ElementName" Grid.Row="0" Grid.Column="1" Text="{Binding SelectedRecipe.Name}" Style="{StaticResource TextBoxPropertyStyle}"/>
+
+                        <TextBlock Text="{x:Static p:Localization.DisplayName}" Grid.Row="1" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <TextBox x:Name="ElementDisplayName" Grid.Row="1" Grid.Column="1" Text="{Binding SelectedRecipe.DisplayName}" Style="{StaticResource TextBoxPropertyStyle}"/>
+
+                        <TextBlock Text="{x:Static p:Localization.Description}" Grid.Row="2" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <TextBox x:Name="ElementDescription" Grid.Row="2" Grid.Column="1" Text="{Binding SelectedRecipe.Description}" Style="{StaticResource TextBoxPropertyStyle}"/>
+
+                        <TextBlock Text="{x:Static p:Localization.Energy}" Grid.Row="3" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <TextBox x:Name="ElementEnergy" Grid.Row="3" Grid.Column="1" Text="{Binding SelectedRecipe.Energy}" Style="{StaticResource TextBoxPropertyStyle}"/>
+
+                        <TextBlock Text="{x:Static p:Localization.Tier}" Grid.Row="4" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <TextBox x:Name="ElementTier" Grid.Row="4" Grid.Column="1" Text="{Binding SelectedRecipe.Tier}" Style="{StaticResource TextBoxPropertyStyle}"/>
+
+                        <TextBlock Margin="1" Text="Icon Path" Grid.Row="7" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <Grid Grid.Row="7" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" x:Name="ElementIconPath" Text="{Binding SelectedRecipe.IconPath}" Style="{StaticResource TextBoxPropertyStyle}"/>
+                            <Button Grid.Column="1" x:Name="SelectElementIconPath" Content="{x:Static p:Localization.Select}" Click="SelecElementIconPath_Click" Style="{StaticResource ButtonPropertyStyle}"/>
+                        </Grid>
+
+                        <Image Grid.Row="8" Grid.Column="1" Source="{Binding SelectedRecipe.Icon}" Width="128" Height="128" />
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Grid.Row="1" Margin="1" Header="{x:Static p:Localization.Products}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" Margin="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Grid.Column="0" Margin="3" x:Name="ProductSelector" MinHeight="36" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource AmountCellTemplate}" />
+                            <TextBox Grid.Column="1" Margin="3" x:Name="ProductAmount" Height="20" />
+                            <Button Grid.Column="2" x:Name="AddProduct" Click="AddProduct_Click" Style="{StaticResource ButtonIconStyle}">
+                                <Image Source="/Images/Add_16x.png" Stretch="Fill" />
+                            </Button>
+                        </Grid>
+
+                        <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedRecipe.Products}" ScrollViewer.CanContentScroll="True">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="{x:Static p:Localization.Element}" Width="200" CellTemplate="{StaticResource AmountCellTemplate}" />
+                                    <GridViewColumn Header="{x:Static p:Localization.Quantity}" Width="150"  CellTemplate="{StaticResource CountCellTemplate}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Grid.Row="2" Margin="1" Header="{x:Static p:Localization.Ingredients}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" Margin="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Grid.Column="0" Margin="3" x:Name="IngredientSelector" MinHeight="36" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource AmountCellTemplate}" />
+                            <TextBox Grid.Column="1" Margin="3" x:Name="IngredientAmount" Height="20" />
+                            <Button Grid.Column="2" x:Name="AddIngredient" Click="AddIngredient_Click" Style="{StaticResource ButtonIconStyle}">
+                                <Image Source="/Images/Add_16x.png" Stretch="Fill" />
+                            </Button>
+                        </Grid>
+                        
+                        <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedRecipe.Ingredients}" ScrollViewer.CanContentScroll="True">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="{x:Static p:Localization.Element}" Width="200" CellTemplate="{StaticResource AmountCellTemplate}" />
+                                    <GridViewColumn Header="{x:Static p:Localization.Quantity}" Width="150" CellTemplate="{StaticResource CountCellTemplate}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                    
+                </GroupBox>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

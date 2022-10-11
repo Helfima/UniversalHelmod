@@ -50,7 +50,7 @@ namespace Calculator.Databases.Models
                 Name = this.Name,
                 DisplayName = this.DisplayName,
                 Description = this.Description,
-                ItemType = this.ItemType,
+                Type = this.Type,
                 IconPath = this.IconPath,
                 StackSize = this.StackSize,
                 EnergyValue = this.EnergyValue,

@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\Add_16x.png" />
     <None Remove="Images\Create_16x.png" />
     <None Remove="Images\Eclair.png" />
     <None Remove="Images\Eraser_16x.png" />
@@ -31,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\Add_16x.png" />
     <Resource Include="Images\Create_16x.png" />
     <Resource Include="Images\Eclair.png" />
     <Resource Include="Images\Eraser_16x.png" />

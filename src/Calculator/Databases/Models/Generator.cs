@@ -6,7 +6,5 @@ namespace Calculator.Databases.Models
 {
     public class Generator : Factory
     {
-        public double PowerProduction { get; set; }
-        public double PowerProductionExponent { get; set; }
     }
 }

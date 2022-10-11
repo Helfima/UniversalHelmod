@@ -117,11 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AllowedResourceForms" xml:space="preserve">
+    <value>Allowed Resource Forms</value>
+  </data>
+  <data name="AllowedResources" xml:space="preserve">
+    <value>Allowed Resources</value>
+  </data>
+  <data name="BaseOnItem" xml:space="preserve">
+    <value>Base On Item</value>
+  </data>
+  <data name="ButtonCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ButtonChange" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="ButtonOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="CustomProperties" xml:space="preserve">
+    <value>Custom Properties</value>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
   <data name="DisplayName" xml:space="preserve">
     <value>Display Name</value>
+  </data>
+  <data name="Element" xml:space="preserve">
+    <value>Element</value>
+  </data>
+  <data name="Energy" xml:space="preserve">
+    <value>Energy</value>
   </data>
   <data name="EnergyValue" xml:space="preserve">
     <value>Energy Value</value>
@@ -129,16 +156,55 @@
   <data name="Form" xml:space="preserve">
     <value>Form</value>
   </data>
+  <data name="InformationQuantity" xml:space="preserve">
+    <value>Quantity:</value>
+  </data>
+  <data name="Ingredients" xml:space="preserve">
+    <value>Ingredients</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="PowerConsumption" xml:space="preserve">
+    <value>Power Consumption</value>
+  </data>
+  <data name="PowerProduction" xml:space="preserve">
+    <value>Power Production</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="SatisfactoryExtractorDetail" xml:space="preserve">
+    <value>L'outil va extraire les informations du dossier du jeu, une command va être exécuté pour les images.</value>
+  </data>
+  <data name="SatisfactoryExtractorTitle" xml:space="preserve">
+    <value>Satisfactory Extractor</value>
+  </data>
+  <data name="SatisfactoryGameFolder" xml:space="preserve">
+    <value>Factory Game Folder:</value>
   </data>
   <data name="Select" xml:space="preserve">
     <value>Select</value>
   </data>
+  <data name="Speed" xml:space="preserve">
+    <value>Speed</value>
+  </data>
   <data name="StackSize" xml:space="preserve">
     <value>Stack Size</value>
   </data>
+  <data name="StandardProperties" xml:space="preserve">
+    <value>Standard Properties</value>
+  </data>
+  <data name="Tier" xml:space="preserve">
+    <value>Tier</value>
+  </data>
   <data name="Type" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
   </data>
 </root>

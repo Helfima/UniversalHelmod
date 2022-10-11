@@ -10,6 +10,8 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Media.Imaging;
+using Calculator.Classes;
+using System.Threading.Tasks;
 
 namespace Calculator.Extractors.Satisfactory.Models
 {
@@ -23,14 +25,21 @@ namespace Calculator.Extractors.Satisfactory.Models
             this.Instance = instance;
         }
 
-        public static void PopulateDatabase(Database instance)
+        public static async Task<Database> PopulateDatabaseAsync()
         {
+            return await Task.Run(() => PopulateDatabase());
+        }
+        public static Database PopulateDatabase()
+        {
+            var instance = new Database();
             var adaptater = new FGAdapater(instance);
             adaptater.Execute();
+            return instance;
         }
 
         private void Execute()
         {
+            SettingsModel.InvokeMessage(this, "Convert Items...");
             Instance.Items = new List<Item>();
             foreach (FGItem proto in Source.Items)
             {
@@ -38,6 +47,7 @@ namespace Calculator.Extractors.Satisfactory.Models
                 Instance.Items.Add(item);
             }
 
+            SettingsModel.InvokeMessage(this, "Convert Factories...");
             Instance.Factories = new List<Factory>();
             foreach (FGFactory proto in Source.Factories)
             {
@@ -45,6 +55,7 @@ namespace Calculator.Extractors.Satisfactory.Models
                 Instance.Factories.Add(item);
             }
 
+            SettingsModel.InvokeMessage(this, "Convert Recipes...");
             Instance.Recipes = new List<Recipe>();
             foreach (FGRecipe proto in Source.Recipes)
             {
@@ -52,7 +63,9 @@ namespace Calculator.Extractors.Satisfactory.Models
                 recipe.ComputeFlow(energy:recipe.Energy);
                 Instance.Recipes.Add(recipe);
             }
+            SettingsModel.InvokeMessage(this, "Instance Prepare...");
             Instance.Prepare();
+            SettingsModel.InvokeMessage(this, "Database ready");
         }
 
         private Item AdaptaterItem(FGItem proto)
@@ -70,13 +83,13 @@ namespace Calculator.Extractors.Satisfactory.Models
                 Description = proto.Description,
                 StackSize = proto.StackSize,
                 EnergyValue = proto.EnergyValue,
-                RadioactiveDecay = proto.RadioactiveDecay,
                 Form = ConvertForm(proto.Form),
-                ResourceSinkPoints = proto.ResourceSinkPoints,
                 IconPath = icon,
-                ItemType = proto.DisplayName.Contains("FICSMAS") || proto.DisplayName.Contains("Candy") || proto.DisplayName.Contains("Snow")
-                ? "FICSMAS" : proto.ItemType
+                Type = proto.DisplayName.Contains("FICSMAS") || proto.DisplayName.Contains("Candy") || proto.DisplayName.Contains("Snow")
+                ? "FICSMAS" : proto.Type
             };
+            item.Properties.Add(new Property("RadioactiveDecay", proto.RadioactiveDecay));
+            item.Properties.Add(new Property("ResourceSinkPoints", proto.ResourceSinkPoints));
             return item;
         }
         private string ConvertForm(object form)
@@ -85,36 +98,43 @@ namespace Calculator.Extractors.Satisfactory.Models
             {
                 case "RF_LIQUID":
                     return "Liquid";
+                case "RF_GAS":
+                    return "Gas";
+                case "RF_HEAT":
+                    return "Heat";
                 default:
                     return "Solid";
             }
         }
         private Factory AdaptaterFactory(FGFactory proto)
         {
-            var icon = GetIcon(proto.PersistentBigIcon);
-            if (icon == null)
+            var item = Instance.Items.Where(x => x.Name == proto.Item.ClassName).FirstOrDefault();
+            item.DisplayName = proto.DisplayName;
+            item.Description = proto.Description;
+            var speed = proto.Speed;
+            var allowedResourceForms = new List<string>();
+            var allowedResources = new List<string>();
+            if (proto.Type == "Extractor")
             {
-                icon = GetIcon(proto.SmallIcon);
-            }
-            if(proto is FGExtractor)
-            {
-                var extractor = proto as FGExtractor;
-                var allowedResourceForms = new List<string>();
-                if (!String.IsNullOrEmpty(extractor.AllowedResourceForms.ToString()))
+                // TODO cycle 0.5s? d'ou le facteur 2
+                speed = 2 * proto.ItemsPerCycle / proto.ExtractCycleTime;
+                if (Double.IsNaN(speed)) speed = 1;
+                if (speed > 1000) speed /= 1000;
+
+                if (!String.IsNullOrEmpty(proto.AllowedResourceForms.ToString()))
                 {
-                    var resourceForms = extractor.AllowedResourceForms as List<object>;
+                    var resourceForms = proto.AllowedResourceForms as List<object>;
                     if (resourceForms != null)
                     {
-                        foreach(object resourceForm in resourceForms)
+                        foreach (object resourceForm in resourceForms)
                         {
                             allowedResourceForms.Add(ConvertForm(resourceForm));
                         }
                     }
                 }
-                var allowedResources = new List<string>();
-                if (extractor.AllowedResources != null)
+                if (proto.AllowedResources != null)
                 {
-                    var resources = extractor.AllowedResources as List<object>;
+                    var resources = proto.AllowedResources as List<object>;
                     if (resources != null)
                     {
                         foreach (object resource in resources)
@@ -130,62 +150,20 @@ namespace Calculator.Extractors.Satisfactory.Models
                         }
                     }
                 }
-                // TODO cycle 0.5s? d'ou le facteur 2
-                var speed = 2 * extractor.ItemsPerCycle / extractor.ExtractCycleTime;
-                if (Double.IsNaN(speed)) speed = 1;
-                if (speed > 1000) speed /= 1000;
-                Extractor item = new Extractor()
-                {
-                    Database = Instance,
-                    Name = proto.ClassName,
-                    DisplayName = proto.DisplayName,
-                    Description = proto.Description,
-                    IconPath = icon,
-                    ItemType = proto.ItemType,
-                    Speed = speed,
-                    PowerConsumption = proto.PowerConsumption,
-                    PowerConsumptionExponent = proto.PowerConsumptionExponent,
-                    AllowedResourceForms = allowedResourceForms,
-                    AllowedResources = allowedResources
-                };
-                return item;
             }
-            else if (proto is FGGenerator)
+            Factory factory = new Factory()
             {
-                var generator = proto as FGGenerator;
-                Generator item = new Generator()
-                {
-                    Database = Instance,
-                    Name = proto.ClassName,
-                    DisplayName = proto.DisplayName,
-                    Description = proto.Description,
-                    IconPath = icon,
-                    ItemType = proto.ItemType,
-                    Speed = proto.Speed,
-                    PowerConsumption = proto.PowerConsumption,
-                    PowerConsumptionExponent = proto.PowerConsumptionExponent,
-                    PowerProduction = generator.PowerProduction,
-                    PowerProductionExponent = generator.PowerProductionExponent
-                };
-                return item;
-            }
-            else
-            {
-                Factory item = new Factory()
-                {
-                    Database = Instance,
-                    Name = proto.ClassName,
-                    DisplayName = proto.DisplayName,
-                    Description = proto.Description,
-                    IconPath = icon,
-                    ItemType = proto.ItemType,
-                    Speed = proto.Speed,
-                    PowerConsumption = proto.PowerConsumption,
-                    PowerConsumptionExponent = proto.PowerConsumptionExponent
-                };
-                return item;
-            }
-            
+                Item = item,
+                Type = proto.Type,
+                Speed = speed,
+                PowerConsumption = proto.PowerConsumption,
+                PowerProduction = proto.PowerProduction,
+                AllowedResourceForms = allowedResourceForms,
+                AllowedResources = allowedResources
+            };
+            factory.Properties.Add(new Property("PowerProductionExponent", proto.PowerProductionExponent));
+            factory.Properties.Add(new Property("PowerConsumptionExponent", proto.PowerConsumptionExponent));
+            return factory;
         }
         private Recipe AdaptaterRecipe(FGRecipe proto)
         {
@@ -216,7 +194,7 @@ namespace Calculator.Extractors.Satisfactory.Models
                             }).ToList();
                         foreach(var factory in factories)
                         {
-                            madeIn.Add(factory.Name);
+                            madeIn.Add(factory.Item.Name);
                         }
                     }
                     else
@@ -237,7 +215,7 @@ namespace Calculator.Extractors.Satisfactory.Models
                 Products = products,
                 IconPath = iconPath,
                 Icon = icon,
-                Alternate = alternate
+                Tier = alternate ? 1 : 0
             };
             return recipe;
         }

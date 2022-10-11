@@ -18,14 +18,47 @@
     <Style x:Key="TextBlockBoldStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockStyle}">
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
-    <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="Margin" Value="3,0,3,0" />
+    <Style x:Key="TextBlockPropertyStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="Margin" Value="1" />
     </Style>
+    <Style x:Key="ComboBoxPropertyStyle" TargetType="{x:Type ComboBox}">
+        <Setter Property="Margin" Value="1" />
+    </Style>
+    <Style x:Key="TextBoxPropertyStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="Margin" Value="1" />
+    </Style>
+    
+
     <sys:Double x:Key="IconSize">60</sys:Double>
+    <sys:Double x:Key="SmallIconSize">20</sys:Double>
+    <sys:Double x:Key="AmountIconSize">32</sys:Double>
     <sys:Double x:Key="IconPowerSize">20</sys:Double>
+
+    <sys:Int32 x:Key="ColumnNumber">8</sys:Int32>
+
+    <SolidColorBrush x:Key="BrushButtonBackground">WhiteSmoke</SolidColorBrush>
     <SolidColorBrush x:Key="BrushProductDefault">LightBlue</SolidColorBrush>
     <SolidColorBrush x:Key="BrushIngredientDefault">#FFE77C</SolidColorBrush>
-
+    
+    <!-- ***** Button Style ***** -->
+    <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Margin" Value="3,0,3,0" />
+        <Setter Property="Background" Value="WhiteSmoke" />
+    </Style>
+    <Style x:Key="ButtonPropertyStyle" TargetType="{x:Type Button}">
+        <Setter Property="Margin" Value="1" />
+    </Style>
+    <Style x:Key="ButtonIconStyle" TargetType="{x:Type Button}">
+        <Setter Property="Margin" Value="1" />
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Height" Value="20" />
+    </Style>
+    
+    <!-- ***** Images ***** -->
+    <Style x:Key="AmountImageStyle" TargetType="{x:Type Image}">
+        <Setter Property="Width" Value="{StaticResource AmountIconSize}" />
+        <Setter Property="Height" Value="{StaticResource AmountIconSize}" />
+    </Style>
     <!-- ***** Concerter ***** -->
     <local:RoundNumberConverter x:Key="roundNumberConverter" />
     <local:MarginConverter x:Key="marginConverter" />
@@ -101,25 +134,6 @@
 
                     </ListView>
                 </GroupBox>
-                <GroupBox Header="Cost">
-                    <ListView ItemsSource="{Binding RecipeCost.Cost}" HorizontalAlignment="Stretch">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Width="200">
-                                    <Image Source="{Binding Key.Icon}" Height="30" Width="30" />
-                                    <TextBlock Style="{StaticResource TextBlockBoldStyle}">
-                                        <TextBlock.Text>
-                                            <MultiBinding StringFormat="x {0:N3} {1}">
-                                                <Binding Path="Value"/>
-                                                <Binding Path="Key.DisplayName"/>
-                                            </MultiBinding>
-                                        </TextBlock.Text>
-                                    </TextBlock>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </GroupBox>
             </StackPanel>
         </Grid>
     </DataTemplate>
@@ -133,23 +147,21 @@
         <StackPanel DataContext="{Binding Item}" Orientation="Vertical" Margin="1">
             <Image Source="{Binding Icon}" VerticalAlignment="Top" Height="80" Width="80" />
             <Label Content="{Binding DisplayName}" Style="{StaticResource LabelBoldStyle}" Width="200"/>
-            <StackPanel Orientation="Horizontal" Margin="1">
-                <Label Content="Sink Points:" Style="{StaticResource LabelBoldStyle}"/>
-                <Label Content="{Binding ResourceSinkPoints}" Style="{StaticResource LabelBoldStyle}"/>
-            </StackPanel>
+            <ListView ItemsSource="{Binding Properties}" HorizontalAlignment="Stretch">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0}:{1}">
+                                    <Binding Path="Name"/>
+                                    <Binding Path="Value"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
             <TextBlock Text="{Binding Description}" Style="{StaticResource TextBlockBoldStyle}" Width="200" TextWrapping="Wrap"/>
-            <GroupBox Header="Cost">
-                <ListView ItemsSource="{Binding ItemCost.Cost}" HorizontalAlignment="Stretch">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Width="200">
-                                <Image Source="{Binding Key.Icon}" Height="30" Width="30" />
-                                <Label Content="{Binding Value}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </GroupBox>
             <GroupBox Header="Where Use">
                 <ListView ItemsSource="{Binding WhereUsed}" HorizontalAlignment="Stretch">
                     <ListView.ItemTemplate>
@@ -164,32 +176,36 @@
             </GroupBox>
         </StackPanel>
     </ToolTip>
+    
     <ToolTip x:Key="ItemToolTip">
-        <StackPanel Orientation="Vertical" Margin="1">
+        <StackPanel Orientation="Vertical" Margin="1" MaxWidth="300">
             <Image Source="{Binding Icon}" VerticalAlignment="Top" Height="80" Width="80" />
             <Label Content="{Binding DisplayName}" Style="{StaticResource LabelBoldStyle}"/>
-            <StackPanel Orientation="Horizontal" Margin="1">
-                <Label Content="Sink Points:" Style="{StaticResource LabelBoldStyle}"/>
-                <Label Content="{Binding ResourceSinkPoints}" Style="{StaticResource LabelBoldStyle}"/>
-            </StackPanel>
-            <TextBlock Text="{Binding Description}" Style="{StaticResource TextBlockBoldStyle}" Width="200" TextWrapping="Wrap"/>
-            <GroupBox Header="Cost">
-                <ListView ItemsSource="{Binding ItemCost.Cost}" HorizontalAlignment="Stretch">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Width="200">
-                                <Image Source="{Binding Key.Icon}" Height="30" Width="30" />
-                                <Label Content="{Binding Value}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </GroupBox>
+            <ItemsControl ItemsSource="{Binding Properties}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource TextBlockBoldStyle}">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0}:{1}">
+                                    <Binding Path="Name"/>
+                                    <Binding Path="Value"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBlock Text="{Binding Description}" Style="{StaticResource TextBlockStyle}" TextWrapping="Wrap"/>
             <GroupBox Header="Where Use">
                 <ListView ItemsSource="{Binding WhereUsed}" HorizontalAlignment="Stretch">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Width="200">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                                 <Image Source="{Binding Icon}" Height="30" Width="30" />
                                 <Label Content="{Binding DisplayName}" />
                             </StackPanel>
@@ -206,12 +222,41 @@
             <Image Source="{Binding Icon}" VerticalAlignment="Top" Height="80" Width="80" />
             <TextBlock Text="{Binding Speed, StringFormat={}Speed: {0}}" Style="{StaticResource TextBlockBoldStyle}"/>
             <TextBlock Text="{Binding PowerConsumption, StringFormat={}PowerConsumption: {0}}" Style="{StaticResource TextBlockBoldStyle}"/>
-            <TextBlock Text="{Binding PowerConsumptionExponent, StringFormat={}PowerConsumptionExponent: {0}}" Style="{StaticResource TextBlockBoldStyle}"/>
             <TextBlock Text="{Binding PowerProduction, StringFormat={}PowerProduction: {0}}" Style="{StaticResource TextBlockBoldStyle}"/>
-            <TextBlock Text="{Binding PowerProductionExponent, StringFormat={}PowerProductionExponent: {0}}" Style="{StaticResource TextBlockBoldStyle}"/>
             <TextBlock Text="{Binding AllowedResourceForms, StringFormat={}AllowedResourceForms: {0}}" Style="{StaticResource TextBlockBoldStyle}"/>
+            <ItemsControl ItemsSource="{Binding AllowedResourceForms}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" Style="{StaticResource TextBlockBoldStyle}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
             <TextBlock Text="{Binding AllowedResources, StringFormat={}AllowedResources: {0}}" Style="{StaticResource TextBlockBoldStyle}"/>
-            <TextBlock Text="{Binding Description}" Style="{StaticResource TextBlockBoldStyle}" Width="200" TextWrapping="Wrap"/>
+            <ItemsControl ItemsSource="{Binding Properties}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Style="{StaticResource TextBlockBoldStyle}">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0}:{1}">
+                                    <Binding Path="Name"/>
+                                    <Binding Path="Value"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBlock Text="{Binding Description}" Style="{StaticResource TextBlockStyle}" Width="200" TextWrapping="Wrap"/>
         </StackPanel>
     </ToolTip>
     <!-- ***** Cells ***** -->
@@ -270,4 +315,12 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
     </DataTemplate>
+
+    <DataTemplate x:Key="AmountCellTemplate">
+        <StackPanel Orientation="Horizontal">
+            <Image Source="{Binding Icon}" Style="{StaticResource AmountImageStyle}" />
+            <TextBlock Text="{Binding DisplayName}" />
+        </StackPanel>
+    </DataTemplate>
+
 </ResourceDictionary>

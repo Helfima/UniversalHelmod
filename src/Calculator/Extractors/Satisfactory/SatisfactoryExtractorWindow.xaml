@@ -5,12 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:Calculator.Extractors.Satisfactory"
+        xmlns:p="clr-namespace:Calculator.Properties"
         mc:Ignorable="d"
-        Title="SatisfactoryExtractorWindow" Height="170" Width="800" Loaded="Window_Loaded">
+        Title="{x:Static p:Localization.SatisfactoryExtractorTitle}" Height="170" Width="800" Loaded="Window_Loaded">
     <Window.Resources>
-        <sys:String x:Key="Explaination" xml:space="preserve">Pour que l'outil fonctionne correctement il faut extraire les images des icones:
-    Sélectionner le dossier du jeu Satisfactory
-    Puis cliquer sur Extract Images</sys:String>
+        <ResourceDictionary Source="../../Views/GlobalView.xaml" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -18,18 +17,39 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" HorizontalAlignment="Left" Margin="5" Text="{StaticResource Explaination}" TextWrapping="Wrap" Width="auto"/>
-        <StackPanel Grid.Row="1" Orientation="Vertical" Margin="5">
-            <StackPanel Orientation="Horizontal">
-                <Label Content="Factory Game Folder:"/>
-                <TextBox Name="PathGame" Text="{Binding Path}" TextWrapping="NoWrap" Width="450" Height="20"/>
-                <Button Content="Change" Click="ButtonDirectory_Click"/>
+
+        <Grid Grid.Row="0" Margin="3">
+            <TextBlock HorizontalAlignment="Left" Text="{x:Static p:Localization.SatisfactoryExtractorDetail}" TextWrapping="Wrap" Width="auto"/>
+        </Grid>
+        
+        <Grid Grid.Row="1" Margin="3">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="{x:Static p:Localization.SatisfactoryGameFolder}"/>
+                    <TextBox x:Name="PathGame" Text="{Binding Path}" TextWrapping="NoWrap" Width="450" Height="20"/>
+                    <Button Content="{x:Static p:Localization.ButtonChange}" Style="{StaticResource ButtonStyle}" Click="ButtonDirectory_Click"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="{x:Static p:Localization.SatisfactoryGameFolder}"/>
+                    <CheckBox x:Name="ItemWithGun" IsChecked="{Binding IsItemWithGun}" />
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5" HorizontalAlignment="Right">
-            <Button Content="OK" Click="ButtonOK_Click"/>
-            <Button Content="Cancel" Click="ButtonCancel_Click"/>
-        </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="3">
+                <TextBlock Text="{Binding Message}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="3">
+                <Button Content="{x:Static p:Localization.ButtonOK}" Style="{StaticResource ButtonStyle}" Click="ButtonOK_Click"/>
+                <Button Content="{x:Static p:Localization.ButtonCancel}" Style="{StaticResource ButtonStyle}" Click="ButtonCancel_Click"/>
+            </StackPanel>
+        </Grid>
 
     </Grid>
 </Window>

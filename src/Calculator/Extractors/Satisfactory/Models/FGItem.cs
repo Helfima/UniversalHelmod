@@ -10,23 +10,27 @@ namespace Calculator.Extractors.Satisfactory.Models
 {
     public class FGItem : FGElement
     {
-        public string DisplayName;
-        public string Description;
-        public string AbbreviatedDisplayName;
-        public int StackSize;
-        public bool CanBeDiscarded;
-        public bool RememberPickUp;
-        public double EnergyValue;
-        public double RadioactiveDecay;
-        public string Form;
-        public string SmallIcon;
-        public string PersistentBigIcon;
-        public string SubCategories;
-        public double MenuPriority;
-        public string FluidColor;
-        public string GasColor;
-        public int ResourceSinkPoints;
-        public double BuildMenuPriority;
+        public string DisplayName { get; set; }
+        public string Description { get; set; }
+        public string AbbreviatedDisplayName { get; set; }
+        public int StackSize { get; set; }
+        public bool CanBeDiscarded { get; set; }
+        public bool RememberPickUp { get; set; }
+        public double EnergyValue { get; set; }
+        public double RadioactiveDecay { get; set; }
+        public string Form { get; set; }
+        public string SmallIcon { get; set; }
+        public string PersistentBigIcon { get; set; }
+        public string SubCategories { get; set; }
+        public double MenuPriority { get; set; }
+        public string FluidColor { get; set; }
+        public string GasColor { get; set; }
+        public int ResourceSinkPoints { get; set; }
+        public double BuildMenuPriority { get; set; }
+        public double Count { get; set; }
+        public BitmapImage Icon { get; set; }
+        public string Type { get; set; } = "Item";
+
         public FGItem(){}
         public FGItem(JsonElement element): base(element)
         {
@@ -71,9 +75,6 @@ namespace Calculator.Extractors.Satisfactory.Models
             }
         }
 
-        public double Count { get; set; }
-        public BitmapImage Icon { get; set; }
-        public string ItemType = "Item";
         public T Clone<T>() where T : FGItem, new()
         {
             return new T()
@@ -98,7 +99,7 @@ namespace Calculator.Extractors.Satisfactory.Models
                 BuildMenuPriority = this.BuildMenuPriority,
                 Count = this.Count,
                 Icon = this.Icon,
-                ItemType = this.ItemType
+                Type = this.Type
             };
         }
     }

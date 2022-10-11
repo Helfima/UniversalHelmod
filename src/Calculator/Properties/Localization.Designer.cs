@@ -61,6 +61,69 @@ namespace Calculator.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Allowed Resource Forms.
+        /// </summary>
+        public static string AllowedResourceForms {
+            get {
+                return ResourceManager.GetString("AllowedResourceForms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Allowed Resources.
+        /// </summary>
+        public static string AllowedResources {
+            get {
+                return ResourceManager.GetString("AllowedResources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Base On Item.
+        /// </summary>
+        public static string BaseOnItem {
+            get {
+                return ResourceManager.GetString("BaseOnItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Cancel.
+        /// </summary>
+        public static string ButtonCancel {
+            get {
+                return ResourceManager.GetString("ButtonCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Change.
+        /// </summary>
+        public static string ButtonChange {
+            get {
+                return ResourceManager.GetString("ButtonChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à OK.
+        /// </summary>
+        public static string ButtonOK {
+            get {
+                return ResourceManager.GetString("ButtonOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Custom Properties.
+        /// </summary>
+        public static string CustomProperties {
+            get {
+                return ResourceManager.GetString("CustomProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Description.
         /// </summary>
         public static string Description {
@@ -75,6 +138,24 @@ namespace Calculator.Properties {
         public static string DisplayName {
             get {
                 return ResourceManager.GetString("DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Element.
+        /// </summary>
+        public static string Element {
+            get {
+                return ResourceManager.GetString("Element", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Energy.
+        /// </summary>
+        public static string Energy {
+            get {
+                return ResourceManager.GetString("Energy", resourceCulture);
             }
         }
         
@@ -97,11 +178,92 @@ namespace Calculator.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Quantity:.
+        /// </summary>
+        public static string InformationQuantity {
+            get {
+                return ResourceManager.GetString("InformationQuantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Ingredients.
+        /// </summary>
+        public static string Ingredients {
+            get {
+                return ResourceManager.GetString("Ingredients", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Name.
         /// </summary>
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Power Consumption.
+        /// </summary>
+        public static string PowerConsumption {
+            get {
+                return ResourceManager.GetString("PowerConsumption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Power Production.
+        /// </summary>
+        public static string PowerProduction {
+            get {
+                return ResourceManager.GetString("PowerProduction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Products.
+        /// </summary>
+        public static string Products {
+            get {
+                return ResourceManager.GetString("Products", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Quantity.
+        /// </summary>
+        public static string Quantity {
+            get {
+                return ResourceManager.GetString("Quantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à L&apos;outil va extraire les informations du dossier du jeu, une command va être exécuté pour les images..
+        /// </summary>
+        public static string SatisfactoryExtractorDetail {
+            get {
+                return ResourceManager.GetString("SatisfactoryExtractorDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Satisfactory Extractor.
+        /// </summary>
+        public static string SatisfactoryExtractorTitle {
+            get {
+                return ResourceManager.GetString("SatisfactoryExtractorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Factory Game Folder:.
+        /// </summary>
+        public static string SatisfactoryGameFolder {
+            get {
+                return ResourceManager.GetString("SatisfactoryGameFolder", resourceCulture);
             }
         }
         
@@ -115,6 +277,15 @@ namespace Calculator.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Speed.
+        /// </summary>
+        public static string Speed {
+            get {
+                return ResourceManager.GetString("Speed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Stack Size.
         /// </summary>
         public static string StackSize {
@@ -124,11 +295,38 @@ namespace Calculator.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Standard Properties.
+        /// </summary>
+        public static string StandardProperties {
+            get {
+                return ResourceManager.GetString("StandardProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Tier.
+        /// </summary>
+        public static string Tier {
+            get {
+                return ResourceManager.GetString("Tier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Type.
         /// </summary>
         public static string Type {
             get {
                 return ResourceManager.GetString("Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Value.
+        /// </summary>
+        public static string Value {
+            get {
+                return ResourceManager.GetString("Value", resourceCulture);
             }
         }
     }

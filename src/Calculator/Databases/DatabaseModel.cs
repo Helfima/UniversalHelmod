@@ -25,24 +25,8 @@ namespace Calculator.Databases
             get { return itemForms; }
             set { itemForms = value; NotifyPropertyChanged(); }
         }
-        private ObservableCollection<Item> items;
-        public ObservableCollection<Item> Items
-        {
-            get { return items; }
-            set { items = value; NotifyPropertyChanged(); }
-        }
-        private Item selectedItem = new Item();
-        public Item SelectedItem
-        {
-            get { return selectedItem; }
-            set { selectedItem = value; NotifyPropertyChanged(); NotifyPropertyChanged("CountAlternateRecipe"); }
-        }
-        private ObservableCollection<Factory> factories;
-        public ObservableCollection<Factory> Factories
-        {
-            get { return factories; }
-            set { factories = value; NotifyPropertyChanged(); }
-        }
+        
+        
         private ObservableCollection<string> factoryTypes;
         public ObservableCollection<string> FactoryTypes
         {
@@ -63,17 +47,6 @@ namespace Calculator.Databases
             get { return modules; }
             set { modules = value; NotifyPropertyChanged(); }
         }
-
-        private ObservableCollection<Recipe> recipes;
-        public ObservableCollection<Recipe> Recipes
-        {
-            get { return recipes; }
-            set { recipes = value; NotifyPropertyChanged(); NotifyPropertyChanged("CountAlternateRecipe"); }
-        }
-        public int CountAlternateRecipe
-        {
-            get { return Recipes.Where(x => x.Alternate).Count(); }
-        }
         public bool InitItemFilter { get; } = true;
         public bool InitRecipeFilter { get; } = true;
         public void Prepare()
@@ -92,6 +65,19 @@ namespace Calculator.Databases
             this.Database.Items = this.Items.Select(x => x.Clone()).ToList();
             this.Database.Save();
             this.Database.RefreshInternalList();
+        }
+        #region ==== Item ====
+        private ObservableCollection<Item> items;
+        public ObservableCollection<Item> Items
+        {
+            get { return items; }
+            set { items = value; NotifyPropertyChanged(); }
+        }
+        private Item selectedItem = new Item();
+        public Item SelectedItem
+        {
+            get { return selectedItem; }
+            set { selectedItem = value; NotifyPropertyChanged(); NotifyPropertyChanged("CountAlternateRecipe"); }
         }
         public void SaveItem(Item item)
         {
@@ -131,5 +117,112 @@ namespace Calculator.Databases
                 }
             }
         }
+        #endregion
+
+        #region ==== Factory ====
+        private ObservableCollection<Factory> factories;
+        public ObservableCollection<Factory> Factories
+        {
+            get { return factories; }
+            set { factories = value; NotifyPropertyChanged(); }
+        }
+        private Factory selectedFactory = new Factory();
+        public Factory SelectedFactory
+        {
+            get { return selectedFactory; }
+            set { selectedFactory = value; NotifyPropertyChanged(); NotifyPropertyChanged("CountAlternateRecipe"); }
+        }
+        public void SaveFactory(Factory factory)
+        {
+            var databaseItem = this.Factories.Where(x => x.Item == factory.Item).FirstOrDefault();
+            if (databaseItem == null)
+            {
+                this.Factories.Add(factory);
+            }
+            else
+            {
+                if (this.Factories.Remove(databaseItem))
+                {
+                    this.Factories.Add(factory);
+                }
+            }
+        }
+        public void AddFactory(Factory factory)
+        {
+            var databaseItem = this.Factories.Where(x => x.Item == factory.Item).FirstOrDefault();
+            if (databaseItem == null)
+            {
+                this.Factories.Add(factory);
+            }
+            else
+            {
+                throw new Exception("Already exist!");
+            }
+        }
+        public void DeleteFactory(Factory factory)
+        {
+            var databaseItem = this.Factories.Where(x => x.Item == factory.Item).FirstOrDefault();
+            if (databaseItem != null)
+            {
+                if (this.Factories.Remove(databaseItem))
+                {
+                    this.SelectedFactory = new Factory();
+                }
+            }
+        }
+        #endregion
+
+        #region ==== Recipe ====
+        private ObservableCollection<Recipe> recipes;
+        public ObservableCollection<Recipe> Recipes
+        {
+            get { return recipes; }
+            set { recipes = value; NotifyPropertyChanged(); NotifyPropertyChanged("CountAlternateRecipe"); }
+        }
+        private Recipe selectedRecipe = new Recipe();
+        public Recipe SelectedRecipe
+        {
+            get { return selectedRecipe; }
+            set { selectedRecipe = value; NotifyPropertyChanged(); NotifyPropertyChanged("CountAlternateRecipe"); }
+        }
+        public void SaveRecipe(Recipe recipe)
+        {
+            var databaseItem = this.Recipes.Where(x => x.Name == recipe.Name).FirstOrDefault();
+            if (databaseItem == null)
+            {
+                this.Recipes.Add(recipe);
+            }
+            else
+            {
+                if (this.Recipes.Remove(databaseItem))
+                {
+                    this.Recipes.Add(recipe);
+                }
+            }
+        }
+        public void AddRecipe(Recipe recipe)
+        {
+            var databaseItem = this.Recipes.Where(x => x.Name == recipe.Name).FirstOrDefault();
+            if (databaseItem == null)
+            {
+                this.Recipes.Add(recipe);
+            }
+            else
+            {
+                throw new Exception("Already exist!");
+            }
+        }
+        public void DeleteRecipe(Recipe recipe)
+        {
+            var databaseItem = this.Recipes.Where(x => x.Name == recipe.Name).FirstOrDefault();
+            if (databaseItem != null)
+            {
+                if (this.Recipes.Remove(databaseItem))
+                {
+                    this.SelectedRecipe = new Recipe();
+                }
+            }
+        }
+        #endregion
     }
 }

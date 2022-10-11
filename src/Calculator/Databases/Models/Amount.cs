@@ -28,13 +28,13 @@ namespace Calculator.Databases.Models
         {
             get { return item; }
         }
-        public string ItemType
+        public string Type
         {
-            get { return item.ItemType; }
+            get { return item?.Type; }
         }
         public BitmapImage Icon
         {
-            get { return item.Icon; }
+            get { return item?.Icon; }
         }
         public ItemState State
         {
@@ -59,13 +59,12 @@ namespace Calculator.Databases.Models
         }
         public string Name
         {
-            get { return item.Name; }
+            get { return item?.Name; }
         }
-        public string Type
+        public string DisplayName
         {
-            get { return item.GetType().Name; }
+            get { return item?.DisplayName; }
         }
-
         public Amount Clone(double factor = 1)
         {
             var item = new Amount()

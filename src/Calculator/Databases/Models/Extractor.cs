@@ -7,7 +7,5 @@ namespace Calculator.Databases.Models
 {
     public class Extractor : Factory
     {
-        public List<string> AllowedResourceForms { get; set; }
-        public List<string> AllowedResources { get; set; }
     }
 }

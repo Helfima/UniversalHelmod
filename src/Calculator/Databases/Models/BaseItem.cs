@@ -2,21 +2,17 @@
 using Calculator.Enums;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows.Media.Imaging;
 
 namespace Calculator.Databases.Models
 {
-    public abstract class BaseItem : NotifyProperty
+    public abstract class BaseItem : BaseElement
     {
         public Database Database { get; set; }
 
-        protected string name;
-        public string Name
-        {
-            get { return this.name; }
-            set { this.name = value; NotifyPropertyChanged(); }
-        }
+        
         protected string displayName;
         public string DisplayName
         {
@@ -29,32 +25,17 @@ namespace Calculator.Databases.Models
             get { return this.description; }
             set { this.description = value; NotifyPropertyChanged(); }
         }
-        protected string itemType = "Item";
-        public string ItemType
+        protected string type = "Item";
+        public string Type
         {
-            get { return this.itemType; }
-            set { this.itemType = value; NotifyPropertyChanged(); }
+            get { return this.type; }
+            set { this.type = value; NotifyPropertyChanged(); }
         }
-        protected string iconPath;
-        public string IconPath
+        protected ObservableCollection<Property> properties = new ObservableCollection<Property>();
+        public ObservableCollection<Property> Properties
         {
-            get { return this.iconPath; }
-            set { this.iconPath = value; NotifyPropertyChanged(); }
-        }
-        protected BitmapImage icon;
-        public BitmapImage Icon
-        {
-            get {
-                if (icon == null) this.icon = Utils.GetImage(IconPath);
-                return this.icon;
-            }
-            set { this.icon = value; NotifyPropertyChanged(); }
-        }
-
-        public bool Match(Item other)
-        {
-            if (other == null || this.name == null) return false;
-            return this.name.Equals(other.Name);
+            get { return this.properties; }
+            set { this.properties = value; NotifyPropertyChanged(); }
         }
     }
 }

@@ -68,23 +68,46 @@ namespace Calculator.Workspaces.Models
         }
         public void Load()
         {
-            string pathDatabase = Path.Combine(pathFolder, "database.json");
-            if (File.Exists(pathDatabase))
+            LoadDatabase();
+            LoadDataModel();
+        }
+        private void LoadDatabase()
+        {
+            try
             {
-                Database = DatabaseConverter.ReadJson(pathDatabase);
+                string pathDatabase = Path.Combine(pathFolder, "database.json");
+                if (File.Exists(pathDatabase))
+                {
+                    Database = DatabaseConverter.ReadJson(pathDatabase);
+                }
+                else
+                {
+                    Database = new Database();
+                }
             }
-            else
+            catch(Exception ex)
             {
+                System.Windows.MessageBox.Show(ex.Message);
                 Database = new Database();
             }
-            string pathDataModel = Path.Combine(pathFolder, "data_model.xml");
-            if (File.Exists(pathDataModel))
+        }
+        private void LoadDataModel()
+        {
+            try
             {
-                DataModel = DataModelConverter.ReadXml(Database, pathDataModel);
+                string pathDataModel = Path.Combine(pathFolder, "data_model.xml");
+                if (File.Exists(pathDataModel))
+                {
+                    DataModel = DataModelConverter.ReadXml(Database, pathDataModel);
+                }
+                else
+                {
+                    DataModel = new DataModel(Database);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                DataModel = new DataModel(Database);
+                System.Windows.MessageBox.Show(ex.Message);
             }
         }
         public string SaveImageIntoWorkspace(string path, bool overwrite)

@@ -50,7 +50,7 @@ namespace Calculator.Databases
                 }
                 else
                 {
-                    Model.Factories = Model.Database.Factories.Where(x => x.ItemType == filter).ToObservableCollection();
+                    Model.Factories = Model.Database.Factories.Where(x => x.Type == filter).ToObservableCollection();
                 }
             }
         }

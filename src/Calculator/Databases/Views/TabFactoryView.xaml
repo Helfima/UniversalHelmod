@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="Calculator.Databases.Views.TabItemView"
+﻿<UserControl x:Class="Calculator.Databases.Views.TabFactoryView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Calculator.Databases.Views"
              xmlns:p="clr-namespace:Calculator.Properties"
-             mc:Ignorable="d"
+             mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <ResourceDictionary Source="../../Views/GlobalView.xaml" />
@@ -20,7 +20,7 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ItemsControl Grid.Row="0" Grid.ColumnSpan="2" ItemsSource="{Binding ItemTypes}">
+        <ItemsControl Grid.Row="0" Grid.ColumnSpan="2" ItemsSource="{Binding FactoryTypes}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"/>
@@ -34,10 +34,10 @@
         </ItemsControl>
         <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
             <Label Content="{x:Static p:Localization.InformationQuantity}" />
-            <Label Content="{Binding Items.Count}" />
+            <Label Content="{Binding Factories.Count}" />
         </StackPanel>
 
-        <ListView x:Name="ListViewItems" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding Items}" HorizontalAlignment="Stretch" SelectionChanged="ListViewElements_SelectionChanged">
+        <ListView x:Name="ListViewItems" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding Factories}" HorizontalAlignment="Stretch" SelectionChanged="ListViewElements_SelectionChanged">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="{StaticResource ColumnNumber}" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
@@ -45,8 +45,8 @@
             </ItemsControl.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Vertical" Width="100" ToolTip="{StaticResource ItemToolTip}" ToolTipService.ShowDuration="100000">
-                        <Image Source="{Binding Icon}" VerticalAlignment="Top" Height="80" Width="80" />
+                    <StackPanel Orientation="Vertical" Width="100" ToolTip="{StaticResource FactoryToolTip}" ToolTipService.ShowDuration="100000">
+                        <Image Source="{Binding Item.Icon}" VerticalAlignment="Top" Height="80" Width="80" />
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -86,7 +86,10 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
+                
                 <GroupBox Grid.Row="0" Margin="3" Header="{x:Static p:Localization.StandardProperties}">
                     <Grid Margin="3" >
                         <Grid.RowDefinitions>
@@ -105,48 +108,61 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{x:Static p:Localization.Name}" Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
-                        <TextBox x:Name="ElementName" Grid.Row="0" Grid.Column="1" Text="{Binding SelectedItem.Name}" Style="{StaticResource TextBoxPropertyStyle}"/>
+                        <ComboBox x:Name="ItemSelector" Grid.Row="0" Grid.Column="1" MinHeight="36" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedFactory.Item}"
+                                  ItemTemplate="{StaticResource AmountCellTemplate}" />
 
                         <TextBlock Text="{x:Static p:Localization.DisplayName}" Grid.Row="1" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
-                        <TextBox x:Name="ElementDisplayName" Grid.Row="1" Grid.Column="1" Text="{Binding SelectedItem.DisplayName}" Style="{StaticResource TextBoxPropertyStyle}"/>
+                        <TextBox x:Name="ElementDisplayName" Grid.Row="1" Grid.Column="1" Text="{Binding SelectedFactory.Item.DisplayName}" Style="{StaticResource TextBoxPropertyStyle}"/>
 
                         <TextBlock Text="{x:Static p:Localization.Description}" Grid.Row="2" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
-                        <TextBox x:Name="ElementDescription" Grid.Row="2" Grid.Column="1" Text="{Binding SelectedItem.Description}" Style="{StaticResource TextBoxPropertyStyle}"/>
+                        <TextBox x:Name="ElementDescription" Grid.Row="2" Grid.Column="1" Text="{Binding SelectedFactory.Item.Description}" Style="{StaticResource TextBoxPropertyStyle}"/>
 
                         <TextBlock Text="{x:Static p:Localization.Type}" Grid.Row="3" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
-                        <ComboBox x:Name="ElementType" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ItemTypes}" SelectedItem="{Binding SelectedItem.Type}"
+                        <ComboBox x:Name="ElementType" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding FactoryTypes}" SelectedItem="{Binding SelectedFactory.Type}"
                                   IsEditable="True" KeyUp="ElementType_OnKeyDownHandler" LostFocus="ElementType_LostFocus" Style="{StaticResource ComboBoxPropertyStyle}"/>
 
-                        <TextBlock Text="{x:Static p:Localization.Form}" Grid.Row="4" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
-                        <ComboBox x:Name="ElementForm" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding ItemForms}" SelectedItem="{Binding SelectedItem.Form}"
-                                  IsEditable="True" KeyUp="ElementForm_OnKeyDownHandler" LostFocus="ElementForm_LostFocus" Style="{StaticResource ComboBoxPropertyStyle}"/>
+                        <TextBlock Text="{x:Static p:Localization.Speed}" Grid.Row="4" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <TextBox x:Name="ElementSpeed" Grid.Row="4" Grid.Column="1" Text="{Binding SelectedFactory.Speed}" Style="{StaticResource TextBoxPropertyStyle}"/>
 
-                        <TextBlock Text="{x:Static p:Localization.StackSize}" Grid.Row="5" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
-                        <TextBox x:Name="ElementStackSize" Grid.Row="5" Grid.Column="1" Text="{Binding SelectedItem.StackSize}" Style="{StaticResource TextBoxPropertyStyle}"/>
+                        <TextBlock Text="{x:Static p:Localization.PowerConsumption}" Grid.Row="5" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <TextBox x:Name="ElementPowerConsumption" Grid.Row="5" Grid.Column="1" Text="{Binding SelectedFactory.PowerConsumption}" Style="{StaticResource TextBoxPropertyStyle}"/>
 
-                        <TextBlock Text="{x:Static p:Localization.EnergyValue}" Grid.Row="6" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
-                        <TextBox x:Name="ElementEnergyValue" Grid.Row="6" Grid.Column="1" Text="{Binding SelectedItem.EnergyValue}" Style="{StaticResource TextBoxPropertyStyle}"/>
+                        <TextBlock Text="{x:Static p:Localization.PowerProduction}" Grid.Row="6" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <TextBox x:Name="ElementPowerProduction" Grid.Row="6" Grid.Column="1" Text="{Binding SelectedFactory.PowerProduction}" Style="{StaticResource TextBoxPropertyStyle}"/>
 
-                        <TextBlock Margin="1" Text="Icon Path" Grid.Row="7" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
-                        <Grid Grid.Row="7" Grid.Column="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox Grid.Column="0" x:Name="ElementIconPath" Text="{Binding SelectedItem.IconPath}" Style="{StaticResource TextBoxPropertyStyle}"/>
-                            <Button Grid.Column="1" x:Name="SelectElementIconPath" Content="{x:Static p:Localization.Select}" Click="SelecElementIconPath_Click" Style="{StaticResource ButtonPropertyStyle}"/>
-                        </Grid>
-
-                        <Image Grid.Row="8" Grid.Column="1" Source="{Binding SelectedItem.Icon}" Width="128" Height="128" />
+                        <Image Grid.Row="8" Grid.Column="1" Source="{Binding SelectedFactory.Item.Icon}" Width="128" Height="128" />
                     </Grid>
                 </GroupBox>
-                <GroupBox Grid.Row="1" Margin="1" Header="{x:Static p:Localization.CustomProperties}">
-                    <DataGrid Margin="3" ItemsSource="{Binding SelectedItem.Properties}" AutoGenerateColumns="False" CanUserReorderColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="{x:Static p:Localization.Name}" Binding="{Binding Path=Name}" Width="100" />
-                            <DataGridTextColumn Header="{x:Static p:Localization.Value}" Binding="{Binding Path=Value}" MinWidth="100" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+
+                <GroupBox Grid.Row="1" Margin="1" Header="{x:Static p:Localization.AllowedResourceForms}">
+                    <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedFactory.AllowedResourceForms}" ScrollViewer.CanContentScroll="True">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="{x:Static p:Localization.Value}" Width="200" DisplayMemberBinding="{Binding}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </GroupBox>
+
+                <GroupBox Grid.Row="2" Margin="1" Header="{x:Static p:Localization.AllowedResources}">
+                    <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedFactory.AllowedResources}" ScrollViewer.CanContentScroll="True">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="{x:Static p:Localization.Value}" Width="200" DisplayMemberBinding="{Binding}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </GroupBox>
+
+                <GroupBox Grid.Row="3" Margin="1" Header="{x:Static p:Localization.CustomProperties}">
+                    <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedFactory.Properties}" ScrollViewer.CanContentScroll="True">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="{x:Static p:Localization.Name}" Width="200" DisplayMemberBinding="{Binding Path=Name}" />
+                                <GridViewColumn Header="{x:Static p:Localization.Value}" Width="200" DisplayMemberBinding="{Binding Path=Value}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </GroupBox>
 
             </Grid>

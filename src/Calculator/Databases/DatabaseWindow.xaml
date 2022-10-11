@@ -16,88 +16,14 @@
                 <vs:TabItemView DataContext="{Binding}" />
             </TabItem>
             <TabItem Header="Factories">
-                <Grid Background="#FFE5E5E5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <ItemsControl Grid.Row="0" ItemsSource="{Binding FactoryTypes}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <RadioButton GroupName="FactoryFilter" Checked="FactoryFilter_Checked" Content="{Binding}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Label Content="Quantity:" />
-                        <Label Content="{Binding Factories.Count}" />
-                    </StackPanel>
-                    <ListView Grid.Row="2" ItemsSource="{Binding Factories}" HorizontalAlignment="Stretch">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="10" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Vertical" Width="100" ToolTip="{StaticResource FactoryToolTip}" ToolTipService.ShowDuration="100000">
-                                    <Image Source="{Binding Icon}" VerticalAlignment="Top" Height="80" Width="80" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
+                <vs:TabFactoryView DataContext="{Binding}" />
             </TabItem>
             <TabItem Header="Logistics">
             </TabItem>
             <TabItem Header="Modules">
             </TabItem>
             <TabItem Header="Recipes">
-                <Grid Background="#FFE5E5E5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <ItemsControl Grid.Row="0" ItemsSource="{Binding ItemTypes}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <RadioButton GroupName="RecipeFilter" Checked="RecipeFilter_Checked" Content="{Binding}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Label Content="Quantity:" />
-                        <Label Content="{Binding Recipes.Count}" />
-                        <Label Content="Alternates:" />
-                        <Label Content="{Binding CountAlternateRecipe}" />
-                    </StackPanel>
-                    <ListView Grid.Row="2" x:Name="ViewRecipes" ItemsSource="{Binding Recipes}" HorizontalAlignment="Stretch">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="10" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Vertical" Width="100" ToolTip="{StaticResource RecipeToolTip}" ToolTipService.ShowDuration="100000">
-                                    <Image Source="{Binding Icon}" VerticalAlignment="Top" Height="80" Width="80" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Grid>
+                <vs:TabRecipeView DataContext="{Binding}" />
             </TabItem>
 
         </TabControl>

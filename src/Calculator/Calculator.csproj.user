@@ -13,7 +13,13 @@
     <Compile Update="Databases\DatabaseWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Databases\Views\TabFactoryView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Databases\Views\TabItemView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Databases\Views\TabRecipeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Extractors\Satisfactory\SatisfactoryExtractorWindow.xaml.cs">
@@ -45,7 +51,13 @@
     <Page Update="Databases\DatabaseWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Databases\Views\TabFactoryView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Databases\Views\TabItemView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Databases\Views\TabRecipeView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Extractors\Satisfactory\SatisfactoryExtractorWindow.xaml">

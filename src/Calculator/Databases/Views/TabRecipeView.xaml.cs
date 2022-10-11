@@ -19,11 +19,11 @@ using System.Windows.Shapes;
 namespace Calculator.Databases.Views
 {
     /// <summary>
-    /// Logique d'interaction pour TabItemView.xaml
+    /// Logique d'interaction pour TabRecipeView.xaml
     /// </summary>
-    public partial class TabItemView : UserControl
+    public partial class TabRecipeView : UserControl
     {
-        public TabItemView()
+        public TabRecipeView()
         {
             InitializeComponent();
         }
@@ -37,18 +37,18 @@ namespace Calculator.Databases.Views
                 var filter = button.Content.ToString();
                 if (filter == "None")
                 {
-                    Model.Items = Model.Database.Items.ToObservableCollection();
+                    Model.Recipes = Model.Database.Recipes.ToObservableCollection();
                 }
                 else
                 {
-                    Model.Items = Model.Database.Items.Where(x => x.Type == filter).ToObservableCollection();
+                    Model.Recipes = Model.Database.Recipes.Where(x => x.ItemType == filter).ToObservableCollection();
                 }
             }
         }
         private void ListViewElements_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var item = this.ListViewItems.SelectedItem as Item;
-            this.Model.SelectedItem = item;
+            var element = this.ListViewItems.SelectedItem as Recipe;
+            this.Model.SelectedRecipe = element;
         }
         private void ElementType_OnKeyDownHandler(object sender, KeyEventArgs e)
         {
@@ -67,29 +67,12 @@ namespace Calculator.Databases.Views
                 combobox.SelectedItem = text;
             }
         }
-        private void ElementForm_OnKeyDownHandler(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Return)
-            {
-                ElementForm_LostFocus(sender, null);
-            }
-        }
-        private void ElementForm_LostFocus(object sender, RoutedEventArgs e)
-        {
-            var combobox = sender as ComboBox;
-            var text = combobox.Text;
-            if (!Model.ItemForms.Contains(text))
-            {
-                Model.ItemForms.Add(text);
-                combobox.SelectedItem = text;
-            }
-        }
         private void NewElement_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                var item = Model.SelectedItem;
-                Model.SelectedItem = item.Clone();
+                var element = Model.SelectedRecipe;
+                Model.SelectedRecipe = element.Clone();
             }
             catch (Exception ex)
             {
@@ -101,7 +84,7 @@ namespace Calculator.Databases.Views
         {
             try
             {
-                Model.SelectedItem = new Item();
+                Model.SelectedRecipe = new Recipe();
             }
             catch (Exception ex)
             {
@@ -113,9 +96,9 @@ namespace Calculator.Databases.Views
         {
             try
             {
-                var item = Model.SelectedItem;
-                Model.SaveItem(item);
-                Model.SelectedItem = item;
+                var element = Model.SelectedRecipe;
+                Model.SaveRecipe(element);
+                Model.SelectedRecipe = element;
             }
             catch (Exception ex)
             {
@@ -127,8 +110,8 @@ namespace Calculator.Databases.Views
         {
             try
             {
-                var item = Model.SelectedItem;
-                Model.DeleteItem(item);
+                var element = Model.SelectedRecipe;
+                Model.DeleteRecipe(element);
             }
             catch (Exception ex)
             {
@@ -151,7 +134,7 @@ namespace Calculator.Databases.Views
                         try
                         {
                             var imageFile = WorkspacesModel.Intance.Current.SaveImageIntoWorkspace(path, false);
-                            Model.SelectedItem.IconPath = imageFile;
+                            Model.SelectedRecipe.IconPath = imageFile;
                         }
                         catch (ImageException ex)
                         {
@@ -164,7 +147,7 @@ namespace Calculator.Databases.Views
                             if (resultImage == MessageBoxResult.Yes)
                             {
                                 var imageFile = WorkspacesModel.Intance.Current.SaveImageIntoWorkspace(path, true);
-                                Model.SelectedItem.IconPath = imageFile;
+                                Model.SelectedRecipe.IconPath = imageFile;
                             }
                         }
                     }
@@ -174,7 +157,38 @@ namespace Calculator.Databases.Views
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
+        }
+
+        private void AddProduct_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var item = ProductSelector.SelectedItem as Item;
+                var amountString = ProductAmount.Text;
+                var amount = System.Convert.ToDouble(amountString);
+                var itemAmount = new Amount(item, amount);
+                Model.SelectedRecipe.Products.Add(itemAmount);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void AddIngredient_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var item = IngredientSelector.SelectedItem as Item;
+                var amountString = IngredientAmount.Text;
+                var amount = System.Convert.ToDouble(amountString);
+                var itemAmount = new Amount(item, amount);
+                Model.SelectedRecipe.Ingredients.Add(itemAmount);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

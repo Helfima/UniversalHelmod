@@ -10,6 +10,6 @@ namespace Calculator.Databases.Converter
         public List<JsonAmount> Ingredients { get; set; } = new List<JsonAmount>();
         public List<string> MadeIn { get; set; }
         public double Energy { get; set; }
-        public bool Alternate { get; set; } = false;
+        public int Tier { get; set; }
     }
 }
