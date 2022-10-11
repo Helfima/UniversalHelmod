@@ -1,0 +1,23 @@
+﻿<Window x:Class="UniversalHelmod.Workspaces.WorkspacesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UniversalHelmod.Workspaces"
+        xmlns:Views="clr-namespace:UniversalHelmod.Workspaces.Views"
+        mc:Ignorable="d"
+        Title="WorkspacesWindow" Height="450" Width="800">
+    <Grid>
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Views:WorkspacesView Grid.Row="0" x:Name="WorkspacesView" VerticalAlignment="Stretch"/>
+            <StackPanel Grid.Row="1" HorizontalAlignment="Right">
+                <Button Margin="2" Content="Fermer" Click="ButtonClose_Click"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

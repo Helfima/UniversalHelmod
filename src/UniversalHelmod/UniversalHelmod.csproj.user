@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ShowAllFiles>true</ShowAllFiles>
+    <_LastSelectedProfileId>E:\Perso\repos\UniversalHelmod\src\UniversalHelmod\Properties\PublishProfiles\ClickOnceProfile.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Databases\DatabaseWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Databases\Views\TabFactoryView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Databases\Views\TabItemView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Databases\Views\TabRecipeView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Extractors\Satisfactory\SatisfactoryExtractorWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Sheets\Views\EditionInput.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Sheets\Views\RecipeChoose.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Sheets\Views\RecipeEdition.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Sheets\Views\RecipeSelector.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Sheets\Views\SheetView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Workspaces\Views\WorkspacesView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Workspaces\WorkspacesWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Databases\DatabaseWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Databases\Views\TabFactoryView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Databases\Views\TabItemView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Databases\Views\TabRecipeView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Extractors\Satisfactory\SatisfactoryExtractorWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Sheets\Views\EditionInput.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Sheets\Views\RecipeEdition.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\TreeViewNodesStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Workspaces\Views\WorkspacesView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Workspaces\WorkspacesWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Resource Update="Views\GlobalView.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Page Update="Sheets\Views\RecipeChoose.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Sheets\Views\RecipeSelector.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Sheets\Views\SheetView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>
