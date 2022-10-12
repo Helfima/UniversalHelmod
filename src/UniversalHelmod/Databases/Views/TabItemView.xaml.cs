@@ -61,7 +61,7 @@ namespace UniversalHelmod.Databases.Views
         {
             var combobox = sender as ComboBox;
             var text = combobox.Text;
-            if (!Model.ItemTypes.Contains(text))
+            if ( String.IsNullOrEmpty(text) == false && Model.ItemTypes.Contains(text) == false)
             {
                 Model.ItemTypes.Add(text);
                 combobox.SelectedItem = text;
@@ -78,7 +78,7 @@ namespace UniversalHelmod.Databases.Views
         {
             var combobox = sender as ComboBox;
             var text = combobox.Text;
-            if (!Model.ItemForms.Contains(text))
+            if (String.IsNullOrEmpty(text) == false && Model.ItemForms.Contains(text) == false)
             {
                 Model.ItemForms.Add(text);
                 combobox.SelectedItem = text;

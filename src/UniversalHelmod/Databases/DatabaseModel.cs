@@ -63,8 +63,9 @@ namespace UniversalHelmod.Databases
         public void Save()
         {
             this.Database.Items = this.Items.Select(x => x.Clone()).ToList();
-            this.Database.Save();
+            this.Database.Factories = this.Factories.Select(x => x.Clone()).ToList();
             this.Database.RefreshInternalList();
+            Workspaces.Models.WorkspacesModel.Intance.Current.SaveDatabase();
         }
         #region ==== Item ====
         private ObservableCollection<Item> items;

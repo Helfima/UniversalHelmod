@@ -90,6 +90,20 @@ namespace UniversalHelmod.Databases
             }
         }
 
-        
+        private void MenuItemSave_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Model.Save();
+            }
+            catch(Exception ex)
+            {
+                Logger.Error(ex);
+            }
+        }
+        private void MenuItemExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

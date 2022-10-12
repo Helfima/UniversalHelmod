@@ -11,7 +11,20 @@
         <ResourceDictionary Source="../Views/GlobalView.xaml" />
     </Window.Resources>
     <Grid>
-        <TabControl>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0">
+            <MenuItem Header="File">
+                <MenuItem Header="Save" Click="MenuItemSave_Click" />
+                <Separator />
+                <MenuItem Header="Exit" Click="MenuItemExit_Click" />
+            </MenuItem>
+        </Menu>
+
+        <TabControl Grid.Row="1">
             <TabItem Header="Items">
                 <vs:TabItemView DataContext="{Binding}" />
             </TabItem>
