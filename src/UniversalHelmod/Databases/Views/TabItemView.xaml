@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UniversalHelmod.Databases.Views"
              xmlns:p="clr-namespace:UniversalHelmod.Properties"
-             mc:Ignorable="d"
+             mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <ResourceDictionary Source="../../Views/GlobalView.xaml" />
@@ -55,6 +55,7 @@
         <Grid Grid.Row="2" Grid.Column="1" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
@@ -83,11 +84,7 @@
             </Grid>
 
             <Grid Grid.Row="1" Margin="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <GroupBox Grid.Row="0" Margin="3" Header="{x:Static p:Localization.StandardProperties}">
+                <GroupBox Header="{x:Static p:Localization.StandardProperties}">
                     <Grid Margin="3" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
@@ -115,11 +112,11 @@
 
                         <TextBlock Text="{x:Static p:Localization.Type}" Grid.Row="3" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
                         <ComboBox x:Name="ElementType" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding ItemTypes}" SelectedItem="{Binding SelectedItem.Type}"
-                                  IsEditable="True" KeyUp="ElementType_OnKeyDownHandler" LostFocus="ElementType_LostFocus" Style="{StaticResource ComboBoxPropertyStyle}"/>
+                                IsEditable="True" KeyUp="ElementType_OnKeyDownHandler" LostFocus="ElementType_LostFocus" Style="{StaticResource ComboBoxPropertyStyle}"/>
 
                         <TextBlock Text="{x:Static p:Localization.Form}" Grid.Row="4" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
                         <ComboBox x:Name="ElementForm" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding ItemForms}" SelectedItem="{Binding SelectedItem.Form}"
-                                  IsEditable="True" KeyUp="ElementForm_OnKeyDownHandler" LostFocus="ElementForm_LostFocus" Style="{StaticResource ComboBoxPropertyStyle}"/>
+                                IsEditable="True" KeyUp="ElementForm_OnKeyDownHandler" LostFocus="ElementForm_LostFocus" Style="{StaticResource ComboBoxPropertyStyle}"/>
 
                         <TextBlock Text="{x:Static p:Localization.StackSize}" Grid.Row="5" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
                         <TextBox x:Name="ElementStackSize" Grid.Row="5" Grid.Column="1" Text="{Binding SelectedItem.StackSize}" Style="{StaticResource TextBoxPropertyStyle}"/>
@@ -140,15 +137,19 @@
                         <Image Grid.Row="8" Grid.Column="1" Source="{Binding SelectedItem.Icon}" Width="128" Height="128" />
                     </Grid>
                 </GroupBox>
-                <GroupBox Grid.Row="1" Margin="1" Header="{x:Static p:Localization.CustomProperties}">
-                    <DataGrid Margin="3" ItemsSource="{Binding SelectedItem.Properties}" AutoGenerateColumns="False" CanUserReorderColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="{x:Static p:Localization.Name}" Binding="{Binding Path=Name}" Width="100" />
-                            <DataGridTextColumn Header="{x:Static p:Localization.Value}" Binding="{Binding Path=Value}" MinWidth="100" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </GroupBox>
-
+            </Grid>
+            
+            <Grid Grid.Row="2" Margin="3">
+                <TabControl>
+                    <TabItem Header="{x:Static p:Localization.CustomProperties}">
+                        <DataGrid Margin="3" ItemsSource="{Binding SelectedItem.Properties}" AutoGenerateColumns="False" CanUserReorderColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{x:Static p:Localization.Name}" Binding="{Binding Path=Name}" Width="100" />
+                                <DataGridTextColumn Header="{x:Static p:Localization.Value}" Binding="{Binding Path=Value}" MinWidth="100" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+                </TabControl>
             </Grid>
         </Grid>
     </Grid>

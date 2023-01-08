@@ -1,7 +1,4 @@
-﻿using UniversalHelmod.Classes;
-using UniversalHelmod.Extractors.Satisfactory.Models;
-using UniversalHelmod.Workspaces.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -12,26 +9,29 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using UniversalHelmod.Classes;
+using UniversalHelmod.Extractors.Stationeers.Models;
+using UniversalHelmod.Workspaces.Models;
 
-namespace UniversalHelmod.Extractors.Satisfactory
+namespace UniversalHelmod.Extractors.Stationeers
 {
     /// <summary>
-    /// Logique d'interaction pour SatisfactoryExtractorWindow.xaml
+    /// Logique d'interaction pour StationeersExtractorWindow.xaml
     /// </summary>
-    public partial class SatisfactoryExtractorWindow : Window
+    public partial class StationeersExtractorWindow : Window
     {
-        public SatisfactoryExtractorWindow()
+        public StationeersExtractorWindow()
         {
             InitializeComponent();
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var model = new SettingsModel();
-            model.Path = Properties.Settings.Default.SatisfactoryFolder;
+            model.Path = Properties.Settings.Default.StationeersFolder;
             this.DataContext = model;
         }
         private SettingsModel Model => this.DataContext as SettingsModel;
-        
+
         private void ButtonDirectory_Click(object sender, RoutedEventArgs e)
         {
             // To use System.Windows.Forms add <UseWindowsForms>true</UseWindowsForms> in .csproj file
@@ -40,7 +40,7 @@ namespace UniversalHelmod.Extractors.Satisfactory
                 System.Windows.Forms.DialogResult result = dialog.ShowDialog();
                 string path = dialog.SelectedPath;
                 Model.Path = path;
-                Properties.Settings.Default.SatisfactoryFolder = path;
+                Properties.Settings.Default.StationeersFolder = path;
             }
         }
 
@@ -52,9 +52,10 @@ namespace UniversalHelmod.Extractors.Satisfactory
 
         private async void PopulateDatabase()
         {
-            var result = await FGAdaptater.PopulateDatabaseAsync();
+            var result = await RSAdaptater.PopulateDatabaseAsync();
             WorkspacesModel.Intance.Current.Database = result;
-            Utils.ExtractImages(WorkspacesModel.Intance.Current.PathFolder, Model.Path);
+            WorkspacesModel.Intance.Current.SaveDatabase();
+            WorkspacesModel.Intance.Current.Load();
             this.Close();
         }
 
@@ -62,7 +63,5 @@ namespace UniversalHelmod.Extractors.Satisfactory
         {
             this.Close();
         }
-
-        
     }
 }

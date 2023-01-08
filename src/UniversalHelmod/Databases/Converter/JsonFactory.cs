@@ -5,9 +5,8 @@ using System.Text;
 
 namespace UniversalHelmod.Databases.Converter
 {
-    public class JsonFactory : JsonBaseOnItem
+    public class JsonFactory : JsonBaseItem
     {
-        public string Type { get; set; }
         public double Speed { get; set; }
         public double PowerConsumption { get; set; }
         public double PowerConsumptionExponent { get; set; }

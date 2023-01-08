@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Root>
+  <ArcFurnaceRecipes>
+    <RecipeData>
+      <PrefabName>ItemGoldIngot</PrefabName>
+      <Recipe>
+        <Gold>1</Gold>
+        <Time>6</Time>
+        <Energy>2000</Energy>
+      </Recipe>
+    </RecipeData>
+  </ArcFurnaceRecipes>
+
+  <AdvancedFurnaceRecipes>
+    <RecipeData>
+      <PrefabName>ItemAstroloyIngot</PrefabName>
+      <Recipe>
+        <Steel>.5</Steel>
+        <Copper>.25</Copper>
+        <Cobalt>.25</Cobalt>
+        <Temperature>
+          <Start>1000</Start>
+          <Stop>99999</Stop>
+        </Temperature>
+        <Pressure>
+          <Start>30000</Start>
+          <Stop>40000</Stop>
+        </Pressure>
+      </Recipe>
+      <Output>0.25</Output>
+    </RecipeData>
+  </AdvancedFurnaceRecipes>
+
+  <AutolatheRecipes>
+    <RecipeData>
+      <PrefabName>ItemKitRespawnPointWallMounted</PrefabName>
+      <Recipe>
+        <Time>20</Time>
+        <Energy>500</Energy>
+        <Iron>3</Iron>
+        <Gold>0</Gold>
+        <Carbon>0</Carbon>
+        <Copper>1</Copper>
+        <Steel>0</Steel>
+        <Uranium>0</Uranium>
+        <Hydrocarbon>0</Hydrocarbon>
+      </Recipe>
+    </RecipeData>
+  </AutolatheRecipes>
+
+  <ReagentGrinderRecipes>
+    <ProcessingData>
+      <InputPrefab>ItemWheat</InputPrefab>
+      <OutputPrefab>ItemFlour</OutputPrefab>
+      <Time>0.1</Time>
+      <In>1</In>
+      <Out>5</Out>
+    </ProcessingData>
+  </ReagentGrinderRecipes>
+</Root>

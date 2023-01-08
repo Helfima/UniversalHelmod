@@ -28,7 +28,8 @@
                 <MenuItem Header="Save" Click="MenuItemDatabaseSave_Click" />
             </MenuItem>
             <MenuItem Header="Tool">
-                <MenuItem Header="Extract data" Click="MenuItemExtract_Click" />
+                <MenuItem Header="Extract Satisfactory data" Click="MenuItemExtractSatisfactory_Click" />
+                <MenuItem Header="Extract Stationeers data" Click="MenuItemExtractStationeers_Click" />
             </MenuItem>
         </Menu>
 

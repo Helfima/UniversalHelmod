@@ -31,7 +31,7 @@ namespace UniversalHelmod.Databases.Models
         }
         public Factory SelectFactory(string name)
         {
-            return Factories.FirstOrDefault(x => x.Item.Name == name);
+            return Factories.FirstOrDefault(x => x.Name == name);
         }
         public List<Recipe> SelectRecipeByProduct(Item item)
         {
@@ -60,7 +60,7 @@ namespace UniversalHelmod.Databases.Models
             ComputeFactoryTypes();
             Items.Sort((x, y) => x.Name.CompareTo(y.Name));
             ItemTypes.Sort();
-            Factories.Sort((x, y) => x.Item.Name.CompareTo(y.Item.Name));
+            Factories.Sort((x, y) => x.Name.CompareTo(y.Name));
             FactoryTypes.Sort();
             Recipes.Sort((x, y) => x.MainProduct.Name.CompareTo(y.MainProduct.Name));
         }

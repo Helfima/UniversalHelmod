@@ -32,6 +32,7 @@
     <sys:Double x:Key="IconSize">60</sys:Double>
     <sys:Double x:Key="SmallIconSize">20</sys:Double>
     <sys:Double x:Key="AmountIconSize">32</sys:Double>
+    <sys:Double x:Key="DropDownIconSize">16</sys:Double>
     <sys:Double x:Key="IconPowerSize">20</sys:Double>
 
     <sys:Int32 x:Key="ColumnNumber">8</sys:Int32>
@@ -55,6 +56,10 @@
     </Style>
     
     <!-- ***** Images ***** -->
+    <Style x:Key="DropDownImageStyle" TargetType="{x:Type Image}">
+        <Setter Property="Width" Value="{StaticResource DropDownIconSize}" />
+        <Setter Property="Height" Value="{StaticResource DropDownIconSize}" />
+    </Style>
     <Style x:Key="AmountImageStyle" TargetType="{x:Type Image}">
         <Setter Property="Width" Value="{StaticResource AmountIconSize}" />
         <Setter Property="Height" Value="{StaticResource AmountIconSize}" />
@@ -314,6 +319,13 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+    </DataTemplate>
+
+    <DataTemplate x:Key="DropDownCellTemplate">
+        <StackPanel Orientation="Horizontal">
+            <Image Source="{Binding Icon}" Style="{StaticResource DropDownImageStyle}" />
+            <TextBlock Text="{Binding DisplayName}" />
+        </StackPanel>
     </DataTemplate>
 
     <DataTemplate x:Key="AmountCellTemplate">

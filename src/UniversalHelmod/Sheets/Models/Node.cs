@@ -21,7 +21,7 @@ namespace UniversalHelmod.Sheets.Models
             this.name = recipe.Name;
             this.type = recipe.Type;
             this.icon = recipe.Icon;
-            var factory = recipe.Database.Factories.FirstOrDefault(x => recipe.MadeIn.Contains(x.Item.Name));
+            var factory = recipe.Database.Factories.FirstOrDefault(x => recipe.MadeIn.Contains(x.Name));
             this.Builder = new Builder(factory);
         }
         public void UpdateEffect()

@@ -35,16 +35,34 @@ namespace UniversalHelmod.Databases.Converter
             JsonItem jsonItem = new JsonItem()
             {
                 Name = item.Name,
+                DisplayName = item.DisplayName,
                 Description = item.Description,
                 Type = item.Type,
+                Icon = item.IconPath,
                 Form = item.Form,
                 StackSize = item.StackSize,
-                DisplayName = item.DisplayName,
                 EnergyValue = item.EnergyValue,
-                Icon = item.IconPath,
                 Properties = item.Properties.ToList()
             };
             return jsonItem;
+        }
+        internal static JsonFactory FormatFactory(Factory factory)
+        {
+            JsonFactory jsonFactory = new JsonFactory()
+            {
+                Name = factory.Name,
+                DisplayName = factory.DisplayName,
+                Description = factory.Description,
+                Type = factory.Type,
+                Icon = factory.IconPath,
+                Speed = factory.Speed,
+                PowerConsumption = factory.PowerConsumption,
+                PowerProduction = factory.PowerProduction,
+                AllowedResourceForms = factory.AllowedResourceForms,
+                AllowedResources = factory.AllowedResources,
+                Properties = factory.Properties.ToList()
+            };
+            return jsonFactory;
         }
         internal static JsonAmount FormatAmount(Amount amount)
         {
@@ -84,21 +102,6 @@ namespace UniversalHelmod.Databases.Converter
             };
             return jsonRecipe;
         }
-        internal static JsonFactory FormatFactory(Factory factory)
-        {
-            var element = new JsonElement() { Name = factory.Item.Name, Type = factory.Item.Type };
-            JsonFactory jsonFactory = new JsonFactory()
-            {
-                BaseOnItem = element,
-                Speed = factory.Speed,
-                PowerConsumption = factory.PowerConsumption,
-                PowerProduction = factory.PowerProduction,
-                AllowedResourceForms = factory.AllowedResourceForms,
-                AllowedResources = factory.AllowedResources,
-                Properties = factory.Properties.ToList()
-            };
-            return jsonFactory;
-        }
         #endregion
 
         #region ======== Parse ========
@@ -137,24 +140,27 @@ namespace UniversalHelmod.Databases.Converter
             {
                 Database = database,
                 Name = jsonItem.Name,
+                DisplayName = jsonItem.DisplayName,
                 Description = jsonItem.Description,
                 Type = jsonItem.Type,
+                IconPath = jsonItem.Icon,
                 Form = jsonItem.Form,
                 StackSize = jsonItem.StackSize,
-                DisplayName = jsonItem.DisplayName,
                 EnergyValue = jsonItem.EnergyValue,
-                IconPath = jsonItem.Icon,
                 Properties = jsonItem.Properties.ToObservableCollection()
             };
             return item;
         }
         internal static Factory ParseFactory(JsonFactory jsonFactory, Database database)
         {
-            var item = database.SelectItem(jsonFactory.BaseOnItem.Name, jsonFactory.BaseOnItem.Type);
             Factory factory = new Factory()
             {
-                Item = item,
+                Database = database,
+                Name = jsonFactory.Name,
+                DisplayName = jsonFactory.DisplayName,
+                Description = jsonFactory.Description,
                 Type = jsonFactory.Type,
+                IconPath = jsonFactory.Icon,
                 Speed = jsonFactory.Speed,
                 PowerConsumption = jsonFactory.PowerConsumption,
                 PowerProduction = jsonFactory.PowerProduction,

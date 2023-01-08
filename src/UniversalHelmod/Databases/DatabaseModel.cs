@@ -135,7 +135,7 @@ namespace UniversalHelmod.Databases
         }
         public void SaveFactory(Factory factory)
         {
-            var databaseItem = this.Factories.Where(x => x.Item == factory.Item).FirstOrDefault();
+            var databaseItem = this.Factories.Where(x => x.Name == factory.Name).FirstOrDefault();
             if (databaseItem == null)
             {
                 this.Factories.Add(factory);
@@ -150,7 +150,7 @@ namespace UniversalHelmod.Databases
         }
         public void AddFactory(Factory factory)
         {
-            var databaseItem = this.Factories.Where(x => x.Item == factory.Item).FirstOrDefault();
+            var databaseItem = this.Factories.Where(x => x.Name == factory.Name).FirstOrDefault();
             if (databaseItem == null)
             {
                 this.Factories.Add(factory);
@@ -162,7 +162,7 @@ namespace UniversalHelmod.Databases
         }
         public void DeleteFactory(Factory factory)
         {
-            var databaseItem = this.Factories.Where(x => x.Item == factory.Item).FirstOrDefault();
+            var databaseItem = this.Factories.Where(x => x.Name == factory.Name).FirstOrDefault();
             if (databaseItem != null)
             {
                 if (this.Factories.Remove(databaseItem))

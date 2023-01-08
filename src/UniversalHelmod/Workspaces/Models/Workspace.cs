@@ -136,7 +136,7 @@ namespace UniversalHelmod.Workspaces.Models
                 {
                     File.Copy(path, imageFile);
                 }
-                return imageFile;
+                return Path.GetRelativePath(pathFolder, imageFile);
             }
         }
     }

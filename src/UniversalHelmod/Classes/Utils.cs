@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Windows;
 using System.Windows.Media.Imaging;
+using UniversalHelmod.Databases.Models;
+using UniversalHelmod.Exceptions;
+using UniversalHelmod.Workspaces.Models;
 
 namespace UniversalHelmod.Classes
 {
@@ -18,7 +22,7 @@ namespace UniversalHelmod.Classes
         }
         public static string ImagesFolder()
         {
-            string dirApp = Directory.GetCurrentDirectory();
+            string dirApp = WorkspacesModel.Intance.Current.PathFolder;
             string folder = Path.Combine(dirApp, "Images");
             return folder;
         }
@@ -65,7 +69,7 @@ namespace UniversalHelmod.Classes
         {
             try
             {
-                string dirApp = Directory.GetCurrentDirectory();
+                string dirApp = WorkspacesModel.Intance.Current.PathFolder;
                 string fileName = Path.Combine(dirApp, path);
                 if (File.Exists(fileName))
                 {
@@ -89,5 +93,37 @@ namespace UniversalHelmod.Classes
             return new BitmapImage(uri);
         }
 
+        public static void SelecElementIconPath(BaseIcon element)
+        {
+            // To use System.Windows.Forms add <UseWindowsForms>true</UseWindowsForms> in .csproj file
+            using (var dialog = new System.Windows.Forms.OpenFileDialog())
+            {
+                dialog.Filter = "Image PNG: (*.png)|*.png|Image JPEG: (*.jpg)|*.jpg;*.jpeg|AllFiles:(*.*)|*.*";
+                System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+                string path = dialog.FileName;
+                if (!String.IsNullOrEmpty(path))
+                {
+                    try
+                    {
+                        var imageFile = WorkspacesModel.Intance.Current.SaveImageIntoWorkspace(path, false);
+                        element.IconPath = imageFile;
+                    }
+                    catch (ImageException ex)
+                    {
+                        // Configure message box
+                        string message = "Hello, MessageBox!";
+                        string caption = $"{ex.Message}\nDo you want to overwrite the image?";
+                        MessageBoxButton buttons = MessageBoxButton.YesNo;
+                        // Show message box
+                        MessageBoxResult resultImage = MessageBox.Show(message, caption, buttons);
+                        if (resultImage == MessageBoxResult.Yes)
+                        {
+                            var imageFile = WorkspacesModel.Intance.Current.SaveImageIntoWorkspace(path, true);
+                            element.IconPath = imageFile;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -66,6 +66,7 @@
         <Grid Grid.Row="2" Grid.Column="1" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
@@ -94,12 +95,7 @@
             </Grid>
 
             <Grid Grid.Row="1" Margin="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="2*"/>
-                </Grid.RowDefinitions>
-                <GroupBox Grid.Row="0" Margin="3" Header="{x:Static p:Localization.StandardProperties}">
+                <GroupBox Header="{x:Static p:Localization.StandardProperties}">
                     <Grid Margin="3" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
@@ -144,70 +140,77 @@
                         <Image Grid.Row="8" Grid.Column="1" Source="{Binding SelectedRecipe.Icon}" Width="128" Height="128" />
                     </Grid>
                 </GroupBox>
+            </Grid>
 
-                <GroupBox Grid.Row="1" Margin="1" Header="{x:Static p:Localization.Products}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+            <Grid Grid.Row="2" Margin="3">
+                <TabControl>
+                    <TabItem Header="{x:Static p:Localization.Products}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                        <Grid Grid.Row="0" Margin="3">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
-                            <ComboBox Grid.Column="0" Margin="3" x:Name="ProductSelector" MinHeight="36" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource AmountCellTemplate}" />
-                            <TextBox Grid.Column="1" Margin="3" x:Name="ProductAmount" Height="20" />
-                            <Button Grid.Column="2" x:Name="AddProduct" Click="AddProduct_Click" Style="{StaticResource ButtonIconStyle}">
-                                <Image Source="/Images/Add_16x.png" Stretch="Fill" />
-                            </Button>
+                            <Grid Grid.Row="0" Margin="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ComboBox Grid.Column="0" Margin="3" x:Name="ProductSelector"
+                                      ItemsSource="{Binding Items}" 
+                                      ItemTemplate="{StaticResource DropDownCellTemplate}" />
+
+                                <TextBox Grid.Column="1" Margin="3" x:Name="ProductAmount" Height="20" />
+                                <Button Grid.Column="2" x:Name="AddProduct" Click="AddProduct_Click" Style="{StaticResource ButtonIconStyle}">
+                                    <Image Source="/Images/Add_16x.png" Stretch="Fill" />
+                                </Button>
+                            </Grid>
+
+                            <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedRecipe.Products}" ScrollViewer.CanContentScroll="True">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="{x:Static p:Localization.Element}" Width="200" CellTemplate="{StaticResource AmountCellTemplate}" />
+                                        <GridViewColumn Header="{x:Static p:Localization.Quantity}" Width="150"  CellTemplate="{StaticResource CountCellTemplate}" />
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
                         </Grid>
+                    </TabItem>
+                    <TabItem Header="{x:Static p:Localization.Ingredients}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                        <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedRecipe.Products}" ScrollViewer.CanContentScroll="True">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="{x:Static p:Localization.Element}" Width="200" CellTemplate="{StaticResource AmountCellTemplate}" />
-                                    <GridViewColumn Header="{x:Static p:Localization.Quantity}" Width="150"  CellTemplate="{StaticResource CountCellTemplate}" />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </Grid>
-                </GroupBox>
+                            <Grid Grid.Row="0" Margin="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ComboBox Grid.Column="0" Margin="3" x:Name="IngredientSelector"
+                                      ItemsSource="{Binding Items}"
+                                      ItemTemplate="{StaticResource DropDownCellTemplate}" />
 
-                <GroupBox Grid.Row="2" Margin="1" Header="{x:Static p:Localization.Ingredients}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                                <TextBox Grid.Column="1" Margin="3" x:Name="IngredientAmount" Height="20" />
+                                <Button Grid.Column="2" x:Name="AddIngredient" Click="AddIngredient_Click" Style="{StaticResource ButtonIconStyle}">
+                                    <Image Source="/Images/Add_16x.png" Stretch="Fill" />
+                                </Button>
+                            </Grid>
 
-                        <Grid Grid.Row="0" Margin="3">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
-                            <ComboBox Grid.Column="0" Margin="3" x:Name="IngredientSelector" MinHeight="36" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource AmountCellTemplate}" />
-                            <TextBox Grid.Column="1" Margin="3" x:Name="IngredientAmount" Height="20" />
-                            <Button Grid.Column="2" x:Name="AddIngredient" Click="AddIngredient_Click" Style="{StaticResource ButtonIconStyle}">
-                                <Image Source="/Images/Add_16x.png" Stretch="Fill" />
-                            </Button>
+                            <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedRecipe.Ingredients}" ScrollViewer.CanContentScroll="True">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="{x:Static p:Localization.Element}" Width="200" CellTemplate="{StaticResource AmountCellTemplate}" />
+                                        <GridViewColumn Header="{x:Static p:Localization.Quantity}" Width="150" CellTemplate="{StaticResource CountCellTemplate}" />
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
                         </Grid>
-                        
-                        <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedRecipe.Ingredients}" ScrollViewer.CanContentScroll="True">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="{x:Static p:Localization.Element}" Width="200" CellTemplate="{StaticResource AmountCellTemplate}" />
-                                    <GridViewColumn Header="{x:Static p:Localization.Quantity}" Width="150" CellTemplate="{StaticResource CountCellTemplate}" />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </Grid>
-                    
-                </GroupBox>
-
+                    </TabItem>
+                </TabControl>
             </Grid>
         </Grid>
     </Grid>

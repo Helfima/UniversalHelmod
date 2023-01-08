@@ -261,7 +261,7 @@ namespace UniversalHelmod.Sheets.Math
             List<string> ingredients = new List<string>();
             foreach (Recipe recipe in database.Recipes)
             {
-                var factory = database.Factories.FirstOrDefault(x => recipe.MadeIn.Contains(x.Item.Name));
+                var factory = database.Factories.FirstOrDefault(x => recipe.MadeIn.Contains(x.Name));
                 if (factory == null) continue;
                 double productivity = 1;
                 bool isExtractor = factory is Extractor;

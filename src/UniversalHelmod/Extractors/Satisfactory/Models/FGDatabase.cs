@@ -18,7 +18,7 @@ namespace UniversalHelmod.Extractors.Satisfactory.Models
         public Dictionary<string, List<string>> ExtractorMap = new Dictionary<string, List<string>>();
         private static string GetFilename()
         {
-            string root = Properties.Settings.Default.GameFolder;
+            string root = Properties.Settings.Default.SatisfactoryFolder;
             return Path.Combine(root, "CommunityResources\\Docs\\Docs.json");
         }
         public static string Filename => GetFilename();

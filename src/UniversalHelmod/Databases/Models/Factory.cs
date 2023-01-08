@@ -4,14 +4,8 @@ using System.Text;
 
 namespace UniversalHelmod.Databases.Models
 {
-    public class Factory : BaseOnItem
+    public class Factory : BaseItem
     {
-        protected string type = "Factory";
-        public string Type
-        {
-            get { return this.type; }
-            set { this.type = value; NotifyPropertyChanged(); }
-        }
         protected double speed;
         public double Speed
         {
@@ -36,7 +30,10 @@ namespace UniversalHelmod.Databases.Models
         {
             var factory = new Factory()
             {
-                Item = this.Item,
+                Name = this.Name,
+                DisplayName = this.DisplayName,
+                Description = this.Description,
+                Type = this.Type,
                 Speed = this.Speed,
                 PowerProduction = this.PowerProduction,
                 PowerConsumption = this.PowerConsumption,

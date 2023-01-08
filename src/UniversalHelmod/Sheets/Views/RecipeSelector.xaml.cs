@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using UniversalHelmod.Workspaces.Models;
+using UniversalHelmod.Classes;
+using System.Collections.ObjectModel;
+using UniversalHelmod.Extensions;
 
 namespace UniversalHelmod.Sheets.Views
 {
@@ -20,7 +23,6 @@ namespace UniversalHelmod.Sheets.Views
     /// </summary>
     public partial class RecipeSelector : Window
     {
-        private RecipeSelectorModel viewModel;
 
         public RecipeSelector()
         {
@@ -30,31 +32,47 @@ namespace UniversalHelmod.Sheets.Views
         private void RecipeSelector_Loaded(object sender, RoutedEventArgs e)
         {
             var recipes = WorkspacesModel.Intance.Current.Database.Recipes;
-            var categories = recipes.Select(x => x.MadeIn).Distinct().ToList();
-            var category = categories.First();
-            var recipesFiltered = recipes.Where(x => x.ItemType == "Item").ToList();
-            this.viewModel = new RecipeSelectorModel()
+            var categories = new List<string>();
+            foreach(var recipe in recipes )
             {
-                Recipes = recipesFiltered
-            };
-            this.DataContext = this.viewModel;
-            this.ViewCategories.SelectedItem = category;
-        }
+                categories.Add(recipe.ItemType);
+            }
+            categories = categories.Distinct().ToList();
+            var category = categories.First();
 
-        public class RecipeSelectorModel
+            var recipesFiltered = recipes.Where(x => x.ItemType == category).ToList();
+
+            var model = new RecipeSelectorModel();
+            model.Recipes = recipesFiltered.ToObservableCollection();
+            model.Categories = categories.ToObservableCollection();
+            this.DataContext = model;
+        }
+        public RecipeSelectorModel Model => this.DataContext as RecipeSelectorModel;
+
+        public class RecipeSelectorModel : NotifyProperty
         {
-            public List<string> Categories { get; set; }
-            public List<Recipe> Recipes { get; set; }
+            private ObservableCollection<string> categories;
+            public ObservableCollection<string> Categories
+            {
+                get { return categories; }
+                set { categories = value; NotifyPropertyChanged(); }
+            }
+            private ObservableCollection<Recipe> recipes;
+            public ObservableCollection<Recipe> Recipes
+            {
+                get { return recipes; }
+                set { recipes = value; NotifyPropertyChanged(); }
+            }
             public string FilterItem { get; set; }
         }
 
         private void ViewCategories_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var recipes = WorkspacesModel.Intance.Current.Database.Recipes;
             var category = (string)this.ViewCategories.SelectedItem;
-            this.viewModel.Recipes = recipes;
-            this.DataContext = this.viewModel;
-            this.ViewRecipes.ItemsSource = recipes;
+
+            var recipes = WorkspacesModel.Intance.Current.Database.Recipes;
+            var recipesFiltered = recipes.Where(x => x.ItemType == category).ToList();
+            Model.Recipes = recipesFiltered.ToObservableCollection();
         }
 
     }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:UniversalHelmod.Databases"
         xmlns:vs="clr-namespace:UniversalHelmod.Databases.Views"
         mc:Ignorable="d"
-        Title="DatabaseWindow" Height="450" Width="800" Loaded="Window_Loaded" Unloaded="Window_Unloaded">
+        Title="DatabaseWindow" Height="800" Width="1600" Loaded="Window_Loaded" Unloaded="Window_Unloaded">
     <Window.Resources>
         <ResourceDictionary Source="../Views/GlobalView.xaml" />
     </Window.Resources>

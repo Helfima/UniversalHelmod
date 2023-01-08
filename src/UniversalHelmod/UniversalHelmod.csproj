@@ -32,10 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.15" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Images\Add_16x.png" />
     <Resource Include="Images\Create_16x.png" />
     <Resource Include="Images\Eclair.png" />
@@ -83,7 +79,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Config\log4net.xml">
+    <None Update="Config\Logger.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\umodel_win32\SDL2_64.dll">

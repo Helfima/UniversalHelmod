@@ -1,9 +1,12 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Calculator.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="UniversalHelmod.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="GameFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">"C:\\Steam\\steamapps\\common\\Satisfactory"</Value>
+    <Setting Name="SatisfactoryFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Steam\steamapps\common\Satisfactory</Value>
+    </Setting>
+    <Setting Name="StationeersFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Steam\steamapps\common\Stationeers</Value>
     </Setting>
   </Settings>
 </SettingsFile>

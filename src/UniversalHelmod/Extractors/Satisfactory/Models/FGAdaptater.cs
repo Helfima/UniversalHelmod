@@ -15,12 +15,12 @@ using System.Threading.Tasks;
 
 namespace UniversalHelmod.Extractors.Satisfactory.Models
 {
-    public class FGAdapater
+    public class FGAdaptater
     {
         private Database Instance;
         private FGDatabase Source => FGDatabase.Intance;
         
-        private FGAdapater(Database instance)
+        private FGAdaptater(Database instance)
         {
             this.Instance = instance;
         }
@@ -32,7 +32,7 @@ namespace UniversalHelmod.Extractors.Satisfactory.Models
         public static Database PopulateDatabase()
         {
             var instance = new Database();
-            var adaptater = new FGAdapater(instance);
+            var adaptater = new FGAdaptater(instance);
             adaptater.Execute();
             return instance;
         }
@@ -153,7 +153,10 @@ namespace UniversalHelmod.Extractors.Satisfactory.Models
             }
             Factory factory = new Factory()
             {
-                Item = item,
+                Database = Instance,
+                Name = proto.Item.ClassName,
+                DisplayName = proto.DisplayName,
+                Description = proto.Description,
                 Type = proto.Type,
                 Speed = speed,
                 PowerConsumption = proto.PowerConsumption,
@@ -194,7 +197,7 @@ namespace UniversalHelmod.Extractors.Satisfactory.Models
                             }).ToList();
                         foreach(var factory in factories)
                         {
-                            madeIn.Add(factory.Item.Name);
+                            madeIn.Add(factory.Name);
                         }
                     }
                     else

@@ -42,8 +42,8 @@ namespace UniversalHelmod
         private void MenuWorkspace_Click(object sender, RoutedEventArgs e)
         {
             var view = new Workspaces.WorkspacesWindow();
-            //view.Owner = this;
-            view.Show();
+            view.Owner = this;
+            view.ShowDialog();
         }
         public void MenuItemSave_Click(object sender, RoutedEventArgs e)
         {
@@ -58,9 +58,14 @@ namespace UniversalHelmod
             var view = new Databases.DatabaseWindow();
             view.Show();
         }
-        private void MenuItemExtract_Click(object sender, RoutedEventArgs e)
+        private void MenuItemExtractSatisfactory_Click(object sender, RoutedEventArgs e)
         {
             var view = new Extractors.Satisfactory.SatisfactoryExtractorWindow();
+            view.Show();
+        }
+        private void MenuItemExtractStationeers_Click(object sender, RoutedEventArgs e)
+        {
+            var view = new Extractors.Stationeers.StationeersExtractorWindow();
             view.Show();
         }
         class MainModel : NotifyProperty

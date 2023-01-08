@@ -46,7 +46,7 @@
                                             <Image Source="{Binding Builder.Icon}" Height="{StaticResource IconSize}" Width="{StaticResource IconSize}" />
                                             <TextBlock Text="{Binding Builder.Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
                                         </StackPanel>
-                                        <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Vertical" Visibility="Hidden">
                                             <Button Name="PowerShard1" Height="{StaticResource IconPowerSize}" Width="{StaticResource IconPowerSize}" Click="PowerShard_Click">
                                                 <Image Source="/Images/PowerShard_256.png" />
                                                 <Button.Style>

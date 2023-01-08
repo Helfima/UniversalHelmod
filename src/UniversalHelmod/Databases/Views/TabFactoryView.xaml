@@ -46,7 +46,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical" Width="100" ToolTip="{StaticResource FactoryToolTip}" ToolTipService.ShowDuration="100000">
-                        <Image Source="{Binding Item.Icon}" VerticalAlignment="Top" Height="80" Width="80" />
+                        <Image Source="{Binding Icon}" VerticalAlignment="Top" Height="80" Width="80" />
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -54,6 +54,7 @@
 
         <Grid Grid.Row="2" Grid.Column="1" >
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
@@ -83,14 +84,7 @@
             </Grid>
 
             <Grid Grid.Row="1" Margin="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="2*"/>
-                </Grid.RowDefinitions>
-                
-                <GroupBox Grid.Row="0" Margin="3" Header="{x:Static p:Localization.StandardProperties}">
+                <GroupBox Header="{x:Static p:Localization.StandardProperties}">
                     <Grid Margin="3" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
@@ -107,64 +101,80 @@
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{x:Static p:Localization.Name}" Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
-                        <ComboBox x:Name="ItemSelector" Grid.Row="0" Grid.Column="1" MinHeight="36" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedFactory.Item}"
-                                  ItemTemplate="{StaticResource AmountCellTemplate}" />
+                        <TextBlock Text="{x:Static p:Localization.BaseOnItem}" Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <ComboBox x:Name="ItemSelector" Grid.Row="0" Grid.Column="1" 
+                                ItemsSource="{Binding Items}"
+                                SelectedItem="{Binding SelectedFactory.Item}"
+                                ItemTemplate="{StaticResource DropDownCellTemplate}" />
 
-                        <TextBlock Text="{x:Static p:Localization.DisplayName}" Grid.Row="1" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
-                        <TextBox x:Name="ElementDisplayName" Grid.Row="1" Grid.Column="1" Text="{Binding SelectedFactory.Item.DisplayName}" Style="{StaticResource TextBoxPropertyStyle}"/>
+                        <TextBlock Text="{x:Static p:Localization.Name}" Grid.Row="1" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <TextBox x:Name="ElementName" Grid.Row="1" Grid.Column="1" Text="{Binding SelectedFactory.Name}" Style="{StaticResource TextBoxPropertyStyle}"/>
 
-                        <TextBlock Text="{x:Static p:Localization.Description}" Grid.Row="2" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
-                        <TextBox x:Name="ElementDescription" Grid.Row="2" Grid.Column="1" Text="{Binding SelectedFactory.Item.Description}" Style="{StaticResource TextBoxPropertyStyle}"/>
+                        <TextBlock Text="{x:Static p:Localization.DisplayName}" Grid.Row="2" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <TextBox x:Name="ElementDisplayName" Grid.Row="2" Grid.Column="1" Text="{Binding SelectedFactory.DisplayName}" Style="{StaticResource TextBoxPropertyStyle}"/>
 
-                        <TextBlock Text="{x:Static p:Localization.Type}" Grid.Row="3" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
-                        <ComboBox x:Name="ElementType" Grid.Row="3" Grid.Column="1" ItemsSource="{Binding FactoryTypes}" SelectedItem="{Binding SelectedFactory.Type}"
-                                  IsEditable="True" KeyUp="ElementType_OnKeyDownHandler" LostFocus="ElementType_LostFocus" Style="{StaticResource ComboBoxPropertyStyle}"/>
+                        <TextBlock Text="{x:Static p:Localization.Description}" Grid.Row="3" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <TextBox x:Name="ElementDescription" Grid.Row="3" Grid.Column="1" Text="{Binding SelectedFactory.Description}" Style="{StaticResource TextBoxPropertyStyle}"/>
 
-                        <TextBlock Text="{x:Static p:Localization.Speed}" Grid.Row="4" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
-                        <TextBox x:Name="ElementSpeed" Grid.Row="4" Grid.Column="1" Text="{Binding SelectedFactory.Speed}" Style="{StaticResource TextBoxPropertyStyle}"/>
+                        <TextBlock Text="{x:Static p:Localization.Type}" Grid.Row="4" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <ComboBox x:Name="ElementType" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding FactoryTypes}" SelectedItem="{Binding SelectedFactory.Type}"
+                                IsEditable="True" KeyUp="ElementType_OnKeyDownHandler" LostFocus="ElementType_LostFocus" Style="{StaticResource ComboBoxPropertyStyle}"/>
 
-                        <TextBlock Text="{x:Static p:Localization.PowerConsumption}" Grid.Row="5" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
-                        <TextBox x:Name="ElementPowerConsumption" Grid.Row="5" Grid.Column="1" Text="{Binding SelectedFactory.PowerConsumption}" Style="{StaticResource TextBoxPropertyStyle}"/>
+                        <TextBlock Text="{x:Static p:Localization.Speed}" Grid.Row="5" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <TextBox x:Name="ElementSpeed" Grid.Row="5" Grid.Column="1" Text="{Binding SelectedFactory.Speed}" Style="{StaticResource TextBoxPropertyStyle}"/>
 
-                        <TextBlock Text="{x:Static p:Localization.PowerProduction}" Grid.Row="6" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
-                        <TextBox x:Name="ElementPowerProduction" Grid.Row="6" Grid.Column="1" Text="{Binding SelectedFactory.PowerProduction}" Style="{StaticResource TextBoxPropertyStyle}"/>
+                        <TextBlock Text="{x:Static p:Localization.PowerConsumption}" Grid.Row="6" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <TextBox x:Name="ElementPowerConsumption" Grid.Row="6" Grid.Column="1" Text="{Binding SelectedFactory.PowerConsumption}" Style="{StaticResource TextBoxPropertyStyle}"/>
+
+                        <TextBlock Text="{x:Static p:Localization.PowerProduction}" Grid.Row="7" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <TextBox x:Name="ElementPowerProduction" Grid.Row="7" Grid.Column="1" Text="{Binding SelectedFactory.PowerProduction}" Style="{StaticResource TextBoxPropertyStyle}"/>
 
                         <Image Grid.Row="8" Grid.Column="1" Source="{Binding SelectedFactory.Item.Icon}" Width="128" Height="128" />
                     </Grid>
                 </GroupBox>
+            </Grid>
 
-                <GroupBox Grid.Row="1" Margin="1" Header="{x:Static p:Localization.AllowedResourceForms}">
-                    <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedFactory.AllowedResourceForms}" ScrollViewer.CanContentScroll="True">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="{x:Static p:Localization.Value}" Width="200" DisplayMemberBinding="{Binding}" />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </GroupBox>
+            <Grid Grid.Row="2" Margin="3">
+                <TabControl>
+                    <TabItem Header="{x:Static p:Localization.CustomProperties}">
+                        <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedFactory.Properties}" ScrollViewer.CanContentScroll="True">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="{x:Static p:Localization.Name}" Width="200" DisplayMemberBinding="{Binding Path=Name}" />
+                                    <GridViewColumn Header="{x:Static p:Localization.Value}" Width="200" DisplayMemberBinding="{Binding Path=Value}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </TabItem>
+                    <TabItem Header="{x:Static p:Localization.AllowedResources}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                <GroupBox Grid.Row="2" Margin="1" Header="{x:Static p:Localization.AllowedResources}">
-                    <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedFactory.AllowedResources}" ScrollViewer.CanContentScroll="True">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="{x:Static p:Localization.Value}" Width="200" DisplayMemberBinding="{Binding}" />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </GroupBox>
+                            <GroupBox Grid.Row="0" Margin="1" Header="{x:Static p:Localization.AllowedResourceForms}">
+                                <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedFactory.AllowedResourceForms}" ScrollViewer.CanContentScroll="True">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="{x:Static p:Localization.Value}" Width="200" DisplayMemberBinding="{Binding}" />
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </GroupBox>
 
-                <GroupBox Grid.Row="3" Margin="1" Header="{x:Static p:Localization.CustomProperties}">
-                    <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedFactory.Properties}" ScrollViewer.CanContentScroll="True">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="{x:Static p:Localization.Name}" Width="200" DisplayMemberBinding="{Binding Path=Name}" />
-                                <GridViewColumn Header="{x:Static p:Localization.Value}" Width="200" DisplayMemberBinding="{Binding Path=Value}" />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </GroupBox>
-
+                            <GroupBox Grid.Row="1" Margin="1" Header="{x:Static p:Localization.AllowedResources}">
+                                <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedFactory.AllowedResources}" ScrollViewer.CanContentScroll="True">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="{x:Static p:Localization.Value}" Width="200" DisplayMemberBinding="{Binding}" />
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </GroupBox>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
             </Grid>
         </Grid>
     </Grid>

@@ -304,6 +304,33 @@ namespace UniversalHelmod.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à L&apos;outil va extraire les informations du dossier du jeu, une command va être exécuté pour les images..
+        /// </summary>
+        public static string StationeersExtractorDetail {
+            get {
+                return ResourceManager.GetString("StationeersExtractorDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Stationeers Extractor.
+        /// </summary>
+        public static string StationeersExtractorTitle {
+            get {
+                return ResourceManager.GetString("StationeersExtractorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Stationeers Game Folder:.
+        /// </summary>
+        public static string StationeersGameFolder {
+            get {
+                return ResourceManager.GetString("StationeersGameFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Tier.
         /// </summary>
         public static string Tier {

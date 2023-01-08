@@ -6,7 +6,7 @@ using System.Text;
 
 namespace UniversalHelmod.Databases.Models
 {
-    public class BaseOnItem : NotifyProperty
+    public class BaseOnItem :  BaseIcon
     {
         private Item item;
         public Item Item

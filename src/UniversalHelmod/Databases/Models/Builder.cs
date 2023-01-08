@@ -41,7 +41,7 @@ namespace UniversalHelmod.Databases.Models
         }
         public BitmapImage Icon
         {
-            get { return factory.Item.Icon; }
+            get { return factory.Icon; }
         }
         public double Speed
         {
@@ -64,7 +64,7 @@ namespace UniversalHelmod.Databases.Models
         }
         public string Name
         {
-            get { return factory.Item.Name; }
+            get { return factory.Name; }
         }
         public Builder Clone(double factor = 1)
         {

@@ -198,6 +198,15 @@
   <data name="StandardProperties" xml:space="preserve">
     <value>Standard Properties</value>
   </data>
+  <data name="StationeersExtractorDetail" xml:space="preserve">
+    <value>L'outil va extraire les informations du dossier du jeu, une command va être exécuté pour les images.</value>
+  </data>
+  <data name="StationeersExtractorTitle" xml:space="preserve">
+    <value>Stationeers Extractor</value>
+  </data>
+  <data name="StationeersGameFolder" xml:space="preserve">
+    <value>Stationeers Game Folder:</value>
+  </data>
   <data name="Tier" xml:space="preserve">
     <value>Tier</value>
   </data>

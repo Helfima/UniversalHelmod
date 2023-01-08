@@ -53,8 +53,8 @@ namespace UniversalHelmod.Workspaces.Views
         private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var workspace = this.ListWorkspaces.SelectedItem as Workspace;
-            workspace.Load();
             Model.Current = workspace;
+            workspace.Load();
             var myWindow = Window.GetWindow(this);
             myWindow.Close();
         }

@@ -1,8 +1,4 @@
-﻿using UniversalHelmod.Databases.Models;
-using UniversalHelmod.Exceptions;
-using UniversalHelmod.Extensions;
-using UniversalHelmod.Workspaces.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +11,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UniversalHelmod.Classes;
+using UniversalHelmod.Databases.Models;
+using UniversalHelmod.Exceptions;
+using UniversalHelmod.Extensions;
+using UniversalHelmod.Workspaces.Models;
 
 namespace UniversalHelmod.Databases.Views
 {
@@ -61,7 +62,7 @@ namespace UniversalHelmod.Databases.Views
         {
             var combobox = sender as ComboBox;
             var text = combobox.Text;
-            if ( String.IsNullOrEmpty(text) == false && Model.ItemTypes.Contains(text) == false)
+            if (String.IsNullOrEmpty(text) == false && Model.ItemTypes.Contains(text) == false)
             {
                 Model.ItemTypes.Add(text);
                 combobox.SelectedItem = text;
@@ -140,41 +141,14 @@ namespace UniversalHelmod.Databases.Views
         {
             try
             {
-                // To use System.Windows.Forms add <UseWindowsForms>true</UseWindowsForms> in .csproj file
-                using (var dialog = new System.Windows.Forms.OpenFileDialog())
-                {
-                    dialog.Filter = "Image PNG: (*.png)|*.png|Image JPEG: (*.jpg)|*.jpg;*.jpeg|AllFiles:(*.*)|*.*";
-                    System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-                    string path = dialog.FileName;
-                    if (!String.IsNullOrEmpty(path))
-                    {
-                        try
-                        {
-                            var imageFile = WorkspacesModel.Intance.Current.SaveImageIntoWorkspace(path, false);
-                            Model.SelectedItem.IconPath = imageFile;
-                        }
-                        catch (ImageException ex)
-                        {
-                            // Configure message box
-                            string message = "Hello, MessageBox!";
-                            string caption = $"{ex.Message}\nDo you want to overwrite the image?";
-                            MessageBoxButton buttons = MessageBoxButton.YesNo;
-                            // Show message box
-                            MessageBoxResult resultImage = MessageBox.Show(message, caption, buttons);
-                            if (resultImage == MessageBoxResult.Yes)
-                            {
-                                var imageFile = WorkspacesModel.Intance.Current.SaveImageIntoWorkspace(path, true);
-                                Model.SelectedItem.IconPath = imageFile;
-                            }
-                        }
-                    }
-                }
+                var element = Model.SelectedItem;
+                Utils.SelecElementIconPath(element);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            
+
         }
     }
 }

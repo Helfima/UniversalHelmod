@@ -25,6 +25,9 @@
     <Compile Update="Extractors\Satisfactory\SatisfactoryExtractorWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Extractors\Stationeers\StationeersExtractorWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Sheets\Views\EditionInput.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -61,6 +64,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Extractors\Satisfactory\SatisfactoryExtractorWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Extractors\Stationeers\StationeersExtractorWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
