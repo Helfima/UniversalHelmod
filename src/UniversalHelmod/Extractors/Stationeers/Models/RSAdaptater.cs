@@ -153,11 +153,7 @@ namespace UniversalHelmod.Extractors.Stationeers.Models
             var targetPath = Path.Combine(targetFolder, $"{prefabName}.png");
             var sourceFolder = "C:\\Temp\\export_stationeers\\resources.assets\\ExportedProject\\Assets\\Texture2D";
             var sourcePath = Path.Combine(sourceFolder, $"{prefabName}.png");
-            if (File.Exists(targetPath))
-            {
-                baseIcon.IconPath = targetPath;
-            }
-            else if(File.Exists(sourcePath) == true)
+            if(File.Exists(sourcePath) == true)
             {
                 File.Copy(sourcePath, targetPath, true);
                 baseIcon.IconPath = targetPath;

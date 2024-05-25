@@ -74,7 +74,11 @@ namespace UniversalHelmod.Classes
                 if (File.Exists(fileName))
                 {
                     Uri uri = new Uri(fileName);
-                    var img = new BitmapImage(uri);
+                    var img = new BitmapImage();
+                    img.BeginInit();
+                    img.UriSource = uri;
+                    img.CacheOption = BitmapCacheOption.OnLoad;
+                    img.EndInit();
                     return img;
                 }
                 else
