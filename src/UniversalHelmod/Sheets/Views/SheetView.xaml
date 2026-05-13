@@ -83,6 +83,7 @@
                             <StackPanel Orientation="Vertical">
                                 <Image Source="{Binding Icon}" Height="{StaticResource IconSize}" Width="{StaticResource IconSize}" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000"/>
                                 <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
+                                <TextBlock Text="{Binding Flow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockBoldStyle}" />
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
@@ -94,6 +95,7 @@
                                     <Image Source="{Binding Icon}" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000" />
                                 </Button>
                                 <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
+                                <TextBlock Text="{Binding Flow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockBoldStyle}" />
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
@@ -105,6 +107,7 @@
                                     <Image Source="{Binding Icon}" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000"/>
                                 </Button>
                                 <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
+                                <TextBlock Text="{Binding Flow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockBoldStyle}" />
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
@@ -114,6 +117,7 @@
                             <StackPanel Orientation="Vertical" Margin="3">
                                 <Image Source="{Binding Icon}" Height="{StaticResource IconSize}" Width="{StaticResource IconSize}" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000"/>
                                 <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
+                                <TextBlock Text="{Binding Flow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockBoldStyle}" />
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
@@ -135,6 +139,7 @@
                                     <Image Source="{Binding Icon}" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000"/>
                                 </Button>
                                 <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
+                                <TextBlock Text="{Binding Flow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockBoldStyle}" />
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>

@@ -1,16 +1,18 @@
-﻿using UniversalHelmod.Enums;
-using UniversalHelmod.Extensions;
-using UniversalHelmod.Databases.Models;
-using UniversalHelmod.Sheets.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
+using UniversalHelmod.Databases.Models;
+using UniversalHelmod.Enums;
+using UniversalHelmod.Extensions;
+using UniversalHelmod.Sheets.Models;
 
 namespace UniversalHelmod.Sheets.Math
 {
     public class Compute
     {
         public static double EPSILON = 0.01;
+        public static double DURATION = 60;
         private Solver solver;
         private int Time = 1;
 
@@ -83,10 +85,12 @@ namespace UniversalHelmod.Sheets.Math
             foreach (Amount amount in element.Ingredients)
             {
                 amount.Count = amount.Count * element.Count;
+                amount.Flow = amount.Count * Compute.DURATION;
             }
             foreach (Amount amount in element.Products)
             {
                 amount.Count = amount.Count * element.Count;
+                amount.Flow = amount.Count * Compute.DURATION;
             }
         }
         private void ComputePower(Nodes nodes)
@@ -159,6 +163,15 @@ namespace UniversalHelmod.Sheets.Math
             }
             nodes.Products = products.Select(entry => entry.Value).Where(x => x.Count > 0.0001).ToObservableCollection();
             nodes.Ingredients = ingredients.Select(entry => entry.Value).Where(x => x.Count > 0.0001).ToObservableCollection();
+            // flow
+            foreach (Amount amount in nodes.Products)
+            {
+                amount.Flow = amount.Count * Compute.DURATION;
+            }
+            foreach (Amount amount in nodes.Ingredients)
+            {
+                amount.Flow = amount.Count * Compute.DURATION;
+            }
         }
 
         private Matrix GetMatrix(Nodes nodes)

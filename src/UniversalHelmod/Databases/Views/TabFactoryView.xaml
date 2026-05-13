@@ -96,6 +96,7 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -129,7 +130,17 @@
                         <TextBlock Text="{x:Static p:Localization.PowerProduction}" Grid.Row="7" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
                         <TextBox x:Name="ElementPowerProduction" Grid.Row="7" Grid.Column="1" Text="{Binding SelectedFactory.PowerProduction}" Style="{StaticResource TextBoxPropertyStyle}"/>
 
-                        <Image Grid.Row="8" Grid.Column="1" Source="{Binding SelectedFactory.Item.Icon}" Width="128" Height="128" />
+                        <TextBlock Margin="1" Text="Icon Path" Grid.Row="8" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <Grid Grid.Row="8" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" x:Name="ElementIconPath" Text="{Binding SelectedFactory.IconPath}" Style="{StaticResource TextBoxPropertyStyle}"/>
+                            <Button Grid.Column="1" x:Name="SelectElementIconPath" Content="{x:Static p:Localization.Select}" Click="SelecElementIconPath_Click" Style="{StaticResource ButtonPropertyStyle}"/>
+                        </Grid>
+                        
+                        <Image Grid.Row="9" Grid.Column="1" Source="{Binding SelectedFactory.Icon}" Width="128" Height="128" />
                     </Grid>
                 </GroupBox>
             </Grid>

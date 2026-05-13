@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UniversalHelmod.Classes;
 using UniversalHelmod.Databases.Models;
 using UniversalHelmod.Extensions;
 
@@ -115,6 +116,19 @@ namespace UniversalHelmod.Databases.Views
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+        private void SelecElementIconPath_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var element = Model.SelectedFactory;
+                Utils.SelecElementIconPath(element);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
     }
 }

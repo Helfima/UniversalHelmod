@@ -47,6 +47,7 @@ namespace UniversalHelmod.Databases.Models
         {
             var item = new Item()
             {
+                Database = this.Database,
                 Name = this.Name,
                 DisplayName = this.DisplayName,
                 Description = this.Description,

@@ -31,21 +31,28 @@ namespace UniversalHelmod.Sheets.Views
 
         private void RecipeSelector_Loaded(object sender, RoutedEventArgs e)
         {
-            var recipes = WorkspacesModel.Intance.Current.Database.Recipes;
-            var categories = new List<string>();
-            foreach(var recipe in recipes )
+            try
             {
-                categories.Add(recipe.ItemType);
+                var recipes = WorkspacesModel.Intance.Current.Database.Recipes;
+                var categories = new List<string>();
+                foreach (var recipe in recipes)
+                {
+                    categories.Add(recipe.ItemType);
+                }
+                categories = categories.Distinct().ToList();
+                var category = categories.First();
+
+                var recipesFiltered = recipes.Where(x => x.ItemType == category).ToList();
+
+                var model = new RecipeSelectorModel();
+                model.Recipes = recipesFiltered.ToObservableCollection();
+                model.Categories = categories.ToObservableCollection();
+                this.DataContext = model;
+            } catch (Exception ex)
+            {
+                Logger.Error(ex);
             }
-            categories = categories.Distinct().ToList();
-            var category = categories.First();
-
-            var recipesFiltered = recipes.Where(x => x.ItemType == category).ToList();
-
-            var model = new RecipeSelectorModel();
-            model.Recipes = recipesFiltered.ToObservableCollection();
-            model.Categories = categories.ToObservableCollection();
-            this.DataContext = model;
+            
         }
         public RecipeSelectorModel Model => this.DataContext as RecipeSelectorModel;
 

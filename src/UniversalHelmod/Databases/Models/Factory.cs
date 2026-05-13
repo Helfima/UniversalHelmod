@@ -30,10 +30,12 @@ namespace UniversalHelmod.Databases.Models
         {
             var factory = new Factory()
             {
+                Database = this.Database,
                 Name = this.Name,
                 DisplayName = this.DisplayName,
                 Description = this.Description,
                 Type = this.Type,
+                IconPath = this.IconPath,
                 Speed = this.Speed,
                 PowerProduction = this.PowerProduction,
                 PowerConsumption = this.PowerConsumption,

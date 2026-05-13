@@ -64,6 +64,7 @@ namespace UniversalHelmod.Databases
         {
             this.Database.Items = this.Items.Select(x => x.Clone()).ToList();
             this.Database.Factories = this.Factories.Select(x => x.Clone()).ToList();
+            this.Database.Recipes = this.Recipes.Select(x => x.Clone()).ToList();
             this.Database.RefreshInternalList();
             Workspaces.Models.WorkspacesModel.Intance.Current.SaveDatabase();
         }

@@ -1,6 +1,4 @@
-﻿using UniversalHelmod.Enums;
-using UniversalHelmod.Databases.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -9,9 +7,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using UniversalHelmod.Classes;
-using System.Threading.Tasks;
+using UniversalHelmod.Databases.Models;
+using UniversalHelmod.Enums;
+using UniversalHelmod.Extensions;
 
 namespace UniversalHelmod.Extractors.Satisfactory.Models
 {
@@ -212,7 +213,7 @@ namespace UniversalHelmod.Extractors.Satisfactory.Models
                 Name = proto.ClassName,
                 DisplayName = proto.DisplayName,
                 Energy = proto.ManufactoringDuration,
-                MadeIn = madeIn,
+                MadeIn = madeIn.ToObservableCollection(),
                 Type = typeof(Recipe).Name,
                 Ingredients = ingredients,
                 Products = products,

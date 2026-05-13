@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using UniversalHelmod.Databases.Converter;
+using UniversalHelmod.Classes;
 
 namespace UniversalHelmod.Databases.Models
 {
@@ -62,7 +63,14 @@ namespace UniversalHelmod.Databases.Models
             ItemTypes.Sort();
             Factories.Sort((x, y) => x.Name.CompareTo(y.Name));
             FactoryTypes.Sort();
-            Recipes.Sort((x, y) => x.MainProduct.Name.CompareTo(y.MainProduct.Name));
+            try
+            {
+                //Recipes.Sort((x, y) => x.MainProduct.Name.CompareTo(y.MainProduct.Name));
+            }
+            catch(Exception ex)
+            {
+                Logger.Error(ex);
+            }
         }
         public void RefreshInternalList()
         {

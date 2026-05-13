@@ -23,7 +23,7 @@ namespace UniversalHelmod.Databases.Models
         private Factory factory;
         private double count;
         private int powerShard;
-        private Builder()
+        public Builder()
         {
 
         }
@@ -41,16 +41,16 @@ namespace UniversalHelmod.Databases.Models
         }
         public BitmapImage Icon
         {
-            get { return factory.Icon; }
+            get { return factory?.Icon; }
         }
         public double Speed
         {
-            get { return factory.Speed; }
+            get { return factory ==null ? 1 : factory.Speed; }
         }
 
         public double Power
         {
-            get { return factory.PowerConsumption; }
+            get { return factory == null ? 0 : factory.PowerConsumption; }
         }
         public double Count
         {
@@ -64,7 +64,7 @@ namespace UniversalHelmod.Databases.Models
         }
         public string Name
         {
-            get { return factory.Name; }
+            get { return factory?.Name; }
         }
         public Builder Clone(double factor = 1)
         {

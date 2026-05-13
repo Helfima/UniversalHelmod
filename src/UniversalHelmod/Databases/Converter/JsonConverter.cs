@@ -96,7 +96,7 @@ namespace UniversalHelmod.Databases.Converter
                 Icon = recipe.IconPath,
                 Energy = recipe.Energy,
                 Tier = recipe.Tier,
-                MadeIn = recipe.MadeIn,
+                MadeIn = recipe.MadeIn.ToList(),
                 Products = jsonProducts,
                 Ingredients = jsonIngredients
             };
@@ -200,7 +200,7 @@ namespace UniversalHelmod.Databases.Converter
                 IconPath = jsonRecipe.Icon,
                 Energy = jsonRecipe.Energy,
                 Tier = jsonRecipe.Tier,
-                MadeIn = jsonRecipe.MadeIn,
+                MadeIn = jsonRecipe.MadeIn.ToObservableCollection(),
                 Products = products.ToObservableCollection(),
                 Ingredients = ingredients.ToObservableCollection()
             };

@@ -20,12 +20,19 @@ namespace UniversalHelmod.Sheets.Models
             this.recipe = recipe;
             this.name = recipe.Name;
             this.type = recipe.Type;
+            if(recipe.MainProduct != null)
+            {
+                this.type = recipe.MainProduct.Type;
+            }
             this.icon = recipe.Icon;
             var factory = recipe.Database.Factories.FirstOrDefault(x => recipe.MadeIn.Contains(x.Name));
             this.Builder = new Builder(factory);
         }
         public void UpdateEffect()
         {
+            effects.Speed = 1;
+            effects.Consumption = 0;
+            if (Builder.Factory == null) return;
             double overclock = 1 + Builder.PowerShard * 0.5;
             var powerConsumptionExponent = Builder.Factory.Properties.Where(x => x.Name == "PowerConsumptionExponent").FirstOrDefault();
             double consumption = 1;

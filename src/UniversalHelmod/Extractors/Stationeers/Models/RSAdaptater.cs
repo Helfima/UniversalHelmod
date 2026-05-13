@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UniversalHelmod.Classes;
 using UniversalHelmod.Databases.Models;
+using UniversalHelmod.Extensions;
 using UniversalHelmod.Extractors.Satisfactory.Models;
 using UniversalHelmod.Workspaces.Models;
 
@@ -107,7 +108,7 @@ namespace UniversalHelmod.Extractors.Stationeers.Models
             {
                 recipe.Energy = 1;
             }
-            recipe.MadeIn = ConvertMadeIn(rsRecipe.MadeIn);
+            recipe.MadeIn = ConvertMadeIn(rsRecipe.MadeIn).ToObservableCollection();
             PrepareIcon(recipe.Name, recipe);
             foreach (var rsProduct in rsRecipe.Products)
             {

@@ -1,6 +1,8 @@
-﻿using UniversalHelmod.Enums;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using UniversalHelmod.Enums;
+using UniversalHelmod.Extensions;
 
 namespace UniversalHelmod.Databases.Models
 {
@@ -31,8 +33,8 @@ namespace UniversalHelmod.Databases.Models
             get { return this.energy; }
             set { this.energy = value; NotifyPropertyChanged(); }
         }
-        private List<string> madeIn = new List<string>();
-        public List<string> MadeIn
+        private ObservableCollection<string> madeIn = new ObservableCollection<string>();
+        public ObservableCollection<string> MadeIn
         {
             get { return this.madeIn; }
             set { this.madeIn = value; NotifyPropertyChanged(); }
@@ -45,6 +47,7 @@ namespace UniversalHelmod.Databases.Models
         {
             var recipe = new Recipe()
             {
+                Database = this.Database,
                 Name = this.Name,
                 DisplayName = this.DisplayName,
                 Description = this.Description,
@@ -52,6 +55,8 @@ namespace UniversalHelmod.Databases.Models
                 MadeIn = this.MadeIn,
                 Energy = this.Energy,
                 Tier = this.Tier,
+                Products = this.Products.Select(x => x.Clone()).ToObservableCollection(),
+                Ingredients = this.Ingredients.Select(x => x.Clone()).ToObservableCollection()
             };
             return recipe;
         }

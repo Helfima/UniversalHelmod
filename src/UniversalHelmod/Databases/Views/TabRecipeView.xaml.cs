@@ -15,6 +15,7 @@ using UniversalHelmod.Classes;
 using UniversalHelmod.Databases.Models;
 using UniversalHelmod.Exceptions;
 using UniversalHelmod.Extensions;
+using UniversalHelmod.Extractors.Stationeers.Models;
 using UniversalHelmod.Workspaces.Models;
 
 namespace UniversalHelmod.Databases.Views
@@ -158,6 +159,89 @@ namespace UniversalHelmod.Databases.Views
                 var amount = System.Convert.ToDouble(amountString);
                 var itemAmount = new Amount(item, amount);
                 Model.SelectedRecipe.Ingredients.Add(itemAmount);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ElementFactory_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                var item = ElementFactory.SelectedItem as Factory;
+                if (item == null) return;
+                Model.SelectedRecipe.MadeIn.Add(item.Name);
+                ElementFactory.SelectedItem = null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void RemoveMadeIn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (sender is Button button && button.Tag != null)
+                {
+                    var factoryToRemove = (string)button.Tag;
+                    Model.SelectedRecipe.MadeIn.Remove(factoryToRemove);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void RemoveProduct_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (sender is Button button && button.Tag != null)
+                {
+                    var itemToRemove = button.Tag as Amount;
+                    Model.SelectedRecipe.Products.Remove(itemToRemove);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void RemoveIngredient_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (sender is Button button && button.Tag != null)
+                {
+                    var itemToRemove = button.Tag as Amount;
+                    Model.SelectedRecipe.Ingredients.Remove(itemToRemove);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ItemSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                var item = ItemSelector.SelectedItem as Item;
+                if (item == null) return;
+                Model.SelectedRecipe.Name = item.Name;
+                Model.SelectedRecipe.DisplayName = item.DisplayName;
+                Model.SelectedRecipe.IconPath = item.IconPath;
+                if (Model.SelectedRecipe.Products.Count == 0)
+                {
+                    var itemAmount = new Amount(item, 1);
+                    Model.SelectedRecipe.Products.Add(itemAmount);
+                }
+                ItemSelector.SelectedItem = null;
             }
             catch (Exception ex)
             {

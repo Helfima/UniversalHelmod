@@ -153,6 +153,9 @@
   <data name="EnergyValue" xml:space="preserve">
     <value>Energy Value</value>
   </data>
+  <data name="Factory" xml:space="preserve">
+    <value>Factory</value>
+  </data>
   <data name="Form" xml:space="preserve">
     <value>Form</value>
   </data>

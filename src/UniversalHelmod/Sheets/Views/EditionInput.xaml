@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UniversalHelmod.Sheets.Views"
         mc:Ignorable="d"
-        Title="EditionInput" Height="76" Width="226" Loaded="Window_Loaded">
+        Title="EditionInput" Height="76" Width="226" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
     <Grid>
         <TextBox Name="Quantity" Width="50" HorizontalAlignment="Left" Margin="84,15,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <Label Content="Quantity" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
