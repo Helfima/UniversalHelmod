@@ -51,6 +51,12 @@ namespace UniversalHelmod.Workspaces.Models
             get { return isActived; }
             set { isActived = value; NotifyPropertyChanged(); }
         }
+        private bool isObjectivesShow = false;
+        public bool IsObjectivesShow
+        {
+            get { return isObjectivesShow; }
+            set { isObjectivesShow = value; NotifyPropertyChanged(); }
+        }
         public void CreateWorkspace(string name, string path)
         {
             var workspace = new Workspace() { Name = name, PathFolder = path, CreatedDate = DateTime.Now, ModifiedDate = DateTime.Now };

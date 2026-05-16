@@ -13,13 +13,23 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Views/GlobalView.xaml" />
                 <ResourceDictionary>
+                    <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
                     <local:ProductTemplateSelector x:Key="myProductTemplateSelector" />
                     <local:IngredientTemplateSelector x:Key="myIngredientTemplateSelector" />
+                    <local:CellBackgroundConverter x:Key="IngredientCellBackgroundConverter"
+                                                   DefaultBrush="{StaticResource BrushIngredientDefault}" />
+                    <local:CellBackgroundConverter x:Key="ProductCellBackgroundConverter"
+                                                   DefaultBrush="{StaticResource BrushProductDefault}"
+                                                   MainBrush="{StaticResource BrushProductMain}"
+                                                   ResidualBrush="{StaticResource BrushProductResidual}"
+                                                   OverflowBrush="{StaticResource BrushProductOverflow}"/>
 
                     <DataTemplate x:Key="RecipeCell">
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Orientation="Vertical" ToolTip="{StaticResource NodeToolTip}" ToolTipService.ShowDuration="100000">
-                                <Image Source="{Binding Icon}" Height="{StaticResource IconSize}" Width="{StaticResource IconSize}" />
+                                <Canvas Width="{StaticResource CellIconWidth}" Height="{StaticResource CellIconHeight}" ClipToBounds="True">
+                                    <Image Source="{Binding Icon}" Canvas.Left="-3" Canvas.Top="-3" Width="{StaticResource CellIconWidth}"/>
+                                </Canvas>
                                 <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
                             </StackPanel>
                         </StackPanel>
@@ -28,7 +38,7 @@
                     <DataTemplate x:Key="PowerCell">
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Orientation="Vertical">
-                                <Image Source="/Images/Eclair.png" Height="{StaticResource IconSize}" Width="{StaticResource IconSize}" />
+                                <Image Source="/Images/Eclair.png" Height="{StaticResource CellIconHeight}" />
                                 <TextBlock Text="{Binding Power, StringFormat={}{0:N1}W}" Style="{StaticResource TextBlockBoldStyle}" />
                             </StackPanel>
                         </StackPanel>
@@ -43,7 +53,9 @@
                                 <DataTemplate DataType="{x:Type src:Node}">
                                     <StackPanel Orientation="Horizontal">
                                         <StackPanel Orientation="Vertical">
-                                            <Image Source="{Binding Builder.Icon}" Height="{StaticResource IconSize}" Width="{StaticResource IconSize}" />
+                                            <Canvas Width="{StaticResource CellIconWidth}" Height="{StaticResource CellIconHeight}" ClipToBounds="True">
+                                                <Image Source="{Binding Builder.Icon}" Canvas.Left="-3" Canvas.Top="-3" Width="{StaticResource CellIconWidth}"/>
+                                            </Canvas>
                                             <TextBlock Text="{Binding Builder.Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical" Visibility="Hidden">
@@ -78,52 +90,22 @@
                         </ContentPresenter>
                     </DataTemplate>
                     
-                    <DataTemplate x:Key="ProductTemplate_Normal">
-                        <StackPanel Orientation="Horizontal">
-                            <StackPanel Orientation="Vertical">
-                                <Image Source="{Binding Icon}" Height="{StaticResource IconSize}" Width="{StaticResource IconSize}" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000"/>
-                                <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
-                                <TextBlock Text="{Binding Flow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockBoldStyle}" />
-                            </StackPanel>
-                        </StackPanel>
-                    </DataTemplate>
-                    
-                    <DataTemplate x:Key="ProductTemplate_Main">
-                        <StackPanel Orientation="Horizontal" Background="LightGreen">
-                            <StackPanel Orientation="Vertical" Margin="3">
-                                <Button Height="{StaticResource IconSize}" Width="{StaticResource IconSize}" Click="Input_Click">
-                                    <Image Source="{Binding Icon}" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000" />
+                    <DataTemplate x:Key="ProductTemplate_Default">
+                        <StackPanel Orientation="Horizontal" Margin="1" Background="{Binding State, Converter={StaticResource ProductCellBackgroundConverter}}">
+                            <StackPanel Orientation="Vertical" Margin="3" >
+                                <Button Click="Product_Click" Padding="0" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000">
+                                    <Canvas Width="{StaticResource CellIconWidth}" Height="{StaticResource CellIconHeight}" ClipToBounds="True">
+                                        <Image Source="{Binding Icon}" Canvas.Left="-3" Canvas.Top="-3" Width="{StaticResource CellIconWidth}"/>
+                                    </Canvas>
                                 </Button>
-                                <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
-                                <TextBlock Text="{Binding Flow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockBoldStyle}" />
+                                <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
+                                <TextBlock Text="{Binding Flow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockProductStyle}" />
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
-                    
-                    <DataTemplate x:Key="ProductTemplate_Residual">
-                        <StackPanel Orientation="Horizontal" Background="LightBlue">
-                            <StackPanel Orientation="Vertical" Margin="3">
-                                <Button Height="{StaticResource IconSize}" Width="{StaticResource IconSize}" Click="Input_Click">
-                                    <Image Source="{Binding Icon}" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000"/>
-                                </Button>
-                                <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
-                                <TextBlock Text="{Binding Flow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockBoldStyle}" />
-                            </StackPanel>
-                        </StackPanel>
-                    </DataTemplate>
-                    
-                    <DataTemplate x:Key="ProductTemplate_Overflow">
-                        <StackPanel Orientation="Horizontal" Background="IndianRed">
-                            <StackPanel Orientation="Vertical" Margin="3">
-                                <Image Source="{Binding Icon}" Height="{StaticResource IconSize}" Width="{StaticResource IconSize}" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000"/>
-                                <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
-                                <TextBlock Text="{Binding Flow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockBoldStyle}" />
-                            </StackPanel>
-                        </StackPanel>
-                    </DataTemplate>
-                    
+
                     <DataTemplate x:Key="ProductsCell">
-                        <ItemsControl ItemsSource="{Binding Products}" ItemTemplateSelector="{StaticResource myProductTemplateSelector}">
+                        <ItemsControl ItemsSource="{Binding Products}" ItemTemplate="{StaticResource ProductTemplate_Default}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel Orientation="Horizontal"/>
@@ -131,21 +113,23 @@
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
                     </DataTemplate>
-                    
+
                     <DataTemplate x:Key="IngredientTemplate_Default">
-                        <StackPanel Orientation="Horizontal" Background="{StaticResource BrushIngredientDefault}">
-                            <StackPanel Orientation="Vertical" Margin="3">
-                                <Button Height="{StaticResource IconSize}" Width="{StaticResource IconSize}" Click="Ingredient_Click">
-                                    <Image Source="{Binding Icon}" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000"/>
+                        <StackPanel Orientation="Horizontal" Margin="1" Background="{Binding State, Converter={StaticResource IngredientCellBackgroundConverter}}">
+                            <StackPanel Orientation="Vertical" Margin="3" >
+                                <Button Click="Ingredient_Click" Padding="0" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000">
+                                    <Canvas Width="{StaticResource CellIconWidth}" Height="{StaticResource CellIconHeight}" ClipToBounds="True">
+                                        <Image Source="{Binding Icon}" Canvas.Left="-3" Canvas.Top="-3" Width="{StaticResource CellIconWidth}"/>
+                                    </Canvas>
                                 </Button>
-                                <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
-                                <TextBlock Text="{Binding Flow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockBoldStyle}" />
+                                <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
+                                <TextBlock Text="{Binding Flow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockProductStyle}" />
                             </StackPanel>
-                        </StackPanel>
+                        </StackPanel>   
                     </DataTemplate>
 
                     <DataTemplate x:Key="IngredientsCell">
-                        <ItemsControl ItemsSource="{Binding Ingredients}" ItemTemplateSelector="{StaticResource myIngredientTemplateSelector}">
+                        <ItemsControl ItemsSource="{Binding Ingredients}" ItemTemplate="{StaticResource IngredientTemplate_Default}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel Orientation="Horizontal" />
@@ -187,14 +171,7 @@
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
-                    <DataTemplate x:Key="NodeCell">
-                        <StackPanel Orientation="Vertical">
-                            <Button Height="{StaticResource IconSize}" Width="{StaticResource IconSize}" Click="Ingredient_Click">
-                                <Image Source="{Binding Icon}"/>
-                            </Button>
-                            <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
-                        </StackPanel>
-                    </DataTemplate>
+                    
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -206,7 +183,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
+        <StackPanel Grid.Row="0" Margin="5,2" Orientation="Horizontal">
             <ListView Name="SheetNavigate" ItemsSource="{Binding Current.DataModel.Sheets}" SelectionChanged="SheetNavigate_SelectionChanged">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -216,7 +193,9 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical">
-                            <Image Source="{Binding Icon}" VerticalAlignment="Top" Height="{StaticResource IconSize}" Width="{StaticResource IconSize}" />
+                            <Canvas Width="{StaticResource CellIconWidth}" Height="{StaticResource CellIconHeight}" ClipToBounds="True">
+                                <Image Source="{Binding Icon}" Canvas.Left="-3" Canvas.Top="-3" Width="{StaticResource CellIconWidth}"/>
+                            </Canvas>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -224,7 +203,7 @@
             <Button Content="New" Click="NewSheet_Click" Height="{StaticResource IconSize}" Width="{StaticResource IconSize}"/>
         </StackPanel>
 
-        <Grid Grid.Row="1" >
+        <Grid Grid.Row="1" Margin="5,2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition/>
@@ -238,7 +217,7 @@
             </StackPanel>
         </Grid>
 
-        <Grid Grid.Row="2" >
+        <Grid Grid.Row="2" Margin="5,2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="*" />
@@ -250,7 +229,9 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical" Margin="{Binding Offset, Converter={StaticResource marginConverter}}">
-                                <Image Source="{Binding Icon}" VerticalAlignment="Top" Height="{StaticResource IconSize}" Width="{StaticResource IconSize}" />
+                                <Canvas HorizontalAlignment="Left" Width="{StaticResource CellIconWidth}" Height="{StaticResource CellIconHeight}" ClipToBounds="True">
+                                    <Image Source="{Binding Icon}" Canvas.Left="-3" Canvas.Top="-3" Width="{StaticResource CellIconWidth}"/>
+                                </Canvas>
                                 <Label Content="{Binding Count, Converter={StaticResource roundNumberConverter}}" Style="{StaticResource LabelBoldStyle}"/>
                             </StackPanel>
                         </DataTemplate>
@@ -263,24 +244,14 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <GroupBox Grid.Row="0" Header="Objectives" >
+                <GroupBox Grid.Row="0" Header="Objectives" MinHeight="160" Visibility="{Binding IsObjectivesShow, Converter={StaticResource BoolToVisibilityConverter}}" >
                     <ScrollViewer>
-                        <ItemsControl ItemsSource="{Binding Current.DataModel.CurrentNode.Inputs}">
+                        <ItemsControl ItemsSource="{Binding Current.DataModel.CurrentNode.Inputs}" ItemTemplate="{StaticResource ProductTemplate_Default}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel Orientation="Horizontal" />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Vertical" Margin="3">
-                                        <Button Height="{StaticResource IconSize}" Width="{StaticResource IconSize}" Click="Input_Click">
-                                            <Image Source="{Binding Icon}" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000" />
-                                        </Button>
-                                        <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </ScrollViewer>
                 </GroupBox>
@@ -303,7 +274,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="2*" />
                 </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0" Header="Information">
                     <Grid>
@@ -313,7 +284,7 @@
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="Output" HorizontalAlignment="Stretch">
                     <ScrollViewer>
-                        <ItemsControl ItemsSource="{Binding Current.DataModel.CurrentNode.Products}" ItemTemplateSelector="{StaticResource myProductTemplateSelector}">
+                        <ItemsControl ItemsSource="{Binding Current.DataModel.CurrentNode.Products}" ItemTemplate="{StaticResource ProductTemplate_Default}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel Orientation="Horizontal" />
@@ -324,7 +295,7 @@
                 </GroupBox>
                 <GroupBox Grid.Row="2" Header="Input">
                     <ScrollViewer>
-                        <ItemsControl ItemsSource="{Binding Current.DataModel.CurrentNode.Ingredients}" ItemTemplateSelector="{StaticResource myIngredientTemplateSelector}">
+                        <ItemsControl ItemsSource="{Binding Current.DataModel.CurrentNode.Ingredients}" ItemTemplate="{StaticResource IngredientTemplate_Default}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel Orientation="Horizontal" />

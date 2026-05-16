@@ -8,5 +8,8 @@
     <Setting Name="StationeersFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Steam\steamapps\common\Stationeers</Value>
     </Setting>
+    <Setting Name="IsDarkMode" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

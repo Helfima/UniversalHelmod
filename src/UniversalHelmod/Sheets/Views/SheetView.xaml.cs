@@ -35,11 +35,11 @@ namespace UniversalHelmod.Sheets.Views
         private DataModel Model => WorkspacesModel.Current.DataModel;
         private bool AddNearRow = false;
         
-        private void Input_Click(object sender, RoutedEventArgs e)
+        private void Product_Click(object sender, RoutedEventArgs e)
         {
             var source = (dynamic)e.Source;
             var item = source.DataContext as Amount;
-            if (item != null)
+            if (item != null && (item.State == Enums.ItemState.Main || item.State == Enums.ItemState.Residual))
             {
                 OpenEditionInput(item);
             }

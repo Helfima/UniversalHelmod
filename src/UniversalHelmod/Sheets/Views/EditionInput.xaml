@@ -5,11 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UniversalHelmod.Sheets.Views"
         mc:Ignorable="d"
-        Title="EditionInput" Height="76" Width="226" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
-    <Grid>
+        Title="EditionInput" SizeToContent="WidthAndHeight" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+    <Grid Margin="3">
         <TextBox Name="Quantity" Width="50" HorizontalAlignment="Left" Margin="84,15,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <Label Content="Quantity" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-        <Button Content="OK" HorizontalAlignment="Left" Margin="162,13,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-
+        <Label Content="Quantity" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Center"/>
+        <Button Content="OK" HorizontalAlignment="Left" Margin="162,13,0,0" VerticalAlignment="Center" Click="Button_Click"/>
     </Grid>
 </Window>

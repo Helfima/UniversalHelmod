@@ -7,7 +7,7 @@
         xmlns:src="clr-namespace:UniversalHelmod.Databases.Models"
         xmlns:Sheets="clr-namespace:UniversalHelmod.Sheets.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1600" Loaded="Window_Loaded">
+        Title="MainWindow" Height="800" Width="1600" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
     <Window.Resources>
     </Window.Resources>
     <Grid>
@@ -30,6 +30,10 @@
             <MenuItem Header="Tool">
                 <MenuItem Header="Extract Satisfactory data" Click="MenuItemExtractSatisfactory_Click" />
                 <MenuItem Header="Extract Stationeers data" Click="MenuItemExtractStationeers_Click" />
+            </MenuItem>
+            <MenuItem Header="Apparence">
+                <MenuItem Header="Mode sombre" x:Name="MenuItemDarkMode" Click="MenuItemThemeMode_Click" />
+                <MenuItem Header="Objectives show" x:Name="MenuItemObjectives" Click="MenuItemObjectivesShow_Click" />
             </MenuItem>
         </Menu>
 
