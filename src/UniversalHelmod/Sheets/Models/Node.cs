@@ -25,6 +25,7 @@ namespace UniversalHelmod.Sheets.Models
                 this.type = recipe.MainProduct.Type;
             }
             this.icon = recipe.Icon;
+            this.Overlay = recipe.Overlay;
             var factory = recipe.Database.Factories.FirstOrDefault(x => recipe.MadeIn.Contains(x.Name));
             this.Builder = new Builder(factory);
         }

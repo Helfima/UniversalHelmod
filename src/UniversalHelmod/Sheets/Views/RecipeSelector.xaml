@@ -34,7 +34,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical" Width="100" ToolTip="{StaticResource RecipeToolTip}" ToolTipService.ShowDuration="100000">
-                            <Image Source="{Binding Icon}" VerticalAlignment="Top" Height="80" Width="80" />
+                            <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

@@ -61,8 +61,8 @@
             </ItemsControl.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Vertical" Width="100" ToolTip="{StaticResource RecipeToolTip}" ToolTipService.ShowDuration="100000">
-                        <Image Source="{Binding Icon}" VerticalAlignment="Top" Height="80" Width="80" />
+                    <StackPanel Width="100" ToolTip="{StaticResource RecipeToolTip}" ToolTipService.ShowDuration="100000">
+                        <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -180,7 +180,12 @@
                             <Button Grid.Column="1" x:Name="SelectElementIconPath" Content="{x:Static p:Localization.Select}" Click="SelecElementIconPath_Click" Style="{StaticResource ButtonPropertyStyle}"/>
                         </Grid>
 
-                        <Image Grid.Row="0" Grid.Column="3" Grid.RowSpan="8" Source="{Binding SelectedRecipe.Icon}" Width="128" Height="128" />
+                        <TextBlock Grid.Row="8" Grid.Column="0" Text="{x:Static p:Localization.Overlay}" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <TextBox Grid.Row="8" Grid.Column="1" x:Name="ElementOverlay" Text="{Binding SelectedRecipe.Overlay}" Style="{StaticResource TextBoxPropertyStyle}"/>
+
+                        <StackPanel Grid.Row="0" Grid.Column="3" Grid.RowSpan="8" DataContext="{Binding SelectedRecipe}">
+                            <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
+                        </StackPanel>
                     </Grid>
                 </GroupBox>
             </Grid>

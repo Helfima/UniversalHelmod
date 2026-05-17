@@ -52,6 +52,7 @@ namespace UniversalHelmod.Databases.Models
                 DisplayName = this.DisplayName,
                 Description = this.Description,
                 IconPath = this.IconPath,
+                Overlay = this.Overlay,
                 MadeIn = this.MadeIn,
                 Energy = this.Energy,
                 Tier = this.Tier,

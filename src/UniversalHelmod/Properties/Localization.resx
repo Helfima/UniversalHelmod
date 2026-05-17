@@ -168,6 +168,9 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="Overlay" xml:space="preserve">
+    <value>Overlay</value>
+  </data>
   <data name="PowerConsumption" xml:space="preserve">
     <value>Power Consumption</value>
   </data>

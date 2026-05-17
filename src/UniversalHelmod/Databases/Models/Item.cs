@@ -53,6 +53,7 @@ namespace UniversalHelmod.Databases.Models
                 Description = this.Description,
                 Type = this.Type,
                 IconPath = this.IconPath,
+                Overlay = this.Overlay,
                 StackSize = this.StackSize,
                 EnergyValue = this.EnergyValue,
                 Form = this.Form,

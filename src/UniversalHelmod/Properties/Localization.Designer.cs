@@ -214,6 +214,15 @@ namespace UniversalHelmod.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Overlay.
+        /// </summary>
+        public static string Overlay {
+            get {
+                return ResourceManager.GetString("Overlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Power Consumption.
         /// </summary>
         public static string PowerConsumption {

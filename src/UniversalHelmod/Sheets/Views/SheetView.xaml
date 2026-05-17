@@ -31,7 +31,7 @@
                                     <StackPanel Orientation="Horizontal" Margin="1" Background="{StaticResource BrushProductDefault}" Width="70">
                                         <StackPanel Orientation="Vertical" Margin="3" >
                                             <Button Click="NodeNavigate_Click" Padding="0" ToolTip="Click to open" ToolTipService.ShowDuration="100000">
-                                                <ContentPresenter Content="{Binding Icon}" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
+                                                <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
                                             </Button>
                                             <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
                                         </StackPanel>
@@ -40,7 +40,7 @@
                                 <DataTemplate DataType="{x:Type src:Node}">
                                     <StackPanel Orientation="Horizontal">
                                         <StackPanel Orientation="Vertical" ToolTip="{StaticResource NodeToolTip}" ToolTipService.ShowDuration="100000">
-                                            <ContentPresenter Content="{Binding Icon}" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
+                                            <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
                                             <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
                                         </StackPanel>
                                     </StackPanel>
@@ -67,7 +67,7 @@
                                 <DataTemplate DataType="{x:Type src:Node}">
                                     <StackPanel Orientation="Horizontal">
                                         <StackPanel Orientation="Vertical">
-                                            <ContentPresenter Content="{Binding Builder.Icon}" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
+                                            <ContentPresenter Content="{Binding Builder}" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
                                             <TextBlock Text="{Binding Builder.Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical" Visibility="Hidden">
@@ -106,7 +106,7 @@
                         <StackPanel Orientation="Horizontal" Margin="1" Background="{Binding State, Converter={StaticResource ProductCellBackgroundConverter}}">
                             <StackPanel Orientation="Vertical" Margin="3" >
                                 <Button Click="Product_Click" Padding="0" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000">
-                                    <ContentPresenter Content="{Binding Icon}" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
+                                    <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
                                 </Button>
                                 <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
                                 <TextBlock Text="{Binding Flow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockProductStyle}" />
@@ -128,7 +128,7 @@
                         <StackPanel Orientation="Horizontal" Margin="1" Background="{Binding State, Converter={StaticResource IngredientCellBackgroundConverter}}">
                             <StackPanel Orientation="Vertical" Margin="3" >
                                 <Button Click="Ingredient_Click" Padding="0" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000">
-                                    <ContentPresenter Content="{Binding Icon}" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
+                                    <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
                                 </Button>
                                 <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
                                 <TextBlock Text="{Binding Flow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockProductStyle}" />
@@ -201,7 +201,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical">
-                            <ContentPresenter Content="{Binding Icon}" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
+                            <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -235,7 +235,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical" Margin="{Binding Offset, Converter={StaticResource marginConverter}}">
-                                <ContentPresenter Content="{Binding Icon}" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
+                                <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
                                 <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}"/>
                             </StackPanel>
                         </DataTemplate>

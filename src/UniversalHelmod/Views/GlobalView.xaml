@@ -63,22 +63,43 @@
     </Style>
     
     <!-- ***** Images ***** -->
+    <local:IsEmptyOrNullVisibilityConverter x:Key="IsEmptyOrNullVisibilityConverter" />
     <DataTemplate  x:Key="CellIconNormalStyle">
         <Canvas Width="{DynamicResource CellIconNormalWidth}" Height="{DynamicResource CellIconNormalHeight}" ClipToBounds="True"
-            HorizontalAlignment="Left">
-            <Image Source="{Binding}"
-               Canvas.Left="{DynamicResource CellIconNormalLeft}"
-               Canvas.Top="{DynamicResource CellIconNormalTop}"
-               Width="{DynamicResource CellIconNormalWidth}"/>
+        HorizontalAlignment="Left">
+            <Grid Canvas.Left="{DynamicResource CellIconNormalLeft}"
+              Canvas.Top="{DynamicResource CellIconNormalTop}"
+              Width="{DynamicResource CellIconNormalWidth}">
+                <Image Source="{Binding Icon}" Width="{DynamicResource CellIconNormalWidth}"/>
+                <Grid Visibility="{Binding Overlay, Converter={StaticResource IsEmptyOrNullVisibilityConverter}}">
+                    <TextBlock Text="{Binding Overlay}" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Top"
+                       Foreground="Purple"
+                       FontWeight="Bold"
+                       FontSize="18"
+                       Background="#10000000"
+                       Padding="2"
+                    Margin="5,0,0,0"/>
+                </Grid>
+            </Grid>
         </Canvas>
     </DataTemplate>
     <DataTemplate  x:Key="CellIconSmallStyle">
         <Canvas Width="{DynamicResource CellIconSmallWidth}" Height="{DynamicResource CellIconSmallHeight}" ClipToBounds="True"
             HorizontalAlignment="Left">
-            <Image Source="{Binding}"
-               Canvas.Left="{DynamicResource CellIconSmallLeft}"
-               Canvas.Top="{DynamicResource CellIconSmallTop}"
-               Width="{DynamicResource CellIconSmallWidth}"/>
+            <Grid Canvas.Left="{DynamicResource CellIconSmallLeft}"
+                Canvas.Top="{DynamicResource CellIconSmallTop}"
+                Width="{DynamicResource CellIconSmallWidth}">
+                <Image Source="{Binding}" Width="{DynamicResource CellIconSmallWidth}"/>
+                <TextBlock Text="{Binding DataContext.Overlay, RelativeSource={RelativeSource AncestorType=ContentPresenter}}" 
+               HorizontalAlignment="Center" 
+               VerticalAlignment="Top"
+               Foreground="Purple"
+               FontWeight="Bold"
+               Background="#10000000"
+               Padding="2"/>
+            </Grid>
         </Canvas>
     </DataTemplate>
     <Style x:Key="DropDownImageStyle" TargetType="{x:Type Image}">
@@ -293,11 +314,14 @@
     <DataTemplate x:Key="RecipeCell">
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="1">
             <StackPanel Orientation="Vertical" Margin="3">
-                <Image Source="{Binding Icon}" Height="{StaticResource IconSize}" Width="{StaticResource IconSize}" ToolTip="{StaticResource RecipeToolTip}" ToolTipService.ShowDuration="100000"/>
+                <StackPanel ToolTip="{StaticResource RecipeToolTip}" ToolTipService.ShowDuration="100000">
+                    <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
+                </StackPanel>
                 <Label Content="{Binding DisplayName}" Style="{StaticResource LabelBoldStyle}"/>
             </StackPanel>
         </StackPanel>
     </DataTemplate>
+    
     <DataTemplate x:Key="EnergyCell">
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal">

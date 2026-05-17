@@ -9,6 +9,12 @@ namespace UniversalHelmod.Databases.Models
 {
     public class BaseIcon : NotifyProperty
     {
+        protected string overlay;
+        public string Overlay
+        {
+            get { return this.overlay; }
+            set { this.overlay = value; NotifyPropertyChanged(); }
+        }
         protected string iconPath;
         public string IconPath
         {

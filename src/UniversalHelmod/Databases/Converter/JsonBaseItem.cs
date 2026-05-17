@@ -12,6 +12,7 @@ namespace UniversalHelmod.Databases.Converter
         public string Description { get; set; }
         public string Type { get; set; }
         public string Icon { get; set; }
+        public string Overlay { get; set; }
         public List<Property> Properties { get; set; }
     }
 }
