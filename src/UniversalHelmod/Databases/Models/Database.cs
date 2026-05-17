@@ -162,12 +162,24 @@ namespace UniversalHelmod.Databases.Models
             {
                 foreach (Amount product in recipe.Products)
                 {
-                    var whereUsed = ingredient.Item.WhereUsed;
-                    if ((product.Item.Type != "Building"
-                        && product.Item.Type != "FICSMAS")
-                        && !whereUsed.Contains(product.Item))
+                    if(ingredient.Item == null)
                     {
-                        whereUsed.Add(product.Item);
+                        Logger.Error($"Wrong where use item in recipe '{recipe.Name}'");
+                        continue;
+                    }
+                    try
+                    {
+                        var whereUsed = ingredient.Item.WhereUsed;
+                        if ((product.Item.Type != "Building"
+                            && product.Item.Type != "FICSMAS")
+                            && !whereUsed.Contains(product.Item))
+                        {
+                            whereUsed.Add(product.Item);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex);
                     }
                 }
             }
@@ -177,6 +189,11 @@ namespace UniversalHelmod.Databases.Models
         {
             foreach (Amount product in recipe.Products)
             {
+                if (product.Name == null)
+                {
+                    Logger.Error($"Wrong product item in recipe '{recipe.Name}'");
+                    continue;
+                }
                 if (!recipesByProduct.ContainsKey(product.Name))
                 {
                     recipesByProduct.Add(product.Name, new List<Recipe>());
@@ -186,6 +203,11 @@ namespace UniversalHelmod.Databases.Models
             }
             foreach (Amount ingredient in recipe.Ingredients)
             {
+                if (ingredient.Name == null)
+                {
+                    Logger.Error($"Wrong ingredient item in recipe '{recipe.Name}'");
+                    continue;
+                }
                 if (!recipesByIngredient.ContainsKey(ingredient.Name))
                 {
                     recipesByIngredient.Add(ingredient.Name, new List<Recipe>());

@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Linq;
 using UniversalHelmod.Extensions;
+using System.Windows;
 
 namespace UniversalHelmod.Databases
 {
@@ -59,7 +60,15 @@ namespace UniversalHelmod.Databases
             this.Factories = database.Factories.OfType<Factory>().ToObservableCollection();
             this.FactoryTypes = database.FactoryTypes.ToObservableCollection();
             this.Recipes = database.Recipes.ToObservableCollection();
+            RefreshViews();
         }
+        public void RefreshViews()
+        {
+            RefreshFactoriesView();
+            RefreshItemsView();
+            RefreshRecipesView();
+        }
+
         public void Save()
         {
             this.Database.Items = this.Items.Select(x => x.Clone()).ToList();
@@ -69,6 +78,29 @@ namespace UniversalHelmod.Databases
             Workspaces.Models.WorkspacesModel.Intance.Current.SaveDatabase();
         }
         #region ==== Item ====
+        private ObservableCollection<Item> itemsView;
+        public ObservableCollection<Item> ItemsView
+        {
+            get { return itemsView; }
+            set { itemsView = value; NotifyPropertyChanged(); }
+        }
+        private string itemFilter;
+        public string ItemFilter
+        {
+            get { return itemFilter; }
+            set { itemFilter = value; NotifyPropertyChanged(); RefreshItemsView(); }
+        }
+        public void RefreshItemsView()
+        {
+            if (ItemFilter == null)
+            {
+                ItemsView = Items.ToObservableCollection();
+            }
+            else
+            {
+                ItemsView = Items.Where(x => x.Type == ItemFilter).ToObservableCollection();
+            }
+        }
         private ObservableCollection<Item> items;
         public ObservableCollection<Item> Items
         {
@@ -95,6 +127,7 @@ namespace UniversalHelmod.Databases
                     this.Items.Add(item);
                 }
             }
+            RefreshItemsView();
         }
         public void AddItem(Item item)
         {
@@ -102,6 +135,7 @@ namespace UniversalHelmod.Databases
             if (databaseItem == null)
             {
                 this.Items.Add(item);
+                RefreshItemsView();
             }
             else
             {
@@ -113,15 +147,78 @@ namespace UniversalHelmod.Databases
             var databaseItem = this.Items.Where(x => x.Name == item.Name).FirstOrDefault();
             if (databaseItem != null)
             {
+                if (CheckUsedItem(databaseItem)) return;
                 if (this.Items.Remove(databaseItem))
                 {
                     this.SelectedItem = new Item();
                 }
+                RefreshItemsView();
             }
+        }
+        private bool CheckUsedItem(Item item)
+        {
+            var recipes = new List<Recipe>();
+            foreach(var recipe in this.Recipes)
+            {
+                var found = false;
+                foreach (var product in recipe.Products)
+                {
+                    if (product.Name == item.Name)
+                    {
+                        recipes.Add(recipe);
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) continue;
+                foreach (var product in recipe.Ingredients)
+                {
+                    if (product.Name == item.Name)
+                    {
+                        recipes.Add(recipe);
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (recipes.Count > 0)
+            {
+                var messageBuilder = new StringBuilder();
+                messageBuilder.AppendLine("Cannot be deleted, this item used in recipes:");
+                foreach (var recipe in recipes)
+                {
+                    messageBuilder.AppendLine(recipe.Name);
+                }
+                MessageBox.Show(messageBuilder.ToString());
+            }
+            return recipes.Count > 0;
         }
         #endregion
 
         #region ==== Factory ====
+        private ObservableCollection<Factory> factoriesView;
+        public ObservableCollection<Factory> FactoriesView
+        {
+            get { return factoriesView; }
+            set { factoriesView = value; NotifyPropertyChanged(); }
+        }
+        private string factoryFilter;
+        public string FactoryFilter
+        {
+            get { return factoryFilter; }
+            set { factoryFilter = value; NotifyPropertyChanged(); RefreshFactoriesView(); }
+        }
+        public void RefreshFactoriesView()
+        {
+            if (FactoryFilter == null)
+            {
+                FactoriesView = Factories.ToObservableCollection();
+            }
+            else
+            {
+                FactoriesView = Factories.Where(x => x.Type == FactoryFilter).ToObservableCollection();
+            }
+        }
         private ObservableCollection<Factory> factories;
         public ObservableCollection<Factory> Factories
         {
@@ -148,6 +245,7 @@ namespace UniversalHelmod.Databases
                     this.Factories.Add(factory);
                 }
             }
+            RefreshFactoriesView();
         }
         public void AddFactory(Factory factory)
         {
@@ -155,6 +253,7 @@ namespace UniversalHelmod.Databases
             if (databaseItem == null)
             {
                 this.Factories.Add(factory);
+                RefreshFactoriesView();
             }
             else
             {
@@ -170,11 +269,35 @@ namespace UniversalHelmod.Databases
                 {
                     this.SelectedFactory = new Factory();
                 }
+                RefreshFactoriesView();
             }
         }
         #endregion
 
         #region ==== Recipe ====
+        private ObservableCollection<Recipe> recipesView;
+        public ObservableCollection<Recipe> RecipesView
+        {
+            get { return recipesView; }
+            set { recipesView = value; NotifyPropertyChanged(); }
+        }
+        private string recipeFilter;
+        public string RecipeFilter
+        {
+            get { return recipeFilter; }
+            set { recipeFilter = value; NotifyPropertyChanged(); RefreshRecipesView(); }
+        }
+        public void RefreshRecipesView()
+        {
+            if (RecipeFilter == null)
+            {
+                RecipesView = Recipes.ToObservableCollection();
+            }
+            else
+            {
+                RecipesView = Recipes.Where(x => x.MainProduct.Type == RecipeFilter).ToObservableCollection();
+            }
+        }
         private ObservableCollection<Recipe> recipes;
         public ObservableCollection<Recipe> Recipes
         {
@@ -201,6 +324,7 @@ namespace UniversalHelmod.Databases
                     this.Recipes.Add(recipe);
                 }
             }
+            RefreshRecipesView();
         }
         public void AddRecipe(Recipe recipe)
         {
@@ -208,6 +332,7 @@ namespace UniversalHelmod.Databases
             if (databaseItem == null)
             {
                 this.Recipes.Add(recipe);
+                RefreshRecipesView();
             }
             else
             {
@@ -223,6 +348,7 @@ namespace UniversalHelmod.Databases
                 {
                     this.SelectedRecipe = new Recipe();
                 }
+                RefreshRecipesView();
             }
         }
         #endregion

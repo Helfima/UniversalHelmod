@@ -56,6 +56,7 @@ namespace UniversalHelmod.Databases.Models
                 StackSize = this.StackSize,
                 EnergyValue = this.EnergyValue,
                 Form = this.Form,
+                Properties = this.Properties
             };
             return item;
         }

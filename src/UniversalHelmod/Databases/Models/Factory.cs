@@ -39,6 +39,7 @@ namespace UniversalHelmod.Databases.Models
                 Speed = this.Speed,
                 PowerProduction = this.PowerProduction,
                 PowerConsumption = this.PowerConsumption,
+                Properties = this.Properties
             };
             return factory;
         }

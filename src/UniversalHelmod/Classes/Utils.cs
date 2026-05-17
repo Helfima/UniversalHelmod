@@ -65,7 +65,7 @@ namespace UniversalHelmod.Classes
             }
         }
 
-        public static BitmapImage GetImage(string path)
+        public static BitmapImage GetImage(string path, Int32Rect cropRect)
         {
             try
             {
@@ -79,6 +79,10 @@ namespace UniversalHelmod.Classes
                     img.UriSource = uri;
                     img.CacheOption = BitmapCacheOption.OnLoad;
                     img.EndInit();
+                    if(cropRect.IsEmpty == false)
+                    {
+                        img = (BitmapImage) CropImage(img, cropRect);
+                    }
                     return img;
                 }
                 else
@@ -128,6 +132,40 @@ namespace UniversalHelmod.Classes
                     }
                 }
             }
+        }
+
+        public static BitmapSource CropImage(BitmapImage source, int x, int y, int width, int height)
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+
+            // Vérifier que les dimensions sont valides
+            if (x < 0 || y < 0 || width <= 0 || height <= 0)
+                throw new ArgumentOutOfRangeException("Les paramètres de rognage doivent être positifs.");
+
+            if (x + width > source.PixelWidth || y + height > source.PixelHeight)
+                throw new ArgumentOutOfRangeException("La zone de rognage dépasse les dimensions de l'image source.");
+
+            // Créer le rectangle de rognage
+            Int32Rect cropRect = new Int32Rect(x, y, width, height);
+
+            // Retourner l'image rognée
+            return new CroppedBitmap(source, cropRect);
+        }
+        public static BitmapSource CropImage(BitmapImage source, Int32Rect cropRect)
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+
+            // Vérifier que les dimensions sont valides
+            if (cropRect.X < 0 || cropRect.Y < 0 || cropRect.Width <= 0 || cropRect.Height <= 0)
+                return source;
+
+            if (cropRect.X + cropRect.Width > source.PixelWidth || cropRect.Y + cropRect.Height > source.PixelHeight)
+                return source;
+
+            // Retourner l'image rognée
+            return new CroppedBitmap(source, cropRect);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using UniversalHelmod.Classes;
 
@@ -14,12 +15,21 @@ namespace UniversalHelmod.Databases.Models
             get { return iconPath; }
             set { iconPath = value; Icon = null; NotifyPropertyChanged(); }
         }
+        protected Int32Rect cropRect = Int32Rect.Empty;
+        public Int32Rect CropRect
+        {
+            get { return cropRect; }
+            set { cropRect = value; Icon = null; NotifyPropertyChanged(); }
+        }
         protected BitmapImage icon;
         public BitmapImage Icon
         {
             get
             {
-                if (icon == null) icon = Utils.GetImage(IconPath);
+                if (icon == null)
+                {
+                    icon = Utils.GetImage(IconPath, CropRect);
+                }
                 return icon;
             }
             set { icon = value; NotifyPropertyChanged(); }

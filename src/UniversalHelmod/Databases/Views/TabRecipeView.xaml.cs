@@ -36,15 +36,7 @@ namespace UniversalHelmod.Databases.Views
             var button = e.Source as RadioButton;
             if (button != null)
             {
-                var filter = button.Content.ToString();
-                if (filter == "None")
-                {
-                    Model.Recipes = Model.Database.Recipes.ToObservableCollection();
-                }
-                else
-                {
-                    Model.Recipes = Model.Database.Recipes.Where(x => x.ItemType == filter).ToObservableCollection();
-                }
+                Model.RecipeFilter = button.Content.ToString();
             }
         }
         private void ListViewElements_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -242,6 +234,17 @@ namespace UniversalHelmod.Databases.Views
                     Model.SelectedRecipe.Products.Add(itemAmount);
                 }
                 ItemSelector.SelectedItem = null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void ButtonClearFilter_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Model.RecipeFilter = null;
             }
             catch (Exception ex)
             {

@@ -321,5 +321,15 @@ namespace UniversalHelmod.Sheets.Views
                 Model.CurrentNode = selection;
             }
         }
+        private void NodeNavigate_Click(object sender, RoutedEventArgs e)
+        {
+
+            var source = (dynamic)e.Source;
+            var selection = source.DataContext as Nodes;
+            if (selection != null)
+            {
+                Model.CurrentNode = selection;
+            }
+        }
     }
 }

@@ -20,24 +20,29 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ItemsControl Grid.Row="0" Grid.ColumnSpan="2" ItemsSource="{Binding FactoryTypes}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <RadioButton GroupName="ElementFilter" Checked="ElementFilter_Checked" Content="{Binding}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <Button Margin="10,0" Content="Clear Filter" Click="ButtonClearFilter_Click" />
+            <ItemsControl ItemsSource="{Binding FactoryTypes}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <RadioButton GroupName="ElementFilter" Checked="ElementFilter_Checked" Content="{Binding}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+        
         <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
             <Label Content="{x:Static p:Localization.InformationQuantity}" />
-            <Label Content="{Binding Factories.Count}" />
+            <Label Content="{Binding FactoriesView.Count}" />
         </StackPanel>
 
-        <ListView x:Name="ListViewItems" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding Factories}" HorizontalAlignment="Stretch" SelectionChanged="ListViewElements_SelectionChanged">
+        <ListView x:Name="ListViewItems" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding FactoriesView}" HorizontalAlignment="Stretch" SelectionChanged="ListViewElements_SelectionChanged">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="{StaticResource ColumnNumber}" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
@@ -106,7 +111,7 @@
                         <ComboBox x:Name="ItemSelector" Grid.Row="0" Grid.Column="1" 
                                 ItemsSource="{Binding Items}"
                                 SelectedItem="{Binding SelectedFactory.Item}"
-                                ItemTemplate="{StaticResource DropDownCellTemplate}" />
+                                ItemTemplate="{StaticResource AmountCellTemplate}" />
 
                         <TextBlock Text="{x:Static p:Localization.Name}" Grid.Row="1" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
                         <TextBox x:Name="ElementName" Grid.Row="1" Grid.Column="1" Text="{Binding SelectedFactory.Name}" Style="{StaticResource TextBoxPropertyStyle}"/>
@@ -148,14 +153,12 @@
             <Grid Grid.Row="2" Margin="3">
                 <TabControl>
                     <TabItem Header="{x:Static p:Localization.CustomProperties}">
-                        <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedFactory.Properties}" ScrollViewer.CanContentScroll="True">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="{x:Static p:Localization.Name}" Width="200" DisplayMemberBinding="{Binding Path=Name}" />
-                                    <GridViewColumn Header="{x:Static p:Localization.Value}" Width="200" DisplayMemberBinding="{Binding Path=Value}" />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+                        <DataGrid Margin="3" ItemsSource="{Binding SelectedFactory.Properties}" AutoGenerateColumns="False" CanUserReorderColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{x:Static p:Localization.Name}" Binding="{Binding Path=Name}" Width="100" />
+                                <DataGridTextColumn Header="{x:Static p:Localization.Value}" Binding="{Binding Path=Value}" MinWidth="100" />
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </TabItem>
                     <TabItem Header="{x:Static p:Localization.AllowedResources}">
                         <Grid>

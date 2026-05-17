@@ -33,15 +33,7 @@ namespace UniversalHelmod.Databases.Views
             var button = e.Source as RadioButton;
             if (button != null)
             {
-                var filter = button.Content.ToString();
-                if (filter == "None")
-                {
-                    Model.Factories = Model.Database.Factories.ToObservableCollection();
-                }
-                else
-                {
-                    Model.Factories = Model.Database.Factories.Where(x => x.Type == filter).ToObservableCollection();
-                }
+                Model.FactoryFilter = button.Content.ToString();
             }
         }
         private void ListViewElements_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -129,6 +121,18 @@ namespace UniversalHelmod.Databases.Views
                 MessageBox.Show(ex.Message);
             }
 
+        }
+
+        private void ButtonClearFilter_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Model.FactoryFilter = null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
