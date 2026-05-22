@@ -49,6 +49,8 @@ namespace UniversalHelmod.Databases.Models
             {
                 Database = this.Database,
                 Name = this.Name,
+                Type = this.Type,
+                Tag = this.Tag,
                 DisplayName = this.DisplayName,
                 Description = this.Description,
                 IconPath = this.IconPath,

@@ -25,6 +25,12 @@
     <Compile Update="Extractors\Satisfactory\SatisfactoryExtractorWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Extractors\StarRupture\MapView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Extractors\StarRupture\StarRuptureSaveExtrator.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Extractors\Stationeers\StationeersExtractorWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

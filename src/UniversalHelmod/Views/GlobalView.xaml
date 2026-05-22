@@ -92,7 +92,7 @@
                 Canvas.Top="{DynamicResource CellIconSmallTop}"
                 Width="{DynamicResource CellIconSmallWidth}">
                 <Image Source="{Binding}" Width="{DynamicResource CellIconSmallWidth}"/>
-                <TextBlock Text="{Binding DataContext.Overlay, RelativeSource={RelativeSource AncestorType=ContentPresenter}}" 
+                <TextBlock Text="{Binding Overlay, RelativeSource={RelativeSource AncestorType=ContentPresenter}}" 
                HorizontalAlignment="Center" 
                VerticalAlignment="Top"
                Foreground="Purple"

@@ -1,0 +1,36 @@
+﻿<Window x:Class="UniversalHelmod.Extractors.StarRupture.MapView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UniversalHelmod.Extractors.StarRupture"
+        mc:Ignorable="d"
+        Title="MapView" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="#333" Margin="0">
+            <Label Content="Espacement :" Foreground="White" VerticalAlignment="Center"/>
+            <Slider x:Name="SpacingSlider" Minimum="0.5" Maximum="10" Value="10" Width="200"
+            VerticalAlignment="Center" ValueChanged="SpacingSlider_ValueChanged"/>
+            <Label x:Name="SpacingLabel" Content="x1.0" Foreground="White" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <Border Grid.Row="1" ClipToBounds="True" Background="Black" 
+                MouseWheel="MapCanvas_MouseWheel"
+                MouseLeftButtonDown="MapCanvas_MouseLeftButtonDown"
+                MouseLeftButtonUp="MapCanvas_MouseLeftButtonUp"
+                MouseMove="MapCanvas_MouseMove">
+            <Canvas x:Name="MapCanvas" Background="Transparent">
+                <Canvas.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1"/>
+                        <TranslateTransform x:Name="TranslateTransform"/>
+                    </TransformGroup>
+                </Canvas.RenderTransform>
+            </Canvas>
+        </Border>
+    </Grid>
+</Window>

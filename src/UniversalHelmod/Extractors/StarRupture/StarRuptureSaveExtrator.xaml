@@ -1,0 +1,97 @@
+﻿<Window x:Class="UniversalHelmod.Extractors.StarRupture.StarRuptureSaveExtrator"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UniversalHelmod.Extractors.StarRupture"
+        mc:Ignorable="d"
+        xmlns:p="clr-namespace:UniversalHelmod.Properties"
+        Title="StarRuptureSaveExtrator" Height="450" Width="800" Loaded="Window_Loaded">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Views/GlobalView.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <local:TimestampToDateConverter x:Key="TimestampToDateConverter" />
+            <local:SecondsToTimeSpanConverter x:Key="SecondsToTimeSpanConverter" />
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="3">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Save folder"/>
+                    <TextBox x:Name="PathSaves" Text="{Binding Path}" TextWrapping="NoWrap" Width="450" Height="20"/>
+                    <Button Content="{x:Static p:Localization.ButtonChange}" Style="{StaticResource ButtonStyle}" Click="ButtonDirectory_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="3">
+            <ItemsControl ItemsSource="{Binding FileSaves}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button x:Name="ExtractSave" Margin="3" Click="ExtractSave_Click">
+                            <Border BorderBrush="Black" BorderThickness="1" Padding="1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Date" Margin="5,0" />
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Timestamp, Converter={StaticResource TimestampToDateConverter}}" />
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Time" Margin="5,0" />
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding WorldTimeSeconds, Converter={StaticResource SecondsToTimeSpanConverter}}" />
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Version" Margin="5,0" />
+                                    <TextBlock Grid.Row="2" Grid.Column="1" x:Name="GameVersion">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}.{1}.{2}">
+                                                <Binding Path="GameVersion.Major" />
+                                                <Binding Path="GameVersion.Minor" />
+                                                <Binding Path="GameVersion.Patch" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </Grid>
+                            </Border>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+        
+        <Grid Grid.Row="2" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="3">
+                <TextBlock Text="{Binding Message}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="3">
+                <Button Content="{x:Static p:Localization.ButtonOK}" Style="{StaticResource ButtonStyle}" Click="ButtonOK_Click"/>
+                <Button Content="{x:Static p:Localization.ButtonCancel}" Style="{StaticResource ButtonStyle}" Click="ButtonCancel_Click"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

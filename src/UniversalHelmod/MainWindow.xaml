@@ -30,6 +30,7 @@
             <MenuItem Header="Tool">
                 <MenuItem Header="Extract Satisfactory data" Click="MenuItemExtractSatisfactory_Click" />
                 <MenuItem Header="Extract Stationeers data" Click="MenuItemExtractStationeers_Click" />
+                <MenuItem Header="Extract StarRupture save" Click="MenuItemExtractStarRupture_Click" />
             </MenuItem>
             <MenuItem Header="Apparence">
                 <MenuItem Header="Mode sombre" x:Name="MenuItemDarkMode" Click="MenuItemThemeMode_Click" />

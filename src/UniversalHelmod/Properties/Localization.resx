@@ -213,6 +213,9 @@
   <data name="StationeersGameFolder" xml:space="preserve">
     <value>Stationeers Game Folder:</value>
   </data>
+  <data name="Tag" xml:space="preserve">
+    <value>Tag</value>
+  </data>
   <data name="Tier" xml:space="preserve">
     <value>Tier</value>
   </data>

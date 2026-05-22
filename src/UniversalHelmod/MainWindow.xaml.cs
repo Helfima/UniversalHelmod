@@ -70,6 +70,11 @@ namespace UniversalHelmod
             var view = new Extractors.Stationeers.StationeersExtractorWindow();
             view.Show();
         }
+        private void MenuItemExtractStarRupture_Click(object sender, RoutedEventArgs e)
+        {
+            var view = new Extractors.StarRupture.StarRuptureSaveExtrator();
+            view.Show();
+        }
         private void MenuItemThemeMode_Click(object sender, RoutedEventArgs e)
         {
 #pragma warning disable WPF0001 // Le type est utilisé à des fins d’évaluation uniquement et est susceptible d’être modifié ou supprimé dans les futures mises à jour. Supprimez ce diagnostic pour continuer.

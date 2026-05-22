@@ -25,7 +25,7 @@
                                                    OverflowBrush="{StaticResource BrushProductOverflow}"/>
 
                     <DataTemplate x:Key="RecipeCell">
-                        <ContentPresenter Content="{Binding}">
+                        <ContentPresenter Content="{Binding}" VerticalAlignment="Top">
                             <ContentPresenter.Resources>
                                 <DataTemplate DataType="{x:Type src:Nodes}">
                                     <StackPanel Orientation="Horizontal" Margin="1" Background="{StaticResource BrushProductDefault}" Width="70">
@@ -66,7 +66,7 @@
                                 </DataTemplate>
                                 <DataTemplate DataType="{x:Type src:Node}">
                                     <StackPanel Orientation="Horizontal">
-                                        <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Vertical" ToolTip="{Binding Builder.Name}">
                                             <ContentPresenter Content="{Binding Builder}" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
                                             <TextBlock Text="{Binding Builder.Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
                                         </StackPanel>

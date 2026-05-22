@@ -111,6 +111,7 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -182,6 +183,9 @@
 
                         <TextBlock Grid.Row="8" Grid.Column="0" Text="{x:Static p:Localization.Overlay}" Style="{StaticResource TextBlockPropertyStyle}"/>
                         <TextBox Grid.Row="8" Grid.Column="1" x:Name="ElementOverlay" Text="{Binding SelectedRecipe.Overlay}" Style="{StaticResource TextBoxPropertyStyle}"/>
+
+                        <TextBlock Grid.Row="9" Grid.Column="0" Text="{x:Static p:Localization.Tag}" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <TextBox Grid.Row="9" Grid.Column="1" x:Name="ElementTag" Text="{Binding SelectedRecipe.Tag}" Style="{StaticResource TextBoxPropertyStyle}"/>
 
                         <StackPanel Grid.Row="0" Grid.Column="3" Grid.RowSpan="8" DataContext="{Binding SelectedRecipe}">
                             <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource CellIconNormalStyle}"/>

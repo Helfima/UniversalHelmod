@@ -58,5 +58,17 @@ namespace UniversalHelmod.Properties {
                 this["IsDarkMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Steam\\userdata\\[user_id]\\1631270\\remote\\Saved\\SaveGames\\202605")]
+        public string StarRuptureFolderSaves {
+            get {
+                return ((string)(this["StarRuptureFolderSaves"]));
+            }
+            set {
+                this["StarRuptureFolderSaves"] = value;
+            }
+        }
     }
 }

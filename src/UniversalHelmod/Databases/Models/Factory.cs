@@ -35,6 +35,7 @@ namespace UniversalHelmod.Databases.Models
                 DisplayName = this.DisplayName,
                 Description = this.Description,
                 Type = this.Type,
+                Tag = this.Tag,
                 IconPath = this.IconPath,
                 Speed = this.Speed,
                 PowerProduction = this.PowerProduction,

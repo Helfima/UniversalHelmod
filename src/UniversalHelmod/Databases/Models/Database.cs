@@ -30,6 +30,10 @@ namespace UniversalHelmod.Databases.Models
         {
             return Recipes.FirstOrDefault(x => x.Name == name);
         }
+        public Recipe SelectRecipeByTag(string tag)
+        {
+            return Recipes.FirstOrDefault(x => x.Tag == tag);
+        }
         public Factory SelectFactory(string name)
         {
             return Factories.FirstOrDefault(x => x.Name == name);

@@ -14,6 +14,12 @@ namespace UniversalHelmod.Databases.Models
             get { return this.name; }
             set { this.name = value; NotifyPropertyChanged(); }
         }
+        protected string tag;
+        public string Tag
+        {
+            get { return this.tag; }
+            set { this.tag = value; NotifyPropertyChanged(); }
+        }
         public bool Match(BaseElement other)
         {
             if (other == null || this.name == null) return false;

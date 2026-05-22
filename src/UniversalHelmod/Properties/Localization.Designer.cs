@@ -349,6 +349,15 @@ namespace UniversalHelmod.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Tag.
+        /// </summary>
+        public static string Tag {
+            get {
+                return ResourceManager.GetString("Tag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Tier.
         /// </summary>
         public static string Tier {

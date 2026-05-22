@@ -52,6 +52,7 @@ namespace UniversalHelmod.Databases.Models
                 DisplayName = this.DisplayName,
                 Description = this.Description,
                 Type = this.Type,
+                Tag = this.Tag,
                 IconPath = this.IconPath,
                 Overlay = this.Overlay,
                 StackSize = this.StackSize,
