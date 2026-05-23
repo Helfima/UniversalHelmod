@@ -18,13 +18,13 @@ namespace UniversalHelmod.Extractors.StarRupture
         private Point _lastMousePos;
         private bool _isDragging;
         private Dictionary<string, SREntity> _entities;
-        private double _canvasSize = 2000;
+        private double _canvasSize = 2000*10.0;
 
         public MapView(Dictionary<string, SREntity> entities)
         {
             InitializeComponent();
             _entities = entities;
-            DrawEntities(10.0);
+            DrawEntities(_canvasSize);
         }
 
         private void DrawEntities(double spacing)
@@ -71,64 +71,204 @@ namespace UniversalHelmod.Extractors.StarRupture
                 double cy = (sy - (centerY - range / 2 * spacing)) * scale / spacing;
 
                 var configPath = kvp.Value.SpawnData?.EntityConfigDataPath ?? "";
-                var color = GetColorFromPath(entity);
                 var tooltip = $"{kvp.Key}\n{configPath}\nX={t.X:F0} Y={t.Y:F0} Z={t.Z:F0}\n{entity.RecipePath}";
                 UIElement link = null;
                 UIElement icon = null;
-                UIElement shape = null;
                 double dotSize = 6;
-                if (entity.IsProducer)
+                Grid shape = new Grid
                 {
-                    dotSize = 6*2;
-                    shape = new Rectangle
-                    {
-                        Width = dotSize,
-                        Height = dotSize,
-                        Fill = color,
-                        ToolTip = tooltip,
-                        DataContext = entity
-                    };
-                    var recipe = FindIcon(entity);
-                    if(recipe != null)
-                    {
-                        icon = new Image() {
-                            Width = dotSize,
-                            Height = dotSize,
-                            Source = recipe.Icon,
-                            ToolTip = tooltip,
-                            DataContext = entity
-                        };
-                    }
-                }
-                else
+                    ToolTip = tooltip,
+                    DataContext = entity
+                };
+                switch (entity.Type)
                 {
-                    shape = new Ellipse
-                    {
-                        Width = dotSize,
-                        Height = dotSize,
-                        Fill = color,
-                        ToolTip = tooltip,
-                        DataContext = entity
-                    };
-                    if(entity.Link.Count > 0)
-                    {
-                        double sx1 = centerX + (entity.Link[0].X - centerX) * spacing;
-                        double sy1 = centerY + (entity.Link[0].Y - centerY) * spacing;
-                        double sx2 = centerX + (entity.Link[1].X - centerX) * spacing;
-                        double sy2 = centerY + (entity.Link[1].Y - centerY) * spacing;
-                        link = new Line()
+                    case EntityType.BaseCore:
                         {
-                            Stroke = color,
-                            StrokeThickness = 1,
-                            X1 = (sx1 - (centerX - range / 2 * spacing)) * scale / spacing,
-                            Y1 = (sy1 - (centerY - range / 2 * spacing)) * scale / spacing,
-                            X2 = (sx2 - (centerX - range / 2 * spacing)) *scale / spacing,
-                            Y2 = (sy2 - (centerY - range / 2 * spacing)) *scale / spacing
-                        };
-                    }
+                            dotSize *= 2;
+                            var color = Brushes.Magenta;
+                            shape.Children.Add(new Ellipse
+                            {
+                                Width = dotSize,
+                                Height = dotSize,
+                                Stroke = color,
+                                StrokeThickness = 2
+                            });
+                        }
+                        break;
+                    case EntityType.Receiver:
+                        {
+                            dotSize *= 2;
+                            var color = Brushes.CornflowerBlue;
+                            shape.Children.Add(new Rectangle
+                            {
+                                Width = dotSize,
+                                Height = dotSize,
+                                Fill = color
+                            });
+                            if(entity.Inventory.Count > 0)
+                            {
+                                var slot = entity.Inventory[0];
+                                shape.ToolTip += $"\n{slot.ItemPath}";
+                                if (slot.Item != null)
+                                {
+                                    shape.Children.Add(new Image
+                                    {
+                                        Width = dotSize,
+                                        Height = dotSize,
+                                        Source = slot.Item.Icon
+                                    });
+                                }
+                            }
+                        }
+                        break;
+                    case EntityType.Sender:
+                        {
+                            dotSize *= 2;
+                            var color = Brushes.CornflowerBlue;
+                            shape.Children.Add(new Rectangle
+                            {
+                                Width = dotSize,
+                                Height = dotSize,
+                                Fill = color
+                            });
+                            if (entity.Inventory.Count > 0)
+                            {
+                                var slot = entity.Inventory[0];
+                                shape.ToolTip += $"\n{slot.ItemPath}";
+                                if (slot.Item != null)
+                                {
+                                    shape.Children.Add(new Image
+                                    {
+                                        Width = dotSize,
+                                        Height = dotSize,
+                                        Source = slot.Item.Icon
+                                    });
+                                }
+                            }
+                        }
+                        break;
+                    case EntityType.Exporter:
+                        {
+                            dotSize *= 2;
+                            var color = Brushes.CornflowerBlue;
+                            shape.Children.Add(new Ellipse
+                            {
+                                Width = dotSize,
+                                Height = dotSize,
+                                Stroke = color,
+                                StrokeThickness = 2
+                            });
+                        }
+                        break;
+                    case EntityType.Extractor:
+                        {
+                            dotSize *= 2;
+                            var color = Brushes.Orange;
+                            shape.Children.Add(new Rectangle
+                            {
+                                Width = dotSize,
+                                Height = dotSize,
+                                Fill = color
+                            });
+                            if (entity.Recipe != null)
+                            {
+                                shape.Children.Add(new Image
+                                {
+                                    Width = dotSize,
+                                    Height = dotSize,
+                                    Source = entity.Recipe.Icon
+                                });
+                            }
+                        }
+                        break;
+                    case EntityType.Turret:
+                        {
+                            var color = Brushes.Red;
+                            shape.Children.Add(new Rectangle
+                            {
+                                Width = dotSize,
+                                Height = dotSize,
+                                Fill = color
+                            });
+                        }
+                        break;
+                    case EntityType.Fabricator:
+                        {
+                            dotSize *= 2;
+                            var color = Brushes.Green;
+                            shape.Children.Add(new Rectangle
+                            {
+                                Width = dotSize,
+                                Height = dotSize,
+                                Fill = color
+                            });
+                            if (entity.Recipe != null)
+                            {
+                                shape.Children.Add(new Image
+                                {
+                                    Width = dotSize,
+                                    Height = dotSize,
+                                    Source = entity.Recipe.Icon
+                                });
+                            }
+                        }
+                        break;
+                    case EntityType.Zipline:
+                        {
+                            var color = Brushes.AntiqueWhite;
+                            shape.Children.Add(new Ellipse
+                            {
+                                Width = dotSize,
+                                Height = dotSize,
+                                Fill = color,
+                                ToolTip = tooltip,
+                                DataContext = entity
+                            });
+                            if (entity.Link.Count > 0)
+                            {
+                                double sx1 = centerX + (entity.Link[0].X - centerX) * spacing;
+                                double sy1 = centerY + (entity.Link[0].Y - centerY) * spacing;
+                                double sx2 = centerX + (entity.Link[1].X - centerX) * spacing;
+                                double sy2 = centerY + (entity.Link[1].Y - centerY) * spacing;
+                                link = new Line()
+                                {
+                                    Stroke = color,
+                                    StrokeThickness = 1,
+                                    X1 = (sx1 - (centerX - range / 2 * spacing)) * scale / spacing,
+                                    Y1 = (sy1 - (centerY - range / 2 * spacing)) * scale / spacing,
+                                    X2 = (sx2 - (centerX - range / 2 * spacing)) * scale / spacing,
+                                    Y2 = (sy2 - (centerY - range / 2 * spacing)) * scale / spacing
+                                };
+                            }
+                        }
+                        break;
+                    case EntityType.Generator:
+                        {
+                            dotSize *= 2;
+                            var color = Brushes.Yellow;
+                            shape.Children.Add(new Rectangle
+                            {
+                                Width = dotSize,
+                                Height = dotSize,
+                                Fill = color
+                            });
+                        }
+                        break;
+                    default:
+                        {
+                            var color = Brushes.Gray;
+                            shape.Children.Add(new Ellipse
+                            {
+                                Width = dotSize,
+                                Height = dotSize,
+                                Fill = color,
+                                ToolTip = tooltip,
+                                DataContext = entity
+                            });
+                        }
+                        break;
                 }
                 
-
                 if (shape != null)
                 {
                     Canvas.SetLeft(shape, cx - dotSize / 2);
@@ -156,10 +296,10 @@ namespace UniversalHelmod.Extractors.StarRupture
             try
             {
                 var source = (dynamic)e.Source;
-                var recipe = source.DataContext as SREntity;
-                if(recipe != null)
+                var entity = source.DataContext as SREntity;
+                if(entity != null)
                 {
-                    System.Windows.Clipboard.SetText(recipe.RecipePath);
+                    System.Windows.Clipboard.SetText(entity.RecipePath);
                 }
             } 
             catch(Exception ex)
@@ -171,7 +311,7 @@ namespace UniversalHelmod.Extractors.StarRupture
         private Recipe FindIcon(SREntity entity)
         {
             var database = Workspaces.Models.WorkspacesModel.Intance.Current.Database;
-            return database.SelectRecipeByTag(entity.RecipePath); ;
+            return database.SelectRecipeByTag(entity.RecipePath);
         }
 
         private Recipe FindIcon2(SREntity entity)
@@ -200,27 +340,13 @@ namespace UniversalHelmod.Extractors.StarRupture
 
         private void SpacingSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (SpacingLabel == null) return;
-            SpacingLabel.Content = $"x{e.NewValue:F1}";
+            //if (SpacingLabel == null) return;
+            //SpacingLabel.Content = $"x{e.NewValue:F1}";
 
-            _canvasSize = 2000 * e.NewValue;
-            DrawEntities(e.NewValue);
-            FitView();
+            //_canvasSize = 2000 * e.NewValue;
+            //DrawEntities(e.NewValue);
+            //FitView();
         }
-
-        private Brush GetColorFromPath(SREntity entity)
-        {
-            if(entity.IsProducer) return Brushes.Green;
-            var path = entity.SpawnData?.EntityConfigDataPath ?? "";
-            if (path.Contains("BaseCore", StringComparison.OrdinalIgnoreCase)) return Brushes.Magenta;
-            if (path.Contains("Power", StringComparison.OrdinalIgnoreCase)) return Brushes.Yellow;
-            if (path.Contains("Turret", StringComparison.OrdinalIgnoreCase)) return Brushes.Red;
-            if (path.Contains("Zipline", StringComparison.OrdinalIgnoreCase)) return Brushes.AntiqueWhite;
-            if (path.Contains("Building", StringComparison.OrdinalIgnoreCase)) return Brushes.CornflowerBlue;
-            if (path.Contains("Resource", StringComparison.OrdinalIgnoreCase)) return Brushes.Orange;
-            return Brushes.Gray;
-        }
-
         private void MapCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             double factor = e.Delta > 0 ? 1.2 : 1 / 1.2;

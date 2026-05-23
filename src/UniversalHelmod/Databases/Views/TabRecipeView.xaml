@@ -121,7 +121,10 @@
 
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="{x:Static p:Localization.BaseOnItem}" Style="{StaticResource TextBlockPropertyStyle}"/>
                         <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ItemSelector"
-                            ItemsSource="{Binding Items}" ItemTemplate="{StaticResource AmountCellTemplate}" SelectionChanged="ItemSelector_SelectionChanged" />
+                                ItemsSource="{Binding Items}"
+                                ItemTemplate="{StaticResource AmountCellTemplate}"
+                                Style="{StaticResource ComboBoxPropertyStyle}"
+                                SelectionChanged="ItemSelector_SelectionChanged" />
 
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Static p:Localization.Name}" Style="{StaticResource TextBlockPropertyStyle}"/>
                         <TextBox Grid.Row="1" Grid.Column="1" x:Name="ElementName" Text="{Binding SelectedRecipe.Name}" Style="{StaticResource TextBoxPropertyStyle}"/>
@@ -145,15 +148,16 @@
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
                             <ComboBox Grid.Row="0" x:Name="ElementFactory" ItemsSource="{Binding Factories}"
-                                SelectionChanged="ElementFactory_SelectionChanged" Style="{StaticResource ComboBoxPropertyStyle}"
-                                      ItemTemplate="{StaticResource AmountCellTemplate}"/>
+                                SelectionChanged="ElementFactory_SelectionChanged"
+                                      ItemTemplate="{StaticResource AmountCellTemplate}"
+                                      Style="{StaticResource ComboBoxPropertyStyle}"/>
                             <ListView Grid.Row="1" ItemsSource="{Binding SelectedRecipe.MadeIn}">
                                 <ListView.View>
                                     <GridView>
                                         <GridViewColumn Header="{x:Static p:Localization.Factory}" Width="200">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding}" VerticalAlignment="Center" Margin="5,0,0,0" />
+                                                    <TextBlock Text="{Binding}" VerticalAlignment="Center" Margin="5,0,0,0"/>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
@@ -214,8 +218,9 @@
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox Grid.Column="0" Margin="3" x:Name="ProductSelector"
-                        ItemsSource="{Binding Items}" 
-                        ItemTemplate="{StaticResource AmountCellTemplate}" />
+                                        ItemsSource="{Binding Items}" 
+                                        ItemTemplate="{StaticResource AmountCellTemplate}"
+                                        Style="{StaticResource ComboBoxPropertyStyle}"/>
 
                                 <TextBox Grid.Column="1" Margin="3" x:Name="ProductAmount" Height="20" />
                                 <Button Grid.Column="2" x:Name="AddProduct" Click="AddProduct_Click" Style="{StaticResource ButtonIconStyle}">

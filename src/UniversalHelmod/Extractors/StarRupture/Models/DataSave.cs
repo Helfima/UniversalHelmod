@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
+using UniversalHelmod.Databases.Models;
 
 namespace UniversalHelmod.Extractors.StarRupture.Models
 {
@@ -51,7 +52,20 @@ namespace UniversalHelmod.Extractors.StarRupture.Models
     public class SREntities : Dictionary<string, SREntity>
     {
     }
-
+    public enum EntityType
+    {
+        None,
+        Building,
+        Receiver,
+        Extractor,
+        Turret,
+        Fabricator,
+        Zipline,
+        Generator,
+        Exporter,
+        BaseCore,
+        Sender
+    }
     public class SREntity
     {
         [JsonPropertyName("spawnData")]
@@ -66,9 +80,15 @@ namespace UniversalHelmod.Extractors.StarRupture.Models
         [JsonIgnore]
         public bool IsProducer { get; set; }
         [JsonIgnore]
+        public EntityType Type { get; set; } = EntityType.None;
+        [JsonIgnore]
         public string RecipePath { get; set; }
         [JsonIgnore]
+        public Recipe Recipe { get; set; }
+        [JsonIgnore]
         public List<SRTranslation> Link { get; set; } = new List<SRTranslation>();
+        [JsonIgnore]
+        public List<SRSlot> Inventory { get; set; } = new List<SRSlot>();
     }
 
     public class SRSpawnData
@@ -128,5 +148,14 @@ namespace UniversalHelmod.Extractors.StarRupture.Models
         [JsonPropertyName("z")]
         public double Z;
     }
+    public class SRSlot
+    {
+        [JsonIgnore]
+        public string ItemPath { get; set; }
+        [JsonIgnore]
+        public Item Item { get; set; }
+        [JsonIgnore]
+        public int Count { get; set; }
+    }
 
- }
+}

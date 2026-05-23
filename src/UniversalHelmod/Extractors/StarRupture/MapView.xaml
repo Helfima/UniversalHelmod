@@ -5,18 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UniversalHelmod.Extractors.StarRupture"
         mc:Ignorable="d"
-        Title="MapView" Height="450" Width="800">
+        Title="MapView" Height="800" Width="1600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="#333" Margin="0">
+        <!--<StackPanel Grid.Row="0" Orientation="Horizontal" Background="#333" Margin="0">
             <Label Content="Espacement :" Foreground="White" VerticalAlignment="Center"/>
             <Slider x:Name="SpacingSlider" Minimum="0.5" Maximum="10" Value="10" Width="200"
             VerticalAlignment="Center" ValueChanged="SpacingSlider_ValueChanged"/>
             <Label x:Name="SpacingLabel" Content="x1.0" Foreground="White" VerticalAlignment="Center"/>
-        </StackPanel>
+        </StackPanel>-->
 
         <Border Grid.Row="1" ClipToBounds="True" Background="Black" 
                 MouseWheel="MapCanvas_MouseWheel"

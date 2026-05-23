@@ -54,7 +54,21 @@ namespace UniversalHelmod.Extractors.StarRupture
 
             using var document = JsonDocument.Parse(json);
             var root = document.RootElement;
-
+            // === REQUEST ===
+            var requestData = root.GetProperty("itemData")
+                               .GetProperty("Mass")
+                               .GetProperty("logisticsRequestSubsystemState")
+                               .GetProperty("requestData");
+            var requestMap = new Dictionary<string, object>();
+            foreach (var entity in requestData.EnumerateObject())
+            {
+                var entityDataObj = JsonSerializer.Deserialize<object>(entity.Value.GetRawText(), options);
+                if (entityDataObj != null)
+                {
+                    requestMap[entity.Name] = entityDataObj;
+                }
+            }
+            // === ENTITIES ===
             var entities = root.GetProperty("itemData")
                                .GetProperty("Mass")
                                .GetProperty("entities");
@@ -63,6 +77,8 @@ namespace UniversalHelmod.Extractors.StarRupture
             foreach (var entity in entities.EnumerateObject())
             {
                 var entityDataObj = JsonSerializer.Deserialize<SREntity>(entity.Value.GetRawText(), options);
+                var path = entityDataObj.SpawnData?.EntityConfigDataPath ?? "";
+                if (path.Contains("Drones")) continue;
                 if (entityDataObj != null)
                 {
                     entityMap[entity.Name] = entityDataObj;
@@ -76,7 +92,31 @@ namespace UniversalHelmod.Extractors.StarRupture
 
         private void AnalyseItem(SREntity entity)
         {
+            var path = entity.SpawnData?.EntityConfigDataPath ?? "";
+            if (path.Contains("Extractor", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Extractor;
+            else if (path.Contains("Drill", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Extractor;
+            else if (path.Contains("BaseCore", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.BaseCore;
+            else if (path.Contains("Exporter", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Exporter;
+            else if (path.Contains("Sender", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Sender;
+            else if (path.Contains("Receiver", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Receiver;
+            else if (path.Contains("Power", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Generator;
+            else if (path.Contains("Turret", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Turret;
+            else if (path.Contains("Zipline", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Zipline;
+            else if (path.Contains("Crafter", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Fabricator;
+            else if (path.Contains("Furnace", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Fabricator;
+            else if (path.Contains("Hammer", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Fabricator;
+            else if (path.Contains("Smelter", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Fabricator;
+            else if (path.Contains("Compounder", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Fabricator;
+            else if (path.Contains("Assembler", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Fabricator;
+            else if (path.Contains("Constructorizer", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Fabricator;
+            else if (path.Contains("Refinery", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Fabricator;
+            else if (path.Contains("Synthetizer", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Fabricator;
+            else if (path.Contains("Forge", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Fabricator;
+            else if (path.Contains("Buildings", StringComparison.OrdinalIgnoreCase)) entity.Type = EntityType.Building;
+
+            var database = Workspaces.Models.WorkspacesModel.Intance.Current.Database;
             var recipePattern = @"/Script/Chimera\.CrItemRecipeData'([^']*)'";
+            var itemPattern = @"ItemDataBase=""([^""]*)"",Count=([0-9]*)";
             var linkPattern = @"Position=\(X=([^,]*),Y=([^,]*),Z=([^)]*)\)";
             foreach (var fragmentValue in entity.FragmentValues)
             {
@@ -88,6 +128,27 @@ namespace UniversalHelmod.Extractors.StarRupture
                     if (match.Success)
                     {
                         entity.RecipePath = match.Groups[1].Value;
+                        entity.Recipe = database.SelectRecipeByTag(entity.RecipePath);
+                    }
+                }
+                if (fragmentValue.StartsWith("/Script/Chimera.CrInventoryFragment")
+                    && fragmentValue.Contains("ItemDataBase"))
+                {
+                    var matches = Regex.Matches(fragmentValue, itemPattern);
+                    if (matches.Count > 0)
+                    {
+                        foreach (Match match in matches)
+                        {
+                            var itemFullPath = match.Groups[1].Value;
+                            var itemSplitted = itemFullPath.Split('\'');
+                            var count = System.Convert.ToInt32(match.Groups[2].Value, CultureInfo.InvariantCulture);
+                            var slot = new SRSlot()
+                            {
+                                ItemPath = itemSplitted[0],
+                                Count = count
+                            };
+                            entity.Inventory.Add(slot);
+                        }
                     }
                 }
                 if (fragmentValue.StartsWith("/Script/AuActorPlacement.AuSplineConnectionFragment")
@@ -109,7 +170,6 @@ namespace UniversalHelmod.Extractors.StarRupture
                             };
                             entity.Link.Add(translation);
                         }
-                        //entity.RecipePath = match.Groups[1].Value;
                     }
                 }
             }
