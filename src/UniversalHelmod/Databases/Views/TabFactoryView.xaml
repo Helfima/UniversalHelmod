@@ -17,7 +17,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -50,9 +50,12 @@
             </ItemsControl.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Vertical" Width="100" ToolTip="{StaticResource FactoryToolTip}" ToolTipService.ShowDuration="100000">
-                        <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
-                    </StackPanel>
+                    <Border BorderThickness="1" BorderBrush="Gray">
+                        <StackPanel Orientation="Vertical" Width="100" ToolTip="{StaticResource FactoryToolTip}" ToolTipService.ShowDuration="100000">
+                            <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
+                            <TextBlock Text="{Binding DisplayName}" Style="{StaticResource TextBlockBoldStyle}"/>
+                        </StackPanel>
+                    </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
@@ -60,12 +63,15 @@
         <Grid Grid.Row="2" Grid.Column="1" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Margin="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="0" Grid.ColumnSpan="2" Margin="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
@@ -88,7 +94,7 @@
                 </StackPanel>
             </Grid>
 
-            <Grid Grid.Row="1" Margin="3">
+            <Grid Grid.Row="1" Grid.Column="0" Margin="3">
                 <GroupBox Header="{x:Static p:Localization.StandardProperties}">
                     <Grid Margin="3" >
                         <Grid.RowDefinitions>
@@ -109,10 +115,10 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{x:Static p:Localization.BaseOnItem}" Grid.Row="0" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
                         <ComboBox x:Name="ItemSelector" Grid.Row="0" Grid.Column="1" 
-                                ItemsSource="{Binding Items}"
-                                SelectedItem="{Binding SelectedFactory.Item}"
-                                ItemTemplate="{StaticResource AmountCellTemplate}"
-                                Style="{StaticResource ComboBoxPropertyStyle}"/>
+                    ItemsSource="{Binding Items}"
+                    SelectedItem="{Binding SelectedFactory.Item}"
+                    ItemTemplate="{StaticResource AmountCellTemplate}"
+                    Style="{StaticResource ComboBoxPropertyStyle}"/>
 
                         <TextBlock Text="{x:Static p:Localization.Name}" Grid.Row="1" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
                         <TextBox x:Name="ElementName" Grid.Row="1" Grid.Column="1" Text="{Binding SelectedFactory.Name}" Style="{StaticResource TextBoxPropertyStyle}"/>
@@ -125,7 +131,7 @@
 
                         <TextBlock Text="{x:Static p:Localization.Type}" Grid.Row="4" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
                         <ComboBox x:Name="ElementType" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding FactoryTypes}" SelectedItem="{Binding SelectedFactory.Type}"
-                                IsEditable="True" KeyUp="ElementType_OnKeyDownHandler" LostFocus="ElementType_LostFocus" Style="{StaticResource ComboBoxPropertyStyle}"/>
+                    IsEditable="True" KeyUp="ElementType_OnKeyDownHandler" LostFocus="ElementType_LostFocus" Style="{StaticResource ComboBoxPropertyStyle}"/>
 
                         <TextBlock Text="{x:Static p:Localization.Speed}" Grid.Row="5" Grid.Column="0" Style="{StaticResource TextBlockPropertyStyle}"/>
                         <TextBox x:Name="ElementSpeed" Grid.Row="5" Grid.Column="1" Text="{Binding SelectedFactory.Speed}" Style="{StaticResource TextBoxPropertyStyle}"/>
@@ -145,13 +151,13 @@
                             <TextBox Grid.Column="0" x:Name="ElementIconPath" Text="{Binding SelectedFactory.IconPath}" Style="{StaticResource TextBoxPropertyStyle}"/>
                             <Button Grid.Column="1" x:Name="SelectElementIconPath" Content="{x:Static p:Localization.Select}" Click="SelecElementIconPath_Click" Style="{StaticResource ButtonPropertyStyle}"/>
                         </Grid>
-                        
+
                         <Image Grid.Row="9" Grid.Column="1" Source="{Binding SelectedFactory.Icon}" Width="128" Height="128" />
                     </Grid>
                 </GroupBox>
             </Grid>
 
-            <Grid Grid.Row="2" Margin="3">
+            <Grid Grid.Row="1" Grid.Column="1" Margin="3">
                 <TabControl>
                     <TabItem Header="{x:Static p:Localization.CustomProperties}">
                         <DataGrid Margin="3" ItemsSource="{Binding SelectedFactory.Properties}" AutoGenerateColumns="False" CanUserReorderColumns="False">
@@ -192,5 +198,6 @@
                 </TabControl>
             </Grid>
         </Grid>
+
     </Grid>
 </UserControl>

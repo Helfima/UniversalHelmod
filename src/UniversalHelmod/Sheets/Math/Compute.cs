@@ -53,7 +53,18 @@ namespace UniversalHelmod.Sheets.Math
             // prepare des objectifs manquants
             if (nodes.Objectives == null)
             {
-                var items = nodes.Children.First().Products;
+                var items = new List<Amount>();
+                foreach(var element in nodes.Children)
+                {
+                    var products = element.Products;
+                    foreach(var product in products)
+                    {
+                        if(product.State == ItemState.Main)
+                        {
+                            items.Add(product);
+                        }
+                    }
+                }
                 nodes.Objectives = new MatrixValue[items.Count];
                 for (int i = 0; i < items.Count; i++)
                 {

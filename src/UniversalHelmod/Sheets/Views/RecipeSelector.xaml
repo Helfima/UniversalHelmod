@@ -33,9 +33,12 @@
                 </ItemsControl.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical" Width="100" ToolTip="{StaticResource RecipeToolTip}" ToolTipService.ShowDuration="100000">
-                            <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
-                        </StackPanel>
+                        <Border BorderThickness="1" BorderBrush="Gray">
+                            <StackPanel Orientation="Vertical" Width="100" ToolTip="{StaticResource RecipeToolTip}" ToolTipService.ShowDuration="100000">
+                                <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
+                                <TextBlock Text="{Binding DisplayName}" Style="{StaticResource TextBlockBoldStyle}"/>
+                            </StackPanel>
+                        </Border>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

@@ -66,8 +66,9 @@
                                 </DataTemplate>
                                 <DataTemplate DataType="{x:Type src:Node}">
                                     <StackPanel Orientation="Horizontal">
-                                        <StackPanel Orientation="Vertical" ToolTip="{Binding Builder.Name}">
-                                            <ContentPresenter Content="{Binding Builder}" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
+                                        <StackPanel Orientation="Vertical" >
+                                            <ContentPresenter Content="{Binding Builder}" ContentTemplate="{StaticResource CellIconNormalStyle}"
+                                                              ToolTip="{StaticResource BuilderToolTip}"/>
                                             <TextBlock Text="{Binding Builder.Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical" Visibility="Hidden">
@@ -267,7 +268,7 @@
                             <DataGridTemplateColumn Header="Recipe" CellTemplate="{StaticResource RecipeCell}" />
                             <DataGridTemplateColumn Header="Power" CellTemplate="{StaticResource PowerCell}" />
                             <DataGridTemplateColumn Header="Machine" CellTemplate="{StaticResource FactoryCell}" />
-                            <DataGridTemplateColumn Header="Product" CellTemplate="{StaticResource ProductsCell}" Width="*" />
+                            <DataGridTemplateColumn Header="Product" CellTemplate="{StaticResource ProductsCell}" />
                             <DataGridTemplateColumn Header="Ingredient" CellTemplate="{StaticResource IngredientsCell}" Width="2*" />
                         </DataGrid.Columns>
                     </DataGrid>

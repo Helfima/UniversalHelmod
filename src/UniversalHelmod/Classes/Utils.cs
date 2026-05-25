@@ -100,6 +100,11 @@ namespace UniversalHelmod.Classes
             Uri uri = new Uri($"pack://application:,,,/Images/Unknown.png");
             return new BitmapImage(uri);
         }
+        internal static BitmapImage GetResourceImage(string image)
+        {
+            Uri uri = new Uri($"pack://application:,,,/Images/{image}");
+            return new BitmapImage(uri);
+        }
 
         public static void SelecElementIconPath(BaseIcon element)
         {

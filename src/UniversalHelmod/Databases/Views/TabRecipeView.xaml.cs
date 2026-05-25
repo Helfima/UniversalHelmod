@@ -223,7 +223,8 @@ namespace UniversalHelmod.Databases.Views
         {
             try
             {
-                var item = ItemSelector.SelectedItem as Item;
+                if (e.AddedItems.Count == 0) return;
+                var item = e.AddedItems[0] as Item;
                 if (item == null) return;
                 Model.SelectedRecipe.Name = item.Name;
                 Model.SelectedRecipe.DisplayName = item.DisplayName;

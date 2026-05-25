@@ -67,14 +67,7 @@ namespace UniversalHelmod.Databases.Models
             ItemTypes.Sort();
             Factories.Sort((x, y) => x.Name.CompareTo(y.Name));
             FactoryTypes.Sort();
-            try
-            {
-                //Recipes.Sort((x, y) => x.MainProduct.Name.CompareTo(y.MainProduct.Name));
-            }
-            catch(Exception ex)
-            {
-                Logger.Error(ex);
-            }
+            Recipes.Sort((x, y) => x.Name.CompareTo(y.Name));
         }
         public void RefreshInternalList()
         {

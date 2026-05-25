@@ -24,6 +24,7 @@
     </Style>
     <Style x:Key="TextBlockPropertyStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="Margin" Value="1" />
+        <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
     <Style x:Key="ComboBoxPropertyStyle" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
         <Setter Property="Margin" Value="3" />
@@ -39,7 +40,8 @@
     <sys:Double x:Key="DropDownIconSize">16</sys:Double>
     <sys:Double x:Key="IconPowerSize">20</sys:Double>
 
-    <sys:Int32 x:Key="ColumnNumber">8</sys:Int32>
+    <sys:Int32 x:Key="ColumnNumber">5</sys:Int32>
+    <sys:Int32 x:Key="IngredientColumnNumber">10</sys:Int32>
 
     <SolidColorBrush x:Key="BrushButtonBackground">WhiteSmoke</SolidColorBrush>
     <SolidColorBrush x:Key="BrushProductDefault">LightBlue</SolidColorBrush>
@@ -110,6 +112,14 @@
         <Setter Property="Width" Value="{StaticResource AmountIconSize}" />
         <Setter Property="Height" Value="{StaticResource AmountIconSize}" />
     </Style>
+
+    <DataTemplate x:Key="AmountCellTemplate">
+        <StackPanel Orientation="Horizontal">
+            <ContentPresenter Content="{Binding Icon}" ContentTemplate="{StaticResource CellIconSmallStyle}"/>
+            <TextBlock Text="{Binding DisplayName}" Style="{StaticResource TextBlockBoldStyle}" />
+        </StackPanel>
+    </DataTemplate>
+
     <!-- ***** Concerter ***** -->
     <local:RoundNumberConverter x:Key="roundNumberConverter" />
     <local:MarginConverter x:Key="marginConverter" />
@@ -118,13 +128,13 @@
     <!-- ***** Tooltips ***** -->
     <DataTemplate x:Key="DataRecipeTooltip">
         <Grid Margin="1">
-            <StackPanel Orientation="Vertical" Margin="1">
+            <StackPanel Orientation="Vertical">
                 <TextBlock Text="{Binding DisplayName}" Style="{StaticResource TextBlockBoldStyle}"/>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Time:" Style="{StaticResource LabelBoldStyle}"/>
-                    <Label Content="{Binding Energy}" Style="{StaticResource LabelBoldStyle}"/>
+                    <TextBlock Text="Time:" Style="{StaticResource TextBlockBoldStyle}"/>
+                    <TextBlock Text="{Binding Energy}" Style="{StaticResource TextBlockBoldStyle}"/>
                 </StackPanel>
-                <GroupBox Header="Products">
+                <GroupBox Header="Products" Padding="0">
                     <ListView ItemsSource="{Binding Products}" HorizontalAlignment="Stretch">
                         <ListView.ItemTemplate>
                             <DataTemplate>
@@ -266,8 +276,8 @@
             </GroupBox>
         </StackPanel>
     </ToolTip>
-    
-    <ToolTip x:Key="FactoryToolTip">
+
+    <DataTemplate x:Key="FactoryToolTipKey">
         <StackPanel Orientation="Vertical" Margin="1">
             <TextBlock Text="{Binding DisplayName}" Style="{StaticResource TextBlockBoldStyle}"/>
             <Image Source="{Binding Icon}" VerticalAlignment="Top" Height="80" Width="80" />
@@ -309,6 +319,13 @@
             </ItemsControl>
             <TextBlock Text="{Binding Description}" Style="{StaticResource TextBlockStyle}" Width="200" TextWrapping="Wrap"/>
         </StackPanel>
+    </DataTemplate>
+    <ToolTip x:Key="FactoryToolTip">
+        <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource FactoryToolTipKey}"/>
+    </ToolTip>
+
+    <ToolTip x:Key="BuilderToolTip">
+        <ContentPresenter Content="{Binding Factory }" ContentTemplate="{StaticResource FactoryToolTipKey}"/>
     </ToolTip>
     <!-- ***** Cells ***** -->
     <DataTemplate x:Key="RecipeCell">
@@ -369,13 +386,6 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-    </DataTemplate>
-
-    <DataTemplate x:Key="AmountCellTemplate">
-        <StackPanel Orientation="Horizontal">
-            <ContentPresenter Content="{Binding Icon}" ContentTemplate="{StaticResource CellIconSmallStyle}"/>
-            <TextBlock Text="{Binding DisplayName}" Style="{StaticResource TextBlockBoldStyle}" />
-        </StackPanel>
     </DataTemplate>
 
 </ResourceDictionary>

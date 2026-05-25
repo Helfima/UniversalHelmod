@@ -252,6 +252,12 @@ namespace UniversalHelmod.Extractors.StarRupture
                                 Height = dotSize,
                                 Fill = color
                             });
+                            shape.Children.Add(new Image
+                            {
+                                Width = dotSize,
+                                Height = dotSize,
+                                Source = Utils.GetResourceImage("Eclair.png")
+                            });
                         }
                         break;
                     default:

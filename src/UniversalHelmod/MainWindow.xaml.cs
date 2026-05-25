@@ -32,7 +32,10 @@ namespace UniversalHelmod
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if(WorkspacesModel.Intance.Current == null)
+#pragma warning disable WPF0001 // Le type est utilisé à des fins d’évaluation uniquement et est susceptible d’être modifié ou supprimé dans les futures mises à jour. Supprimez ce diagnostic pour continuer.
+            Application.Current.ThemeMode = ThemeMode.Light;
+#pragma warning disable WPF0001 // Le type est utilisé à des fins d’évaluation uniquement et est susceptible d’être modifié ou supprimé dans les futures mises à jour. Supprimez ce diagnostic pour continuer.
+            if (WorkspacesModel.Intance.Current == null)
             {
                 MenuWorkspace_Click(sender, e);
             }

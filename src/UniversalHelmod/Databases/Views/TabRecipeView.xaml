@@ -28,7 +28,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -53,7 +53,8 @@
             <Label Content="{Binding RecipesView.Count}" />
         </StackPanel>
 
-        <ListView x:Name="ListViewItems" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding RecipesView}" HorizontalAlignment="Stretch" SelectionChanged="ListViewElements_SelectionChanged">
+        <ListView x:Name="ListViewItems" Grid.Row="2" Grid.Column="0" ItemsSource="{Binding RecipesView}" 
+                  HorizontalAlignment="Stretch" SelectionChanged="ListViewElements_SelectionChanged">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="{StaticResource ColumnNumber}" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
@@ -61,9 +62,12 @@
             </ItemsControl.ItemsPanel>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Width="100" ToolTip="{StaticResource RecipeToolTip}" ToolTipService.ShowDuration="100000">
-                        <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
-                    </StackPanel>
+                    <Border BorderThickness="1" BorderBrush="Gray">
+                        <StackPanel Orientation="Vertical" Width="100" ToolTip="{StaticResource RecipeToolTip}" ToolTipService.ShowDuration="100000">
+                            <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
+                            <TextBlock Text="{Binding DisplayName}" Style="{StaticResource TextBlockBoldStyle}"/>
+                        </StackPanel>
+                    </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
@@ -71,11 +75,15 @@
         <Grid Grid.Row="2" Grid.Column="1" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Margin="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="0" Grid.ColumnSpan="2" Margin="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
@@ -98,7 +106,7 @@
                 </StackPanel>
             </Grid>
 
-            <Grid Grid.Row="1" Margin="3">
+            <Grid Grid.Row="1" Grid.Column="0" Margin="3">
                 <GroupBox Header="{x:Static p:Localization.StandardProperties}">
                     <Grid Margin="3" >
                         <Grid.RowDefinitions>
@@ -112,10 +120,10 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
@@ -149,24 +157,25 @@
                             </Grid.RowDefinitions>
                             <ComboBox Grid.Row="0" x:Name="ElementFactory" ItemsSource="{Binding Factories}"
                                 SelectionChanged="ElementFactory_SelectionChanged"
-                                      ItemTemplate="{StaticResource AmountCellTemplate}"
-                                      Style="{StaticResource ComboBoxPropertyStyle}"/>
+                                        ItemTemplate="{StaticResource AmountCellTemplate}"
+                                        Style="{StaticResource ComboBoxPropertyStyle}"/>
                             <ListView Grid.Row="1" ItemsSource="{Binding SelectedRecipe.MadeIn}">
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn Header="{x:Static p:Localization.Factory}" Width="200">
-                                            <GridViewColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding}" VerticalAlignment="Center" Margin="5,0,0,0"/>
-                                                </DataTemplate>
-                                            </GridViewColumn.CellTemplate>
-                                        </GridViewColumn>
                                         <GridViewColumn Header="" Width="50">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <Button Click="RemoveMadeIn_Click" Style="{StaticResource ButtonIconStyle}" Tag="{Binding}">
                                                         <Image Source="/Images/Trash_16x.png" Stretch="Fill" />
                                                     </Button>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Header="{x:Static p:Localization.Factory}" Width="200">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}" Style="{StaticResource TextBlockBoldStyle}"
+                                                               VerticalAlignment="Center" Margin="5,0,0,0"/>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
@@ -191,14 +200,14 @@
                         <TextBlock Grid.Row="9" Grid.Column="0" Text="{x:Static p:Localization.Tag}" Style="{StaticResource TextBlockPropertyStyle}"/>
                         <TextBox Grid.Row="9" Grid.Column="1" x:Name="ElementTag" Text="{Binding SelectedRecipe.Tag}" Style="{StaticResource TextBoxPropertyStyle}"/>
 
-                        <StackPanel Grid.Row="0" Grid.Column="3" Grid.RowSpan="8" DataContext="{Binding SelectedRecipe}">
+                        <StackPanel Grid.Row="10" Grid.ColumnSpan="2" DataContext="{Binding SelectedRecipe}">
                             <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
                         </StackPanel>
                     </Grid>
                 </GroupBox>
             </Grid>
-
-            <ScrollViewer Grid.Row="2" Margin="10">
+            
+            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="1" Margin="10">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -228,11 +237,9 @@
                                 </Button>
                             </Grid>
 
-                            <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedRecipe.Products}" ScrollViewer.CanContentScroll="True">
+                            <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedRecipe.Products}">
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn Header="{x:Static p:Localization.Element}" Width="200" CellTemplate="{StaticResource AmountCellTemplate}" />
-                                        <GridViewColumn Header="{x:Static p:Localization.Quantity}" Width="150"  CellTemplate="{StaticResource CountCellTemplate}" />
                                         <GridViewColumn Header="" Width="50">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
@@ -242,6 +249,8 @@
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
+                                        <GridViewColumn Header="{x:Static p:Localization.Element}" Width="200" CellTemplate="{StaticResource AmountCellTemplate}" />
+                                        <GridViewColumn Header="{x:Static p:Localization.Quantity}" Width="150"  CellTemplate="{StaticResource CountCellTemplate}" />
                                     </GridView>
                                 </ListView.View>
                             </ListView>
@@ -270,11 +279,9 @@
                                 </Button>
                             </Grid>
 
-                            <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedRecipe.Ingredients}" ScrollViewer.CanContentScroll="True">
+                            <ListView Grid.Row="1" Margin="3" ItemsSource="{Binding SelectedRecipe.Ingredients}">
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn Header="{x:Static p:Localization.Element}" Width="200" CellTemplate="{StaticResource AmountCellTemplate}" />
-                                        <GridViewColumn Header="{x:Static p:Localization.Quantity}" Width="150" CellTemplate="{StaticResource CountCellTemplate}" />
                                         <GridViewColumn Header="" Width="50">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
@@ -284,14 +291,15 @@
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
+                                        <GridViewColumn Header="{x:Static p:Localization.Element}" Width="200" CellTemplate="{StaticResource AmountCellTemplate}" />
+                                        <GridViewColumn Header="{x:Static p:Localization.Quantity}" Width="150" CellTemplate="{StaticResource CountCellTemplate}" />
                                     </GridView>
                                 </ListView.View>
                             </ListView>
                         </Grid>
                     </GroupBox>
                 </Grid>
-            </ScrollViewer>
-            
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>
