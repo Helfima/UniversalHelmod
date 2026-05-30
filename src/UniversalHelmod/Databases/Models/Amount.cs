@@ -9,12 +9,7 @@ namespace UniversalHelmod.Databases.Models
 {
     public class Amount : NotifyProperty
     {
-        private Item item;
-        private double count;
-        private double flow;
-        private double total;
-        private ItemState state = ItemState.Normal;
-
+        
         private Amount()
         {
 
@@ -24,6 +19,7 @@ namespace UniversalHelmod.Databases.Models
             this.item = item;
             this.count = count;
         }
+        private Item item;
         public Item Item
         {
             get { return item; }
@@ -32,26 +28,34 @@ namespace UniversalHelmod.Databases.Models
         {
             get { return item?.Type; }
         }
+        public string Form
+        {
+            get { return item?.Form; }
+        }
         public BitmapImage Icon
         {
             get { return item?.Icon; }
         }
+        private ItemState state = ItemState.Normal;
         public ItemState State
         {
             get { return state; }
             set { state = value; }
         }
 
+        private double count;
         public double Count
         {
             get { return count; }
             set { count = value; NotifyPropertyChanged(); }
         }
+        private double total;
         public double Total
         {
             get { return total; }
             set { total = value; }
         }
+        private double flow;
         public double Flow
         {
             get { return flow; }
@@ -64,6 +68,12 @@ namespace UniversalHelmod.Databases.Models
         public string DisplayName
         {
             get { return item?.DisplayName; }
+        }
+        private LogisticFlow logisticFlow;
+        public LogisticFlow LogisticFlow
+        {
+            get { return logisticFlow; }
+            set { logisticFlow = value; }
         }
         public Amount Clone(double factor = 1)
         {

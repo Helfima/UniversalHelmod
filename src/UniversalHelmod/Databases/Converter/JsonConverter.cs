@@ -23,6 +23,11 @@ namespace UniversalHelmod.Databases.Converter
                 var jsonFactory = FormatFactory(factory);
                 jsonDatabase.Factories.Add(jsonFactory);
             }
+            foreach (Logistic item in database.Logistics)
+            {
+                var jsonItem = FormatLogistic(item);
+                jsonDatabase.Logistics.Add(jsonItem);
+            }
             foreach (Recipe recipe in database.Recipes)
             {
                 var jsonRecipe = FormatRecipe(recipe);
@@ -44,6 +49,23 @@ namespace UniversalHelmod.Databases.Converter
                 Form = item.Form,
                 StackSize = item.StackSize,
                 EnergyValue = item.EnergyValue,
+                Properties = item.Properties.ToList()
+            };
+            return jsonItem;
+        }
+        internal static JsonLogistic FormatLogistic(Logistic item)
+        {
+            JsonLogistic jsonItem = new JsonLogistic()
+            {
+                Name = item.Name,
+                DisplayName = item.DisplayName,
+                Description = item.Description,
+                Type = item.Type,
+                Form = item.Form,
+                Tag = item.Tag,
+                Icon = item.IconPath,
+                Overlay = item.Overlay,
+                Flow = item.Flow,
                 Properties = item.Properties.ToList()
             };
             return jsonItem;
@@ -130,6 +152,14 @@ namespace UniversalHelmod.Databases.Converter
                     database.Factories.Add(factory);
                 }
             }
+            if (jsonDatabase.Logistics != null)
+            {
+                foreach (JsonLogistic jsonItem in jsonDatabase.Logistics)
+                {
+                    var item = ParseLogistic(jsonItem, database);
+                    database.Logistics.Add(item);
+                }
+            }
             if (jsonDatabase.Recipes != null)
             {
                 foreach (JsonRecipe jsonRecipe in jsonDatabase.Recipes)
@@ -155,6 +185,24 @@ namespace UniversalHelmod.Databases.Converter
                 Form = jsonItem.Form,
                 StackSize = jsonItem.StackSize,
                 EnergyValue = jsonItem.EnergyValue,
+                Properties = jsonItem.Properties.ToObservableCollection()
+            };
+            return item;
+        }
+        internal static Logistic ParseLogistic(JsonLogistic jsonItem, Database database)
+        {
+            Logistic item = new Logistic()
+            {
+                Database = database,
+                Name = jsonItem.Name,
+                DisplayName = jsonItem.DisplayName,
+                Description = jsonItem.Description,
+                Type = jsonItem.Type,
+                Form = jsonItem.Form,
+                Tag = jsonItem.Tag,
+                IconPath = jsonItem.Icon,
+                Overlay = jsonItem.Overlay,
+                Flow = jsonItem.Flow,
                 Properties = jsonItem.Properties.ToObservableCollection()
             };
             return item;

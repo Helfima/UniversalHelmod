@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using UniversalHelmod.Extensions;
 
 namespace UniversalHelmod.Sheets.Models
 {
@@ -14,46 +15,61 @@ namespace UniversalHelmod.Sheets.Models
     {
         private Database database;
         private int version = 1;
-        private ObservableCollection<Nodes> sheets;
-        private ObservableCollection<Nodes> flatNodes;
-        private Nodes currentSheet;
-        private Nodes currentNode;
-
+        
         public DataModel(Database database, int version = 1)
         {
             this.database = database;
             this.version = version;
-            Load();
         }
         public int Version
         {
             get { return version; }
         }
+        private ObservableCollection<Nodes> sheets = new ObservableCollection<Nodes>();
         public ObservableCollection<Nodes> Sheets
         {
             get { return sheets; }
         }
+        private Nodes currentSheet;
         public Nodes CurrentSheet
         {
             get { return currentSheet; }
             set { currentSheet = value; NotifyPropertyChanged(); }
         }
+        private Nodes currentNode;
         public Nodes CurrentNode
         {
             get { return currentNode; }
             set { currentNode = value; NotifyPropertyChanged(); }
         }
+        private ObservableCollection<Nodes> flatNodes = new ObservableCollection<Nodes>();
         public ObservableCollection<Nodes> FlatNodes
         {
             get { return flatNodes; }
             set { flatNodes = value; NotifyPropertyChanged(); }
         }
-        private void Load()
+        private ObservableCollection<LogisticForm> logisticForms = new ObservableCollection<LogisticForm>();
+        public ObservableCollection<LogisticForm> LogisticForms
         {
-            sheets = new ObservableCollection<Nodes>();
-            currentSheet = Sheets.FirstOrDefault();
+            get { return logisticForms; }
+            set { logisticForms = value; NotifyPropertyChanged(); }
         }
-
+        public void UpdateLogisticForms()
+        {
+            foreach(var form in this.database.ItemForms)
+            {
+                var logisticForm = new LogisticForm()
+                {
+                    Name = form,
+                    Items = this.database.Logistics.Where(x => x.Form == form).ToObservableCollection()
+                };
+                if(logisticForm.Items.Count > 0)
+                {
+                    logisticForm.SelectedItem = logisticForm.Items.MaxBy(x => x.Flow);
+                    this.LogisticForms.Add(logisticForm);
+                }
+            }
+        }
         public void UpdateFlatNodes()
         {
             var flatNodes = new ObservableCollection<Nodes>();

@@ -32,6 +32,7 @@
                 <vs:TabFactoryView DataContext="{Binding}" />
             </TabItem>
             <TabItem Header="Logistics">
+                <vs:TabLogisticView DataContext="{Binding}" />
             </TabItem>
             <TabItem Header="Modules">
             </TabItem>

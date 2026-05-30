@@ -12,7 +12,6 @@ namespace UniversalHelmod.Sheets.Models
     public class Nodes : Element
     {
         MatrixValue[] objectives;
-        ObservableCollection<Amount> inputs = new ObservableCollection<Amount>();
         private int time;
         private double offset;
         private Database database;
@@ -78,6 +77,7 @@ namespace UniversalHelmod.Sheets.Models
             set { objectives = value; }
         }
 
+        ObservableCollection<Amount> inputs = new ObservableCollection<Amount>();
         public ObservableCollection<Amount> Inputs
         {
             get { return inputs; }
@@ -148,7 +148,7 @@ namespace UniversalHelmod.Sheets.Models
         }
         public void SetInput(Amount amount)
         {
-            var input = inputs.Where(x => x.Type == amount.Type && x.Name == amount.Name).FirstOrDefault();
+            var input = Inputs.Where(x => x.Type == amount.Type && x.Name == amount.Name).FirstOrDefault();
             if(input != null)
             {
                 if(amount.Count == 0)
@@ -162,21 +162,21 @@ namespace UniversalHelmod.Sheets.Models
             }
             else
             {
-                inputs.Add(amount.Clone());
+                Inputs.Add(amount.Clone());
             }
         }
         public void RemoveInput(Amount amount)
         {
-            if (inputs != null)
+            if (Inputs != null)
             {
-                inputs = inputs.Where(element => element.Name != amount.Name).ToObservableCollection();
+                Inputs = Inputs.Where(element => element.Name != amount.Name).ToObservableCollection();
             }
         }
         public double GetInputValue(Amount amount)
         {
-            if (inputs != null)
+            if (Inputs != null)
             {
-                foreach (Amount input in inputs)
+                foreach (Amount input in Inputs)
                 {
                     if (input.Name == amount.Name) return input.Count;
                 }
@@ -190,9 +190,9 @@ namespace UniversalHelmod.Sheets.Models
         public void CopyInputsToObjectives()
         {
             objectives = null;
-            if (inputs != null && inputs.Count > 0)
+            if (Inputs != null && Inputs.Count > 0)
             {
-                foreach (Amount input in inputs)
+                foreach (Amount input in Inputs)
                 {
                     objectives = AddMatrixValue(objectives, input, true);
                 }

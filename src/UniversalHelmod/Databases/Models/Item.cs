@@ -43,7 +43,7 @@ namespace UniversalHelmod.Databases.Models
         public ItemCost ItemCost { get; set; }
         public List<Item> WhereUsed { get; set; } = new List<Item>();
 
-        public Item Clone()
+        public virtual Item Clone()
         {
             var item = new Item()
             {

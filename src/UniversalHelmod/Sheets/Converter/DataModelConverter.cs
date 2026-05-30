@@ -1,12 +1,13 @@
-﻿using UniversalHelmod.Databases.Models;
-using UniversalHelmod.Sheets.Math;
-using UniversalHelmod.Sheets.Models;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Windows.Media.Media3D;
 using System.Xml.Serialization;
+using UniversalHelmod.Databases.Models;
+using UniversalHelmod.Sheets.Math;
+using UniversalHelmod.Sheets.Models;
 
 
 namespace UniversalHelmod.Sheets.Converter
@@ -33,14 +34,16 @@ namespace UniversalHelmod.Sheets.Converter
             DataModel model = DeserializeItem(path, database);
             if (model != null)
             {
-                foreach (Nodes sheet in model.Sheets)
-                {
-                    Compute compute = new Compute();
-                    compute.Update(sheet);
-                }
                 var current = model.Sheets.FirstOrDefault();
                 model.CurrentSheet = current;
                 model.CurrentNode = current;
+                model.UpdateFlatNodes();
+                model.UpdateLogisticForms();
+                foreach (Nodes sheet in model.Sheets)
+                {
+                    Compute compute = new Compute(model.LogisticForms.ToList());
+                    compute.Update(sheet);
+                }
                 return model;
             }
             return new DataModel(database);

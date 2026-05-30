@@ -7,8 +7,29 @@ namespace UniversalHelmod.Databases.Models
 {
     public class Logistic : Item
     {
-        public int Rate { get; set; }
-
-        public string Transport { get; set; }
+        protected double flow;
+        public double Flow
+        {
+            get { return this.flow; }
+            set { this.flow = value; NotifyPropertyChanged(); }
+        }
+        public override Logistic Clone()
+        {
+            var item = new Logistic()
+            {
+                Database = this.Database,
+                Name = this.Name,
+                DisplayName = this.DisplayName,
+                Description = this.Description,
+                Type = this.Type,
+                Form = this.Form,
+                Tag = this.Tag,
+                IconPath = this.IconPath,
+                Overlay = this.Overlay,
+                Flow = this.Flow,
+                Properties = this.Properties
+            };
+            return item;
+        }
     }
 }

@@ -93,14 +93,16 @@
             <Grid Canvas.Left="{DynamicResource CellIconSmallLeft}"
                 Canvas.Top="{DynamicResource CellIconSmallTop}"
                 Width="{DynamicResource CellIconSmallWidth}">
-                <Image Source="{Binding}" Width="{DynamicResource CellIconSmallWidth}"/>
-                <TextBlock Text="{Binding Overlay, RelativeSource={RelativeSource AncestorType=ContentPresenter}}" 
+                <Image Source="{Binding Icon}" Width="{DynamicResource CellIconSmallWidth}"/>
+                <Grid Visibility="{Binding Overlay, Converter={StaticResource IsEmptyOrNullVisibilityConverter}}">
+                    <TextBlock Text="{Binding Overlay}" 
                HorizontalAlignment="Center" 
                VerticalAlignment="Top"
                Foreground="Purple"
                FontWeight="Bold"
                Background="#10000000"
                Padding="2"/>
+                </Grid>
             </Grid>
         </Canvas>
     </DataTemplate>
@@ -115,7 +117,7 @@
 
     <DataTemplate x:Key="AmountCellTemplate">
         <StackPanel Orientation="Horizontal">
-            <ContentPresenter Content="{Binding Icon}" ContentTemplate="{StaticResource CellIconSmallStyle}"/>
+            <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource CellIconSmallStyle}"/>
             <TextBlock Text="{Binding DisplayName}" Style="{StaticResource TextBlockBoldStyle}" />
         </StackPanel>
     </DataTemplate>

@@ -111,6 +111,10 @@
                                 </Button>
                                 <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
                                 <TextBlock Text="{Binding Flow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockProductStyle}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding LogisticFlow.Flow, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
+                                    <TextBlock Text="{Binding LogisticFlow.Item.DisplayName}" />
+                                </StackPanel>
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
@@ -133,6 +137,10 @@
                                 </Button>
                                 <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
                                 <TextBlock Text="{Binding Flow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockProductStyle}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding LogisticFlow.Flow, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
+                                    <TextBlock Text="{Binding LogisticFlow.Item.DisplayName}" />
+                                </StackPanel>
                             </StackPanel>
                         </StackPanel>   
                     </DataTemplate>
@@ -212,14 +220,32 @@
 
         <Grid Grid.Row="1" Margin="5,2" >
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Stretch">
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Recipe Selector" Click="OpenRecipeSelector_Click"/>
                 <Button Content="Refresh" Click="Refresh_Click"/>
             </StackPanel>
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <ItemsControl ItemsSource="{Binding Current.DataModel.LogisticForms}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding Items}"
+                                      SelectedItem="{Binding SelectedItem}"
+                                      ItemTemplate="{StaticResource AmountCellTemplate}"
+                                      Style="{StaticResource ComboBoxPropertyStyle}" SelectionChanged="LogisticForm_SelectionChanged"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+            <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="Delete Sheet" Click="DeleteSheet_Click"/>
             </StackPanel>
         </Grid>

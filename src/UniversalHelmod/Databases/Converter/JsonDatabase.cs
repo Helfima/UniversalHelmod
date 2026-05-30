@@ -9,6 +9,7 @@ namespace UniversalHelmod.Databases.Converter
     {
         public List<JsonItem> Items { get; set; } = new List<JsonItem>();
         public List<JsonFactory> Factories { get; set; } = new List<JsonFactory>();
+        public List<JsonLogistic> Logistics { get; set; } = new List<JsonLogistic>();
         public List<JsonRecipe> Recipes { get; set; } = new List<JsonRecipe>();
     }
 }

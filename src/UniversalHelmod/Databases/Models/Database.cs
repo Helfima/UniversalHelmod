@@ -60,9 +60,7 @@ namespace UniversalHelmod.Databases.Models
                 WhereUse(recipe);
             }
             //ComputeCost();
-            ComputeItemTypes();
-            ComputeItemForms();
-            ComputeFactoryTypes();
+            RefreshInternalList();
             Items.Sort((x, y) => x.Name.CompareTo(y.Name));
             ItemTypes.Sort();
             Factories.Sort((x, y) => x.Name.CompareTo(y.Name));
@@ -74,6 +72,7 @@ namespace UniversalHelmod.Databases.Models
             ComputeItemTypes();
             ComputeItemForms();
             ComputeFactoryTypes();
+            ComputeFlowOnRecipe();
         }
         private void ComputeItemTypes()
         {
@@ -97,6 +96,20 @@ namespace UniversalHelmod.Databases.Models
             foreach (Factory factory in Factories)
             {
                 if (!FactoryTypes.Contains(factory.Type)) FactoryTypes.Add(factory.Type);
+            }
+        }
+        private void ComputeFlowOnRecipe()
+        {
+            foreach (Recipe recipe in Recipes)
+            {
+                foreach (Amount amount in recipe.Products)
+                {
+                    amount.Flow = amount.Count * 60 / recipe.Energy;
+                }
+                foreach (Amount amount in recipe.Ingredients)
+                {
+                    amount.Flow = amount.Count * 60 / recipe.Energy;
+                }
             }
         }
         private void ComputeCost()

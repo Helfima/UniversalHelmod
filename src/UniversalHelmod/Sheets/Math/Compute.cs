@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Xml.Linq;
+using UniversalHelmod.Classes;
 using UniversalHelmod.Databases.Models;
 using UniversalHelmod.Enums;
 using UniversalHelmod.Extensions;
@@ -15,18 +18,21 @@ namespace UniversalHelmod.Sheets.Math
         public static double DURATION = 60;
         private Solver solver;
         private int Time = 1;
-
-        public Compute()
+        private List<LogisticForm> logisticForms = new List<LogisticForm>();
+        public Compute(List<LogisticForm> logisticForms)
         {
+            this.logisticForms = logisticForms;
             //this.solver = new SolverAlgebra();
             this.solver = new SolverSimplex();
         }
         public void Update(Nodes nodes)
         {
             if (nodes == null) return;
+            Logger.Debug($"*** update ***");
             Time = nodes.Time;
             nodes.Count = 1;
             ComputeNode(nodes);
+            FinalizeCount(nodes, 1);
         }
         
         private void ComputeNode(Nodes nodes)
@@ -37,12 +43,14 @@ namespace UniversalHelmod.Sheets.Math
             nodes.CopyInputsToObjectives();
             foreach (Element child in nodes.Children)
             {
+                // recipe
                 if (child is Node)
                 {
                     Node node = child as Node;
                     node.Initialize();
                     node.UpdateEffect();
                 }
+                // block
                 if (child is Nodes)
                 {
                     Nodes childNodes = child as Nodes;
@@ -72,7 +80,7 @@ namespace UniversalHelmod.Sheets.Math
                     nodes.Objectives[i] = new MatrixValue(item.Type, item.Name, item.Count);
                 }
             }
-
+            Logger.Debug($"=== {nodes.Name} ===");
             MatrixValue[] result = solver.Solve(matrix, nodes.Objectives);
             foreach (Element child in nodes.Children)
             {
@@ -82,12 +90,13 @@ namespace UniversalHelmod.Sheets.Math
                     {
                         child.Count = value.Value;
                         value.IsUsed = true;
+                        Logger.Debug($"{child.Name} = {child.Count}");
                         break;
                     }
                 }
                 ComputeItem(child);
+                ComputeFactory(child);
             }
-            ComputeFactory(nodes);
             ComputePower(nodes);
             ComputeInputOutput(nodes);
         }
@@ -114,19 +123,15 @@ namespace UniversalHelmod.Sheets.Math
             nodes.Power = nodes.Power * nodes.Count;
         }
 
-        private void ComputeFactory(Nodes nodes)
+        private void ComputeFactory(Element element)
         {
-            foreach (Element child in nodes.Children)
+            if (element is Node node)
             {
-                if (child is Node)
+                if (node.Builder != null)
                 {
-                    Node node = (Node)child;
-                    if (node.Builder != null)
-                    {
-                        double speed = node.Builder.Speed;
-                        node.Builder.Count = node.Recipe.Energy * node.Count / (speed * node.Effects.Speed * Time);
-                        node.Power = node.Builder.Count * node.Builder.Power * node.Effects.Consumption;
-                    }
+                    double speed = node.Builder.Speed;
+                    node.Builder.Count = node.Recipe.Energy * node.Count / (speed * node.Effects.Speed * Time);
+                    node.Power = node.Builder.Count * node.Builder.Power * node.Effects.Consumption;
                 }
             }
         }
@@ -184,7 +189,52 @@ namespace UniversalHelmod.Sheets.Math
                 amount.Flow = amount.Count * Compute.DURATION;
             }
         }
-
+        private void FinalizeCount(Element element, double factor)
+        {
+            foreach (Amount amount in element.Ingredients)
+            {
+                amount.Count = amount.Count * factor;
+                amount.Flow = amount.Count * Compute.DURATION;
+                ComputeLogistic(amount);
+            }
+            foreach (Amount amount in element.Products)
+            {
+                amount.Count = amount.Count * factor;
+                amount.Flow = amount.Count * Compute.DURATION;
+                ComputeLogistic(amount);
+            }
+            if (element is Node node)
+            {
+                if (node.Builder != null)
+                {
+                    node.Builder.Count *= factor;
+                }
+                element.Count *= factor;
+            }
+            element.Power *= factor;
+            if (element is Nodes nodes)
+            {
+                foreach (Element child in nodes.Children)
+                {
+                    FinalizeCount(child, factor * element.Count);
+                }
+                    
+            }
+        }
+        private void ComputeLogistic(Amount amount)
+        {
+            var logisticForm = this.logisticForms.FirstOrDefault(x => x.Name == amount.Form);
+            if(logisticForm != null)
+            {
+                var logisticItem = logisticForm.SelectedItem;
+                var logisticFlow = new LogisticFlow()
+                {
+                    Item = logisticItem,
+                    Flow = amount.Flow / logisticItem.Flow
+                };
+                amount.LogisticFlow = logisticFlow;
+            }
+        }
         private Matrix GetMatrix(Nodes nodes)
         {
             List<MatrixHeader> rowHeaders = new List<MatrixHeader>();

@@ -178,6 +178,15 @@ namespace UniversalHelmod.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Flow.
+        /// </summary>
+        public static string Flow {
+            get {
+                return ResourceManager.GetString("Flow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Form.
         /// </summary>
         public static string Form {

@@ -275,7 +275,7 @@ namespace UniversalHelmod.Sheets.Views
 
         private void Compute()
         {
-            Compute compute = new Compute();
+            Compute compute = new Compute(Model.LogisticForms.ToList());
             compute.Update(Model.CurrentSheet);
         }
         private void Refresh()
@@ -287,12 +287,6 @@ namespace UniversalHelmod.Sheets.Views
             //this.GridInput.Items.Refresh();
             //this.GridOutput.Items.Refresh();
         }
-        private void Optimal_Click(object sender, RoutedEventArgs e)
-        {
-            Compute compute = new Compute();
-            compute.ComputeOptimal(Model.CurrentSheet);
-        }
-
         private void SheetNavigate_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count > 0)
@@ -330,6 +324,12 @@ namespace UniversalHelmod.Sheets.Views
             {
                 Model.CurrentNode = selection;
             }
+        }
+
+        private void LogisticForm_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Compute();
+            Refresh();
         }
     }
 }

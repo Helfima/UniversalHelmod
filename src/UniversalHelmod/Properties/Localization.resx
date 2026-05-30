@@ -156,6 +156,9 @@
   <data name="Factory" xml:space="preserve">
     <value>Factory</value>
   </data>
+  <data name="Flow" xml:space="preserve">
+    <value>Flow</value>
+  </data>
   <data name="Form" xml:space="preserve">
     <value>Form</value>
   </data>

@@ -35,13 +35,6 @@ namespace UniversalHelmod.Databases
             set { factoryTypes = value; NotifyPropertyChanged(); }
         }
 
-        private ObservableCollection<Factory> logistics;
-        public ObservableCollection<Factory> Logistics
-        {
-            get { return logistics; }
-            set { logistics = value; NotifyPropertyChanged(); }
-        }
-
         private ObservableCollection<Factory> modules;
         public ObservableCollection<Factory> Modules
         {
@@ -60,6 +53,7 @@ namespace UniversalHelmod.Databases
             this.Factories = database.Factories.OfType<Factory>().ToObservableCollection();
             this.FactoryTypes = database.FactoryTypes.ToObservableCollection();
             this.Recipes = database.Recipes.ToObservableCollection();
+            this.Logistics = database.Logistics.ToObservableCollection();
             RefreshViews();
         }
         public void RefreshViews()
@@ -67,6 +61,7 @@ namespace UniversalHelmod.Databases
             RefreshFactoriesView();
             RefreshItemsView();
             RefreshRecipesView();
+            RefreshLogisticsView();
         }
 
         public void Save()
@@ -74,6 +69,7 @@ namespace UniversalHelmod.Databases
             this.Database.Items = this.Items.Select(x => x.Clone()).ToList();
             this.Database.Factories = this.Factories.Select(x => x.Clone()).ToList();
             this.Database.Recipes = this.Recipes.Select(x => x.Clone()).ToList();
+            this.Database.Logistics = this.Logistics.Select(x => x.Clone()).ToList();
             this.Database.RefreshInternalList();
             Workspaces.Models.WorkspacesModel.Intance.Current.SaveDatabase();
         }
@@ -272,6 +268,86 @@ namespace UniversalHelmod.Databases
                 RefreshFactoriesView();
             }
         }
+        #endregion
+
+        #region ==== Logistic ====
+        private ObservableCollection<Logistic> logisticsView;
+        public ObservableCollection<Logistic> LogisticsView
+        {
+            get { return logisticsView; }
+            set { logisticsView = value; NotifyPropertyChanged(); }
+        }
+        private string logisticFilter;
+        public string LogisticFilter
+        {
+            get { return logisticFilter; }
+            set { logisticFilter = value; NotifyPropertyChanged(); RefreshLogisticsView(); }
+        }
+        public void RefreshLogisticsView()
+        {
+            if (LogisticFilter == null)
+            {
+                LogisticsView = Logistics.ToObservableCollection();
+            }
+            else
+            {
+                LogisticsView = Logistics.Where(x => x.Form == LogisticFilter).ToObservableCollection();
+            }
+        }
+        private ObservableCollection<Logistic> logistics;
+        public ObservableCollection<Logistic> Logistics
+        {
+            get { return logistics; }
+            set { logistics = value; NotifyPropertyChanged(); }
+        }
+        private Logistic selectedLogistic = new Logistic();
+        public Logistic SelectedLogistic
+        {
+            get { return selectedLogistic; }
+            set { selectedLogistic = value; NotifyPropertyChanged(); }
+        }
+        public void SaveLogistic(Logistic item)
+        {
+            var databaseItem = this.Logistics.Where(x => x.Name == item.Name).FirstOrDefault();
+            if (databaseItem == null)
+            {
+                this.Logistics.Add(item);
+            }
+            else
+            {
+                if (this.Logistics.Remove(databaseItem))
+                {
+                    this.Logistics.Add(item);
+                }
+            }
+            RefreshLogisticsView();
+        }
+        public void AddLogistic(Logistic item)
+        {
+            var databaseItem = this.Logistics.Where(x => x.Name == item.Name).FirstOrDefault();
+            if (databaseItem == null)
+            {
+                this.Logistics.Add(item);
+                RefreshLogisticsView();
+            }
+            else
+            {
+                throw new Exception("Already exist!");
+            }
+        }
+        public void DeleteLogistic(Logistic item)
+        {
+            var databaseItem = this.Logistics.Where(x => x.Name == item.Name).FirstOrDefault();
+            if (databaseItem != null)
+            {
+                if (this.Logistics.Remove(databaseItem))
+                {
+                    this.SelectedLogistic = new Logistic();
+                }
+                RefreshLogisticsView();
+            }
+        }
+        
         #endregion
 
         #region ==== Recipe ====

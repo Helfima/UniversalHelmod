@@ -19,6 +19,9 @@
     <Compile Update="Databases\Views\TabItemView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Databases\Views\TabLogisticView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Databases\Views\TabRecipeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

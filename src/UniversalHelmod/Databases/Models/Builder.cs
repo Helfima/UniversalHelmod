@@ -1,28 +1,16 @@
-﻿using UniversalHelmod.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Media.Imaging;
+using UniversalHelmod.Classes;
+using UniversalHelmod.Enums;
 
 namespace UniversalHelmod.Databases.Models
 {
-    public class Builder : INotifyPropertyChanged
+    public class Builder : NotifyProperty
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        // This method is called by the Set accessor of each property.  
-        // The CallerMemberName attribute that is applied to the optional propertyName  
-        // parameter causes the property name of the caller to be substituted as an argument.  
-        protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private Factory factory;
-        private double count;
-        private int powerShard;
         public Builder()
         {
 
@@ -31,6 +19,7 @@ namespace UniversalHelmod.Databases.Models
         {
             this.factory = factory;
         }
+        private Factory factory;
         public Factory Factory
         {
             get { return factory; }
@@ -52,11 +41,13 @@ namespace UniversalHelmod.Databases.Models
         {
             get { return factory == null ? 0 : factory.PowerConsumption; }
         }
+        private double count;
         public double Count
         {
             get { return count; }
             set { count = value; NotifyPropertyChanged(); }
         }
+        private int powerShard;
         public int PowerShard
         {
             get { return powerShard; }
