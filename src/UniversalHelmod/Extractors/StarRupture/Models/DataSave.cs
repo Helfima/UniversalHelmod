@@ -157,5 +157,18 @@ namespace UniversalHelmod.Extractors.StarRupture.Models
         [JsonIgnore]
         public int Count { get; set; }
     }
-
+    public class SRSenderConnection
+    {
+        [JsonPropertyName("receiver")]
+        public SRReceiver Receiver;
+        [JsonPropertyName("item")]
+        public string Item;
+        [JsonPropertyName("requestedAmount")]
+        public int RequestedAmount;
+    }
+    public class SRReceiver
+    {
+        [JsonPropertyName("iD")]
+        public long Id;
+    }
 }

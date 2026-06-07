@@ -68,6 +68,19 @@ namespace UniversalHelmod.Extractors.StarRupture
                     requestMap[entity.Name] = entityDataObj;
                 }
             }
+            // === SENDERS ===
+            var senderData = root.GetProperty("itemData")
+                               .GetProperty("CrPackageTransportReplicator")
+                               .GetProperty("senderConnections");
+            var senderMap = new Dictionary<string, SRSenderConnection>();
+            foreach (var entity in senderData.EnumerateObject())
+            {
+                var entityDataObj = JsonSerializer.Deserialize<SRSenderConnection>(entity.Value.GetRawText(), options);
+                if (entityDataObj != null)
+                {
+                    senderMap[entity.Name] = entityDataObj;
+                }
+            }
             // === ENTITIES ===
             var entities = root.GetProperty("itemData")
                                .GetProperty("Mass")
@@ -86,7 +99,7 @@ namespace UniversalHelmod.Extractors.StarRupture
                 }
             }
 
-            var mapView = new MapView(entityMap);
+            var mapView = new MapView(entityMap, senderMap);
             mapView.Show();
         }
 
@@ -145,7 +158,8 @@ namespace UniversalHelmod.Extractors.StarRupture
                             var slot = new SRSlot()
                             {
                                 ItemPath = itemSplitted[0],
-                                Count = count
+                                Count = count,
+                                Item = database.SelectItemByTag(itemSplitted[0])
                             };
                             entity.Inventory.Add(slot);
                         }

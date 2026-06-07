@@ -108,6 +108,7 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -146,7 +147,10 @@
                             <Button Grid.Column="1" x:Name="SelectElementIconPath" Content="{x:Static p:Localization.Select}" Click="SelecElementIconPath_Click" Style="{StaticResource ButtonPropertyStyle}"/>
                         </Grid>
 
-                        <Image Grid.Row="8" Grid.Column="1" Source="{Binding SelectedItem.Icon}" Width="128" Height="128" />
+                        <TextBlock Grid.Row="8" Grid.Column="0" Text="{x:Static p:Localization.Tag}" Style="{StaticResource TextBlockPropertyStyle}"/>
+                        <TextBox Grid.Row="8" Grid.Column="1" x:Name="ElementTag" Text="{Binding SelectedItem.Tag}" Style="{StaticResource TextBoxPropertyStyle}"/>
+
+                        <Image Grid.Row="9" Grid.Column="1" Source="{Binding SelectedItem.Icon}" Width="128" Height="128" />
                     </Grid>
                 </GroupBox>
             </Grid>

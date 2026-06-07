@@ -26,6 +26,10 @@ namespace UniversalHelmod.Databases.Models
         {
             return Items.FirstOrDefault(x => x.Type == type && x.Name == name);
         }
+        public Item SelectItemByTag(string tag)
+        {
+            return Items.FirstOrDefault(x => x.Tag == tag);
+        }
         public Recipe SelectRecipe(string name)
         {
             return Recipes.FirstOrDefault(x => x.Name == name);

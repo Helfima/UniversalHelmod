@@ -9,7 +9,7 @@ using System.Windows.Shapes;
 using UniversalHelmod.Classes;
 using UniversalHelmod.Databases.Models;
 using UniversalHelmod.Extractors.StarRupture.Models;
-using UniversalHelmod.Sheets.Models;
+
 
 namespace UniversalHelmod.Extractors.StarRupture
 {
@@ -18,12 +18,14 @@ namespace UniversalHelmod.Extractors.StarRupture
         private Point _lastMousePos;
         private bool _isDragging;
         private Dictionary<string, SREntity> _entities;
+        private Dictionary<string, SRSenderConnection> _senderConnection;
         private double _canvasSize = 2000*10.0;
 
-        public MapView(Dictionary<string, SREntity> entities)
+        public MapView(Dictionary<string, SREntity> entities, Dictionary<string, SRSenderConnection> senderConnection)
         {
             InitializeComponent();
             _entities = entities;
+            _senderConnection = senderConnection;
             DrawEntities(_canvasSize);
         }
 
@@ -293,6 +295,35 @@ namespace UniversalHelmod.Extractors.StarRupture
                     MapCanvas.Children.Add(link);
                 }
             }
+            foreach (var kvp in _senderConnection)
+            {
+                if (_entities.ContainsKey(kvp.Key) == false) continue;
+                var sender = _entities[kvp.Key];
+                var receiverId = kvp.Value.Receiver.Id;
+                var receiverKey = $"(ID={receiverId})";
+                if (_entities.ContainsKey(receiverKey) == false) continue;
+                var receiver = _entities[receiverKey];
+                if(sender != null && receiver != null)
+                {
+                    var start = sender.SpawnData?.Transform?.Translation;
+                    var end = receiver.SpawnData?.Transform?.Translation;
+                    double sx1 = centerX + (start.X - centerX) * spacing;
+                    double sy1 = centerY + (start.Y - centerY) * spacing;
+                    double sx2 = centerX + (end.X - centerX) * spacing;
+                    double sy2 = centerY + (end.Y - centerY) * spacing;
+                    var link = new Line()
+                    {
+                        StrokeDashArray = [5,5],
+                        Stroke = Brushes.Chocolate,
+                        StrokeThickness = 1,
+                        X1 = (sx1 - (centerX - range / 2 * spacing)) * scale / spacing,
+                        Y1 = (sy1 - (centerY - range / 2 * spacing)) * scale / spacing,
+                        X2 = (sx2 - (centerX - range / 2 * spacing)) * scale / spacing,
+                        Y2 = (sy2 - (centerY - range / 2 * spacing)) * scale / spacing
+                    };
+                    MapCanvas.Children.Add(link);
+                }
+            }
 
             Loaded += (s, e) => FitView();
         }
@@ -305,7 +336,17 @@ namespace UniversalHelmod.Extractors.StarRupture
                 var entity = source.DataContext as SREntity;
                 if(entity != null)
                 {
-                    System.Windows.Clipboard.SetText(entity.RecipePath);
+                    switch (entity.Type)
+                    {
+                        case EntityType.Receiver:
+                        case EntityType.Sender:
+                            var slot = entity.Inventory[0];
+                            System.Windows.Clipboard.SetText(slot.ItemPath);
+                            break;
+                        default:
+                            System.Windows.Clipboard.SetText(entity.RecipePath);
+                            break;
+                    }
                 }
             } 
             catch(Exception ex)
