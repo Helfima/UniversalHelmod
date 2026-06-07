@@ -9,6 +9,7 @@ using UniversalHelmod.Databases.Models;
 using UniversalHelmod.Enums;
 using UniversalHelmod.Extensions;
 using UniversalHelmod.Sheets.Models;
+using UniversalHelmod.Workspaces.Models;
 
 namespace UniversalHelmod.Sheets.Math
 {
@@ -33,6 +34,7 @@ namespace UniversalHelmod.Sheets.Math
             nodes.Count = 1;
             ComputeNode(nodes);
             FinalizeCount(nodes, 1);
+            FinalizeDisplayCount(nodes, 1);
         }
         
         private void ComputeNode(Nodes nodes)
@@ -233,6 +235,58 @@ namespace UniversalHelmod.Sheets.Math
                     Flow = amount.Flow / logisticItem.Flow
                 };
                 amount.LogisticFlow = logisticFlow;
+            }
+        }
+        private void FinalizeDisplayCount(Element element, double factor)
+        {
+            var displayFactor = 1.0;
+            var totalFactor = 1.0;
+            if (WorkspacesModel.Intance.IsTotal == false)
+            {
+                displayFactor = factor;
+                totalFactor = factor * element.Count;
+            }
+            foreach (Amount amount in element.Ingredients)
+            {
+                amount.DisplayCount = amount.Count / displayFactor;
+                amount.DisplayFlow = amount.Flow / displayFactor;
+                amount.LogisticFlow.DisplayFlow = amount.LogisticFlow.Flow / displayFactor;
+            }
+            foreach (Amount amount in element.Products)
+            {
+                amount.DisplayCount = amount.Count / displayFactor;
+                amount.DisplayFlow = amount.Flow / displayFactor;
+                amount.LogisticFlow.DisplayFlow = amount.LogisticFlow.Flow / displayFactor;
+            }
+            if (element is Node node)
+            {
+                if (node.Builder != null)
+                {
+                    node.Builder.DisplayCount = node.Builder.Count / displayFactor;
+                }
+                element.DisplayCount = element.Count / displayFactor;
+            }
+            element.DisplayPower = element.Power / displayFactor;
+            if (element is Nodes nodes)
+            {
+                foreach (Element child in nodes.Children)
+                {
+                    FinalizeDisplayCount(child, factor * element.Count);
+                }
+                element.TotalPower = element.Power / totalFactor;
+                foreach (Amount amount in element.Ingredients)
+                {
+                    amount.DisplayTotal = amount.Count / totalFactor;
+                    amount.DisplayTotalFlow = amount.Flow / totalFactor;
+                    amount.LogisticFlow.DisplayTotalFlow = amount.LogisticFlow.Flow / totalFactor;
+                }
+                foreach (Amount amount in element.Products)
+                {
+                    amount.DisplayTotal = amount.Count / totalFactor;
+                    amount.DisplayTotalFlow = amount.Flow / totalFactor;
+                    amount.LogisticFlow.DisplayTotalFlow = amount.LogisticFlow.Flow / totalFactor;
+                }
+
             }
         }
         private Matrix GetMatrix(Nodes nodes)

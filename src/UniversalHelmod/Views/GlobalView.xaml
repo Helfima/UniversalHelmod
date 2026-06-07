@@ -126,6 +126,7 @@
     <local:RoundNumberConverter x:Key="roundNumberConverter" />
     <local:MarginConverter x:Key="marginConverter" />
     <local:PowerShardConverter x:Key="powerShardConverter" />
+    <local:DisplayValueConverter x:Key="DisplayValueConverter" />
 
     <!-- ***** Tooltips ***** -->
     <DataTemplate x:Key="DataRecipeTooltip">

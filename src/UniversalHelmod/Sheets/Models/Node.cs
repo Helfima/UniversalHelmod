@@ -50,12 +50,16 @@ namespace UniversalHelmod.Sheets.Models
             this.ingredients.Clear();
             foreach (Amount amount in this.Recipe.Ingredients)
             {
-                this.ingredients.Add(amount.Clone());
+                var clone = amount.Clone();
+                clone.Owner = this;
+                this.ingredients.Add(clone);
             }
             this.products.Clear();
             foreach (Amount amount in this.Recipe.Products)
             {
-                this.products.Add(amount.Clone());
+                var clone = amount.Clone();
+                clone.Owner = this;
+                this.products.Add(clone);
             }
         }
         /// <summary>

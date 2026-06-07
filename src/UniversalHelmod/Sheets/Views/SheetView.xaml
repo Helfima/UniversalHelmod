@@ -41,23 +41,32 @@
                                     <StackPanel Orientation="Horizontal">
                                         <StackPanel Orientation="Vertical" ToolTip="{StaticResource NodeToolTip}" ToolTipService.ShowDuration="100000">
                                             <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
-                                            <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
+                                            <TextBlock Text="{Binding DisplayCount, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
                                         </StackPanel>
                                     </StackPanel>
                                 </DataTemplate>
                             </ContentPresenter.Resources>
                         </ContentPresenter>
                     </DataTemplate>
-                    
+
                     <DataTemplate x:Key="PowerCell">
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Orientation="Vertical">
                                 <Image Source="/Images/Eclair.png" Height="{DynamicResource CellIconNormalHeight}" />
-                                <TextBlock Text="{Binding Power, StringFormat={}{0:N1}W}" Style="{StaticResource TextBlockBoldStyle}" />
+                                <TextBlock Text="{Binding DisplayPower, StringFormat={}{0:N1}W}" Style="{StaticResource TextBlockBoldStyle}" />
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
-                    
+
+                    <DataTemplate x:Key="TotalPowerCell">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical">
+                                <Image Source="/Images/Eclair.png" Height="{DynamicResource CellIconNormalHeight}" />
+                                <TextBlock Text="{Binding TotalPower, StringFormat={}{0:N1}W}" Style="{StaticResource TextBlockBoldStyle}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+
                     <DataTemplate x:Key="FactoryCell">
                         <ContentPresenter Content="{Binding}">
                             <ContentPresenter.Resources>
@@ -69,7 +78,7 @@
                                         <StackPanel Orientation="Vertical" >
                                             <ContentPresenter Content="{Binding Builder}" ContentTemplate="{StaticResource CellIconNormalStyle}"
                                                               ToolTip="{StaticResource BuilderToolTip}"/>
-                                            <TextBlock Text="{Binding Builder.Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
+                                            <TextBlock Text="{Binding Builder.DisplayCount, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockBoldStyle}" />
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical" Visibility="Hidden">
                                             <Button Name="PowerShard1" Height="{StaticResource IconPowerSize}" Width="{StaticResource IconPowerSize}" Click="PowerShard_Click">
@@ -102,17 +111,33 @@
                             </ContentPresenter.Resources>
                         </ContentPresenter>
                     </DataTemplate>
-                    
+
+                    <DataTemplate x:Key="ProductTemplate_Total">
+                        <StackPanel Orientation="Horizontal" Margin="1" Background="{Binding State, Converter={StaticResource ProductCellBackgroundConverter}}">
+                            <StackPanel Orientation="Vertical" Margin="3" >
+                                <Button Click="Product_Click" Padding="0" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000">
+                                    <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
+                                </Button>
+                                <TextBlock Text="{Binding DisplayTotal, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
+                                <TextBlock Text="{Binding DisplayTotalFlow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockProductStyle}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding LogisticFlow.DisplayTotalFlow, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
+                                    <TextBlock Text="{Binding LogisticFlow.Item.DisplayName}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+
                     <DataTemplate x:Key="ProductTemplate_Default">
                         <StackPanel Orientation="Horizontal" Margin="1" Background="{Binding State, Converter={StaticResource ProductCellBackgroundConverter}}">
                             <StackPanel Orientation="Vertical" Margin="3" >
                                 <Button Click="Product_Click" Padding="0" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000">
                                     <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
                                 </Button>
-                                <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
-                                <TextBlock Text="{Binding Flow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockProductStyle}" />
+                                <TextBlock Text="{Binding DisplayCount, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
+                                <TextBlock Text="{Binding DisplayFlow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockProductStyle}" />
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding LogisticFlow.Flow, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
+                                    <TextBlock Text="{Binding LogisticFlow.DisplayFlow, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
                                     <TextBlock Text="{Binding LogisticFlow.Item.DisplayName}" />
                                 </StackPanel>
                             </StackPanel>
@@ -129,20 +154,36 @@
                         </ItemsControl>
                     </DataTemplate>
 
+                    <DataTemplate x:Key="IngredientTemplate_Total">
+                        <StackPanel Orientation="Horizontal" Margin="1" Background="{Binding State, Converter={StaticResource IngredientCellBackgroundConverter}}">
+                            <StackPanel Orientation="Vertical" Margin="3" >
+                                <Button Click="Ingredient_Click" Padding="0" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000">
+                                    <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
+                                </Button>
+                                <TextBlock Text="{Binding DisplayTotal, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
+                                <TextBlock Text="{Binding DisplayTotalFlow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockProductStyle}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding LogisticFlow.DisplayTotalFlow, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
+                                    <TextBlock Text="{Binding LogisticFlow.Item.DisplayName}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+
                     <DataTemplate x:Key="IngredientTemplate_Default">
                         <StackPanel Orientation="Horizontal" Margin="1" Background="{Binding State, Converter={StaticResource IngredientCellBackgroundConverter}}">
                             <StackPanel Orientation="Vertical" Margin="3" >
                                 <Button Click="Ingredient_Click" Padding="0" ToolTip="{StaticResource AmountToolTip}" ToolTipService.ShowDuration="100000">
                                     <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource CellIconNormalStyle}"/>
                                 </Button>
-                                <TextBlock Text="{Binding Count, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
-                                <TextBlock Text="{Binding Flow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockProductStyle}" />
+                                <TextBlock Text="{Binding DisplayCount, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
+                                <TextBlock Text="{Binding DisplayFlow, StringFormat={}{0:N2}/mn}" Style="{StaticResource TextBlockProductStyle}" />
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding LogisticFlow.Flow, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
+                                    <TextBlock Text="{Binding LogisticFlow.DisplayFlow, StringFormat={}{0:N2}}" Style="{StaticResource TextBlockProductStyle}" />
                                     <TextBlock Text="{Binding LogisticFlow.Item.DisplayName}" />
                                 </StackPanel>
                             </StackPanel>
-                        </StackPanel>   
+                        </StackPanel>
                     </DataTemplate>
 
                     <DataTemplate x:Key="IngredientsCell">
@@ -200,6 +241,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
+        <!--Navigate-->
         <StackPanel Grid.Row="0" Margin="5,2" Orientation="Horizontal">
             <ListView Name="SheetNavigate" ItemsSource="{Binding Current.DataModel.Sheets}" SelectionChanged="SheetNavigate_SelectionChanged">
                 <ItemsControl.ItemsPanel>
@@ -218,6 +260,7 @@
             <Button Content="New" Click="NewSheet_Click" Height="{StaticResource IconSize}" Width="{StaticResource IconSize}"/>
         </StackPanel>
 
+        <!--Menu-->
         <Grid Grid.Row="1" Margin="5,2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
@@ -225,8 +268,9 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Recipe Selector" Click="OpenRecipeSelector_Click"/>
-                <Button Content="Refresh" Click="Refresh_Click"/>
+                <Button Margin="5,0" Content="Recipe Selector" Click="OpenRecipeSelector_Click"/>
+                <Button Margin="5,0" Content="Refresh" Click="Refresh_Click"/>
+                <CheckBox Margin="5,0" Content="Total" IsChecked="{Binding IsTotal}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" />
             </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
                 <ItemsControl ItemsSource="{Binding Current.DataModel.LogisticForms}">
@@ -250,6 +294,7 @@
             </StackPanel>
         </Grid>
 
+        <!--Data-->
         <Grid Grid.Row="2" Margin="5,2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200" />
@@ -309,13 +354,13 @@
                 </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0" Header="Information">
                     <Grid>
-                        <ContentPresenter Content="{Binding Current.DataModel.CurrentNode}" ContentTemplate="{StaticResource PowerCell}">
+                        <ContentPresenter Content="{Binding Current.DataModel.CurrentNode}" ContentTemplate="{StaticResource TotalPowerCell}">
                         </ContentPresenter>
                     </Grid>
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="Output" HorizontalAlignment="Stretch">
                     <ScrollViewer>
-                        <ItemsControl ItemsSource="{Binding Current.DataModel.CurrentNode.Products}" ItemTemplate="{StaticResource ProductTemplate_Default}">
+                        <ItemsControl ItemsSource="{Binding Current.DataModel.CurrentNode.Products}" ItemTemplate="{StaticResource ProductTemplate_Total}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel Orientation="Horizontal" />
@@ -326,7 +371,7 @@
                 </GroupBox>
                 <GroupBox Grid.Row="2" Header="Input">
                     <ScrollViewer>
-                        <ItemsControl ItemsSource="{Binding Current.DataModel.CurrentNode.Ingredients}" ItemTemplate="{StaticResource IngredientTemplate_Default}">
+                        <ItemsControl ItemsSource="{Binding Current.DataModel.CurrentNode.Ingredients}" ItemTemplate="{StaticResource IngredientTemplate_Total}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel Orientation="Horizontal" />

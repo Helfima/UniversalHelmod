@@ -47,6 +47,12 @@ namespace UniversalHelmod.Databases.Models
             get { return count; }
             set { count = value; NotifyPropertyChanged(); }
         }
+        private double displayCount;
+        public double DisplayCount
+        {
+            get { return displayCount; }
+            set { displayCount = value; NotifyPropertyChanged(); }
+        }
         private int powerShard;
         public int PowerShard
         {

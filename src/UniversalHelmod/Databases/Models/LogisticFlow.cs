@@ -19,5 +19,18 @@ namespace UniversalHelmod.Databases.Models
             get { return this.flow; }
             set { this.flow = value; NotifyPropertyChanged(); }
         }
+        private double displayFlow;
+        public double DisplayFlow
+        {
+            get { return displayFlow; }
+            set { displayFlow = value; }
+        }
+        private double displayTotalFlow;
+        public double DisplayTotalFlow
+        {
+            get { return displayTotalFlow; }
+            set { displayTotalFlow = value; }
+        }
+
     }
 }

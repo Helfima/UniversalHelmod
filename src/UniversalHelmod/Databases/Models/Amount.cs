@@ -19,6 +19,12 @@ namespace UniversalHelmod.Databases.Models
             this.item = item;
             this.count = count;
         }
+        private object owner;
+        public object Owner
+        {
+            get { return owner; }
+            set { owner = value; }
+        }
         private Item item;
         public Item Item
         {
@@ -49,17 +55,35 @@ namespace UniversalHelmod.Databases.Models
             get { return count; }
             set { count = value; NotifyPropertyChanged(); }
         }
-        private double total;
-        public double Total
+        private double displayCount;
+        public double DisplayCount
         {
-            get { return total; }
-            set { total = value; }
+            get { return displayCount; }
+            set { displayCount = value; NotifyPropertyChanged(); }
+        }
+        private double displayTotal;
+        public double DisplayTotal
+        {
+            get { return displayTotal; }
+            set { displayTotal = value; }
         }
         private double flow;
         public double Flow
         {
             get { return flow; }
             set { flow = value; }
+        }
+        private double displayFlow;
+        public double DisplayFlow
+        {
+            get { return displayFlow; }
+            set { displayFlow = value; }
+        }
+        private double displayTotalFlow;
+        public double DisplayTotalFlow
+        {
+            get { return displayTotalFlow; }
+            set { displayTotalFlow = value; }
         }
         public string Name
         {
@@ -75,13 +99,19 @@ namespace UniversalHelmod.Databases.Models
             get { return logisticFlow; }
             set { logisticFlow = value; }
         }
+        private LogisticFlow displayLogisticFlow;
+        public LogisticFlow DisplayLogisticFlow
+        {
+            get { return displayLogisticFlow; }
+            set { displayLogisticFlow = value; }
+        }
         public Amount Clone(double factor = 1)
         {
             var item = new Amount()
             {
                 item = this.item,
                 count = this.count * factor,
-                total = this.count * factor,
+                displayTotal = this.count * factor,
                 state = this.state
             };
             return item;

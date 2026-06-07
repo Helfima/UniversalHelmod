@@ -22,9 +22,12 @@ namespace UniversalHelmod.Sheets.Views
         
         public SheetView()
         {
+            IsUpdating = true;
             InitializeComponent();
             this.DataContext = WorkspacesModel.Intance;
+            IsUpdating = false;
         }
+        private bool IsUpdating = true;
 
         private RecipeSelector recipeSelector;
 
@@ -275,11 +278,13 @@ namespace UniversalHelmod.Sheets.Views
 
         private void Compute()
         {
+            if (WorkspacesModel.Current == null) return;
             Compute compute = new Compute(Model.LogisticForms.ToList());
             compute.Update(Model.CurrentSheet);
         }
         private void Refresh()
         {
+            if (WorkspacesModel.Current == null) return;
             Model.UpdateFlatNodes();
             this.SheetNavigate.Items.Refresh();
             this.NodeNavigate.Items.Refresh();
@@ -328,6 +333,13 @@ namespace UniversalHelmod.Sheets.Views
 
         private void LogisticForm_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            Compute();
+            Refresh();
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (IsUpdating) return;
             Compute();
             Refresh();
         }

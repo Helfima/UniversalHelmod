@@ -42,11 +42,29 @@ namespace UniversalHelmod.Databases.Models
             get { return count; }
             set { count = value; NotifyPropertyChanged(); }
         }
+        private double displayCount;
+        public double DisplayCount
+        {
+            get { return displayCount; }
+            set { displayCount = value; NotifyPropertyChanged(); }
+        }
         protected double power;
         public double Power
         {
             get { return power; }
             set { power = value; NotifyPropertyChanged(); }
+        }
+        protected double displayPower;
+        public double DisplayPower
+        {
+            get { return displayPower; }
+            set { displayPower = value; NotifyPropertyChanged(); }
+        }
+        protected double totalPower;
+        public double TotalPower
+        {
+            get { return totalPower; }
+            set { totalPower = value; NotifyPropertyChanged(); }
         }
         protected double production = 1;
         public double Production

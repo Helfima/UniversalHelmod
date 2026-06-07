@@ -21,31 +21,31 @@ namespace UniversalHelmod.Workspaces.Models
             return instance;
         }
         private ObservableCollection<Workspace> workspaces = new ObservableCollection<Workspace>();
-        private Workspace current;
-        private Workspace newCurrent = new Workspace();
-        private bool isChanging = true;
-        private bool isActived = false;
-
+        
         public ObservableCollection<Workspace> Workspaces
         {
             get { return workspaces; }
             set { workspaces = value; NotifyPropertyChanged(); }
         }
+        private Workspace current;
         public Workspace Current
         {
             get { return current; }
             set { current = value; NotifyPropertyChanged(); }
         }
+        private Workspace newCurrent = new Workspace();
         public Workspace NewCurrent
         {
             get { return newCurrent; }
             set { newCurrent = value; NotifyPropertyChanged(); }
         }
+        private bool isChanging = true;
         public bool IsChanging
         {
             get { return isChanging; }
             set { isChanging = value; NotifyPropertyChanged(); }
         }
+        private bool isActived = false;
         public bool IsActived
         {
             get { return isActived; }
@@ -56,6 +56,12 @@ namespace UniversalHelmod.Workspaces.Models
         {
             get { return isObjectivesShow; }
             set { isObjectivesShow = value; NotifyPropertyChanged(); }
+        }
+        private bool isTotal = true;
+        public bool IsTotal
+        {
+            get { return isTotal; }
+            set { isTotal = value; NotifyPropertyChanged(); }
         }
         public void CreateWorkspace(string name, string path)
         {
